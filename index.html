@@ -1,0 +1,4948 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agent Monitor</title>
+  <style>
+    :root {
+      --bg: #2a0d10;
+      --bg2: #6e1720;
+      --panel: rgba(255, 245, 245, 0.08);
+      --line: rgba(255, 255, 255, 0.16);
+      --text: #fff4ef;
+      --muted: #f9cfc4;
+      --accent: #ff8a65;
+      --accent-2: #ffd166;
+      --ok: #2ed573;
+      --warn: #ff7b72;
+      --idle: #b0b7c3;
+      --shadow: rgba(0, 0, 0, 0.32);
+      --card-bg: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+      --avatar-core: radial-gradient(circle at 35% 30%, #ff7a5c, #a11824 72%);
+      --font: "Avenir Next", "PingFang SC", "Helvetica Neue", sans-serif;
+    }
+    body[data-theme="ocean"] {
+      --bg: #041b2d;
+      --bg2: #0b4f6c;
+      --panel: rgba(226, 244, 255, 0.08);
+      --line: rgba(186, 230, 253, 0.18);
+      --text: #ecfeff;
+      --muted: #bde7f6;
+      --accent: #4dd0e1;
+      --accent-2: #b9fbc0;
+      --ok: #52e3a4;
+      --warn: #ffb703;
+      --idle: #adcbe3;
+      --card-bg: linear-gradient(180deg, rgba(137, 207, 240, 0.1), rgba(255,255,255,0.04));
+      --avatar-core: radial-gradient(circle at 35% 30%, #53d8fb, #0b4f6c 72%);
+      --font: "Trebuchet MS", "PingFang SC", sans-serif;
+    }
+    body[data-theme="terminal"] {
+      --bg: #05120b;
+      --bg2: #16351f;
+      --panel: rgba(75, 255, 155, 0.07);
+      --line: rgba(125, 255, 183, 0.16);
+      --text: #d8ffe8;
+      --muted: #91f5ba;
+      --accent: #76ff9f;
+      --accent-2: #d8ff72;
+      --ok: #7dff9b;
+      --warn: #ffd166;
+      --idle: #8fb39a;
+      --card-bg: linear-gradient(180deg, rgba(38, 68, 49, 0.35), rgba(5,18,11,0.25));
+      --avatar-core: radial-gradient(circle at 35% 30%, #7dff9b, #11381d 72%);
+      --font: "IBM Plex Mono", "SFMono-Regular", monospace;
+    }
+    body[data-theme="paper"] {
+      --bg: #f5efe4;
+      --bg2: #e6dccb;
+      --panel: rgba(255, 255, 255, 0.66);
+      --line: rgba(90, 72, 56, 0.14);
+      --text: #35281d;
+      --muted: #7d6552;
+      --accent: #c76b3c;
+      --accent-2: #2f7e78;
+      --ok: #3d9b6d;
+      --warn: #d97b5d;
+      --idle: #9d8e83;
+      --shadow: rgba(84, 66, 50, 0.14);
+      --card-bg: linear-gradient(180deg, rgba(255,255,255,0.78), rgba(255,255,255,0.56));
+      --avatar-core: radial-gradient(circle at 35% 30%, #ef9b68, #b24d32 72%);
+      --font: "Iowan Old Style", "Times New Roman", serif;
+    }
+    body[data-theme="sunset"] {
+      --bg: #311226;
+      --bg2: #c6543c;
+      --panel: rgba(255, 236, 214, 0.12);
+      --line: rgba(255, 228, 199, 0.18);
+      --text: #fff4e8;
+      --muted: #ffd7b8;
+      --accent: #ff9f68;
+      --accent-2: #ffd166;
+      --ok: #7fe0a3;
+      --warn: #ffb4a2;
+      --idle: #e4baa7;
+      --card-bg: linear-gradient(180deg, rgba(255,187,146,0.14), rgba(255,255,255,0.05));
+      --avatar-core: radial-gradient(circle at 35% 30%, #ffb36b, #a22c49 74%);
+      --font: "Gill Sans", "Avenir Next", sans-serif;
+    }
+    body[data-theme="forest"] {
+      --bg: #0d1f17;
+      --bg2: #2f5b42;
+      --panel: rgba(216, 247, 224, 0.08);
+      --line: rgba(187, 236, 198, 0.16);
+      --text: #eefcf0;
+      --muted: #bddfc2;
+      --accent: #7acb88;
+      --accent-2: #d8f3a3;
+      --ok: #8de2a8;
+      --warn: #f2c36b;
+      --idle: #a4bba8;
+      --card-bg: linear-gradient(180deg, rgba(90,150,108,0.16), rgba(255,255,255,0.04));
+      --avatar-core: radial-gradient(circle at 35% 30%, #7acb88, #1b4630 74%);
+      --font: "Optima", "PingFang SC", sans-serif;
+    }
+    body[data-theme="midnight"] {
+      --bg: #08111f;
+      --bg2: #183457;
+      --panel: rgba(201, 225, 255, 0.08);
+      --line: rgba(166, 198, 255, 0.18);
+      --text: #edf4ff;
+      --muted: #b9cae8;
+      --accent: #7eb6ff;
+      --accent-2: #8ef0ff;
+      --ok: #88e0c2;
+      --warn: #ffbf69;
+      --idle: #9ba9c8;
+      --card-bg: linear-gradient(180deg, rgba(62,98,150,0.22), rgba(255,255,255,0.04));
+      --avatar-core: radial-gradient(circle at 35% 30%, #7eb6ff, #102443 74%);
+      --font: "Avenir Next", "Helvetica Neue", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: var(--font);
+      background:
+        radial-gradient(circle at 15% 20%, rgba(255,255,255,0.08), transparent 26%),
+        radial-gradient(circle at 82% 18%, rgba(255,255,255,0.06), transparent 24%),
+        linear-gradient(135deg, var(--bg), var(--bg2));
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 30px 30px;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,0.85), transparent);
+    }
+    .background-fx {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .background-fx-layer {
+      position: absolute;
+      inset: -8%;
+      opacity: 0;
+      transition: opacity 220ms ease;
+    }
+    .background-fx[data-effect="glow"] .background-fx-layer.glow,
+    .background-fx[data-effect="particles"] .background-fx-layer.particles,
+    .background-fx[data-effect="snow"] .background-fx-layer.snow,
+    .background-fx[data-effect="glyphs"] .background-fx-layer.glyphs {
+      opacity: 1;
+    }
+    .background-fx-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(10px);
+      opacity: 0.3;
+      mix-blend-mode: screen;
+      animation: fx-orb-drift 18s ease-in-out infinite;
+    }
+    .background-fx-orb.orb-a {
+      width: 320px;
+      height: 320px;
+      left: 4%;
+      top: 8%;
+      background: radial-gradient(circle, color-mix(in srgb, var(--accent) 66%, white), transparent 72%);
+    }
+    .background-fx-orb.orb-b {
+      width: 420px;
+      height: 420px;
+      right: 4%;
+      top: 12%;
+      background: radial-gradient(circle, color-mix(in srgb, var(--accent-2) 66%, white), transparent 72%);
+      animation-delay: -6s;
+    }
+    .background-fx-orb.orb-c {
+      width: 360px;
+      height: 360px;
+      left: 28%;
+      bottom: 6%;
+      background: radial-gradient(circle, rgba(255,255,255,0.18), transparent 70%);
+      animation-delay: -12s;
+    }
+    .background-fx-particles,
+    .background-fx-snow,
+    .background-fx-glyphs {
+      position: absolute;
+      inset: 0;
+    }
+    .background-fx-particle,
+    .background-fx-flake,
+    .background-fx-glyph {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      pointer-events: none;
+    }
+    .background-fx-particle {
+      width: var(--size);
+      height: var(--size);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.52), rgba(255,255,255,0) 72%);
+      opacity: 0.34;
+      animation: fx-float var(--duration) ease-in-out infinite;
+      animation-delay: var(--delay);
+    }
+    .background-fx-flake {
+      width: var(--size);
+      height: var(--size);
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.5);
+      background: rgba(255,255,255,0.1);
+      box-shadow: 0 0 18px rgba(255,255,255,0.08);
+      opacity: 0.5;
+      animation: fx-snow-fall var(--duration) linear infinite;
+      animation-delay: var(--delay);
+    }
+    .background-fx-glyph {
+      color: rgba(255,255,255,0.16);
+      font-size: var(--size);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      animation: fx-glyph-drift var(--duration) ease-in-out infinite;
+      animation-delay: var(--delay);
+      text-shadow: 0 0 16px rgba(255,255,255,0.05);
+    }
+    @keyframes fx-orb-drift {
+      0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+      50% { transform: translate3d(24px, -18px, 0) scale(1.06); }
+    }
+    @keyframes fx-float {
+      0%, 100% { transform: translate3d(0, 0, 0) scale(0.96); opacity: 0.16; }
+      50% { transform: translate3d(-10px, -20px, 0) scale(1.12); opacity: 0.44; }
+    }
+    @keyframes fx-snow-fall {
+      0% { transform: translate3d(0, -10vh, 0); opacity: 0; }
+      10% { opacity: 0.5; }
+      100% { transform: translate3d(16px, 110vh, 0); opacity: 0.08; }
+    }
+    @keyframes fx-glyph-drift {
+      0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0.08; }
+      50% { transform: translate3d(8px, -18px, 0) rotate(6deg); opacity: 0.22; }
+    }
+    .shell {
+      width: min(1240px, calc(100% - 24px));
+      margin: 18px auto 30px;
+      display: grid;
+      gap: 14px;
+      position: relative;
+      z-index: 1;
+    }
+    .dashboard-layout {
+      display: grid;
+      grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+    }
+    .avatar-rail {
+      position: sticky;
+      top: 18px;
+      padding: 22px 18px 18px;
+      display: grid;
+      justify-items: center;
+      gap: 18px;
+      min-height: 420px;
+      overflow: visible;
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255,255,255,0.12), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.08));
+    }
+    .avatar-rail-stage {
+      width: 100%;
+      display: grid;
+      place-items: center;
+      padding: 18px 10px 8px;
+      min-height: 340px;
+      overflow: visible;
+    }
+    .avatar-rail .avatar-box {
+      width: 280px;
+      height: 280px;
+    }
+    .avatar-rail .avatar {
+      transform: scale(1.16);
+      transform-origin: center center;
+    }
+    .avatar-rail .avatar:hover {
+      transform: translateY(-2px) scale(1.16);
+    }
+    .avatar-rail-meta {
+      width: 100%;
+      display: grid;
+      gap: 14px;
+      justify-items: center;
+      text-align: center;
+    }
+    .avatar-caption {
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .avatar-nameplate {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .avatar-rail-info {
+      width: min(100%, 272px);
+      display: grid;
+      gap: 12px;
+      margin-top: 4px;
+      justify-self: center;
+    }
+    .avatar-rail-status {
+      justify-self: center;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 38px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+    .avatar-rail-grid {
+      width: 100%;
+      display: grid;
+      gap: 10px;
+    }
+    .avatar-rail-metric {
+      display: grid;
+      gap: 4px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(0,0,0,0.12);
+      text-align: left;
+    }
+    .avatar-rail-metric-label {
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .avatar-rail-metric-value {
+      font-size: 16px;
+      line-height: 1.25;
+      font-weight: 700;
+      color: var(--text);
+      word-break: break-word;
+    }
+    .avatar-rail-note {
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px dashed rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.03);
+      text-align: left;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .content-stage {
+      display: grid;
+      gap: 14px;
+      min-width: 0;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: 0 18px 44px var(--shadow);
+      backdrop-filter: blur(10px);
+      overflow: hidden;
+    }
+    .hero {
+      display: grid;
+      gap: 22px;
+      padding: 30px 34px 32px;
+    }
+    .hero-main {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(240px, 320px);
+      gap: 34px;
+      align-items: stretch;
+    }
+    .hero-copy {
+      display: grid;
+      gap: 16px;
+      min-width: 0;
+      max-width: 760px;
+    }
+    .hero-kicker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    .hero-side {
+      display: grid;
+      gap: 16px;
+      align-content: space-between;
+      min-height: 100%;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+    .chip, .status-pill, .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.035);
+      padding: 8px 16px;
+      font-size: 12px;
+      color: var(--muted);
+      backdrop-filter: blur(12px);
+    }
+    .status-pill {
+      font-weight: 700;
+      color: var(--text);
+      border-color: rgba(255,255,255,0.12);
+    }
+    .status-working { background: rgba(46,213,115,0.12); }
+    .status-thinking { background: rgba(255,209,102,0.12); }
+    .status-idle { background: rgba(176,183,195,0.1); }
+    .status-overdue, .status-stalled, .status-down { background: rgba(255,123,114,0.12); }
+    h1, h2, h3, p { margin: 0; }
+    .title {
+      margin-top: 0;
+      font-size: clamp(40px, 5vw, 72px);
+      line-height: 1.04;
+      letter-spacing: -0.05em;
+      text-wrap: pretty;
+      max-width: 10ch;
+    }
+    .sub {
+      margin-top: 0;
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 680px;
+      line-height: 1.6;
+    }
+    #dashboardSubtitle {
+      font-size: 16px;
+      color: color-mix(in srgb, var(--text) 86%, transparent);
+    }
+    #statusText {
+      font-size: 16px;
+      color: var(--text);
+      font-weight: 600;
+      line-height: 1.45;
+    }
+    .score {
+      display: grid;
+      gap: 8px;
+      justify-items: end;
+      align-content: end;
+      padding: 8px 6px 4px 0;
+      min-height: 100%;
+      align-self: end;
+      justify-self: stretch;
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
+    .score strong {
+      order: 1;
+      font-size: clamp(56px, 5vw, 74px);
+      line-height: 0.9;
+      letter-spacing: -0.06em;
+      text-align: right;
+    }
+    .score span {
+      order: 2;
+      max-width: none;
+      line-height: 1.1;
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      text-align: right;
+    }
+    .hero-actions button,
+    .hero-actions .button-like {
+      flex: 0 0 auto;
+      min-width: 132px;
+      min-height: 54px;
+      padding: 0 18px;
+      border-radius: 18px;
+      font-size: 14px;
+    }
+    #settingsButton {
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      box-shadow: none;
+      border-color: rgba(255,255,255,0.09);
+    }
+    #nudgeButton {
+      background: linear-gradient(180deg, #f8a07a, #ef8a62);
+      color: #2a1210;
+    }
+    .hero-feedback {
+      margin-top: 0;
+      max-width: none;
+      padding: 16px 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.06));
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      color: color-mix(in srgb, var(--text) 90%, transparent);
+      position: relative;
+    }
+    .hero-feedback::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--accent) 72%, white);
+      box-shadow: 0 0 20px color-mix(in srgb, var(--accent) 34%, transparent);
+      margin-right: 12px;
+      flex: 0 0 auto;
+    }
+    .avatar-box {
+      position: relative;
+      width: 214px;
+      height: 214px;
+      display: grid;
+      place-items: center;
+      margin: 0 auto;
+    }
+    .avatar-fx {
+      position: absolute;
+      inset: -18px;
+      pointer-events: none;
+      overflow: visible;
+      z-index: 2;
+    }
+    .avatar-hands-layer {
+      position: absolute;
+      inset: -10px;
+      pointer-events: none;
+      z-index: 1;
+      overflow: visible;
+      -webkit-mask: radial-gradient(circle at 50% 50%, transparent 0 82px, #000 83px);
+      mask: radial-gradient(circle at 50% 50%, transparent 0 82px, #000 83px);
+    }
+    .avatar-hands-layer[data-hands="wing"] {
+      -webkit-mask: none;
+      mask: none;
+    }
+    .avatar-fx .fx {
+      position: absolute;
+      opacity: 0;
+      transform: translate3d(0, 0, 0);
+      filter: blur(0.2px);
+    }
+    .pulse {
+      position: absolute;
+      inset: 8px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.16);
+      animation: pulse 2.6s ease-out infinite;
+    }
+    .pulse:nth-child(2) { animation-delay: 0.8s; }
+    .pulse:nth-child(3) { animation-delay: 1.6s; }
+    .avatar {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      --avatar-size: 150px;
+      --headwear-top: calc(var(--avatar-size) * 0.125);
+      --headwear-top-tight: calc(var(--avatar-size) * 0.105);
+      --headwear-side: calc(var(--avatar-size) * 0.17);
+      --mouth-width: 16px;
+      --mouth-height: 3px;
+      --mouth-radius: 999px;
+      --mouth-bg: rgba(255,255,255,0.88);
+      --mouth-shadow: none;
+      --mouth-bottom: 6px;
+      --mouth-teeth-opacity: 0;
+      --mouth-teeth-color: rgba(255,255,255,0.92);
+      --mouth-scale-x: 1;
+      --mouth-scale-y: 1;
+      border-radius: 50%;
+      background: var(--avatar-core);
+      border: 2px solid rgba(255,255,255,0.45);
+      box-shadow: 0 18px 34px rgba(0,0,0,0.28);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      overflow: visible;
+      transition: transform 0.2s ease;
+      isolation: isolate;
+    }
+    .avatar:hover { transform: translateY(-2px); }
+    .avatar[data-head-action="tap"] {
+      animation: head-tap-bounce 0.6s ease-out;
+    }
+    .avatar.robot .face {
+      width: 94px;
+      height: 62px;
+      border: 6px solid white;
+      border-radius: 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 26px;
+      position: relative;
+      z-index: 4;
+    }
+    .avatar.robot .eye {
+      width: 12px;
+      height: 20px;
+      position: relative;
+      border-radius: 999px;
+      background: var(--accent-2);
+      box-shadow: 0 0 10px rgba(250,204,21,0.8);
+      transform: translate(var(--eye-look-x, 0px), var(--eye-look-y, 0px)) scaleY(1);
+      transform-origin: center center;
+      transition: transform 220ms ease, opacity 220ms ease, background 220ms ease, box-shadow 220ms ease;
+      overflow: hidden;
+    }
+    .avatar.robot .eye::before,
+    .avatar.robot .eye::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 220ms ease;
+    }
+    .avatar[data-eye-mood="star"] .eye {
+      width: 12px;
+      height: 12px;
+      border-radius: 0;
+      background: linear-gradient(180deg, #fff7a8, #ffd84d);
+      box-shadow: 0 0 12px rgba(255, 223, 99, 0.9);
+      clip-path: polygon(50% 0%, 62% 34%, 100% 38%, 71% 58%, 80% 96%, 50% 74%, 20% 96%, 29% 58%, 0% 38%, 38% 34%);
+    }
+    .avatar[data-eye-mood="line"] .eye {
+      width: 12px;
+      height: 3px;
+      border-radius: 999px;
+      box-shadow: none;
+    }
+    .avatar[data-eye-mood="angry"] .eye.left {
+      transform: translate(var(--eye-look-x, 0px), var(--eye-look-y, 0px)) rotate(-14deg) scaleY(0.9);
+    }
+    .avatar[data-eye-mood="angry"] .eye.right {
+      transform: translate(var(--eye-look-x, 0px), var(--eye-look-y, 0px)) rotate(14deg) scaleY(0.9);
+    }
+    .avatar[data-eye-mood="angry"] .eye::before {
+      inset: -5px 0 auto;
+      height: 5px;
+      background: rgba(255,255,255,0.72);
+      border-radius: 999px;
+      opacity: 1;
+    }
+    .avatar[data-eye-mood="wink"] .eye.left {
+      height: 3px;
+      border-radius: 999px;
+      box-shadow: none;
+    }
+    .avatar .mouth {
+      position: absolute;
+      bottom: var(--mouth-bottom);
+      left: 50%;
+      width: var(--mouth-width);
+      height: var(--mouth-height);
+      transform: translateX(-50%) scale(var(--mouth-scale-x), var(--mouth-scale-y));
+      transform-origin: center center;
+      border-radius: var(--mouth-radius);
+      background: var(--mouth-bg);
+      box-shadow: var(--mouth-shadow);
+      overflow: hidden;
+      animation: mouth-idle 4.8s ease-in-out infinite;
+    }
+    .avatar .mouth::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 48%;
+      width: 72%;
+      height: 2px;
+      transform: translate(-50%, -50%);
+      border-top: 1.5px solid var(--mouth-teeth-color);
+      opacity: 0;
+      animation: mouth-teeth 8s steps(1, end) infinite;
+    }
+    .avatar .antenna,
+    .avatar .cheek,
+    .avatar .visor,
+    .avatar .badge-dot,
+    .avatar .crown,
+    .avatar .helmet,
+    .avatar .horn,
+    .avatar .sprout,
+    .avatar .leaf,
+    .avatar .hands,
+    .avatar .arm,
+    .avatar .prop,
+    .avatar-hands-layer .hands,
+    .avatar-hands-layer .arm,
+    .avatar-hands-layer .prop {
+      position: absolute;
+      pointer-events: none;
+    }
+    .avatar .antenna {
+      top: var(--headwear-top-tight);
+      width: 6px;
+      height: 24px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.78);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .avatar .antenna::before {
+      content: "";
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      width: 10px;
+      height: 10px;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: var(--accent-2);
+      box-shadow: 0 0 10px rgba(250,204,21,0.8);
+    }
+    .avatar .cheek {
+      bottom: 30px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.36);
+      filter: blur(0.2px);
+    }
+    .avatar .cheek.left { left: 24px; }
+    .avatar .cheek.right { right: 24px; }
+    .avatar .visor {
+      inset: calc(var(--headwear-top) + 6px) 18px auto;
+      height: 26px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.65), rgba(255,255,255,0.12));
+      opacity: 0.42;
+    }
+    .avatar .badge-dot {
+      top: calc(var(--headwear-top) + 4px);
+      right: calc(var(--headwear-side) - 4px);
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ffffff;
+      opacity: 0.85;
+    }
+    .avatar .crown {
+      top: calc(var(--headwear-top) + 2px);
+      left: 50%;
+      width: 36px;
+      height: 16px;
+      transform: translateX(-50%);
+      clip-path: polygon(0 100%, 10% 35%, 28% 70%, 50% 0, 72% 70%, 90% 35%, 100% 100%);
+      background: linear-gradient(180deg, #fde68a, #f59e0b);
+      box-shadow: 0 4px 12px rgba(245,158,11,0.22);
+    }
+    .avatar .helmet {
+      top: calc(var(--headwear-top) + 1px);
+      left: 50%;
+      width: 62px;
+      height: 26px;
+      transform: translateX(-50%);
+      border-radius: 26px 26px 10px 10px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.88), rgba(255,255,255,0.34));
+      border: 1px solid rgba(255,255,255,0.36);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.14);
+    }
+    .avatar .helmet::after {
+      content: "";
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      bottom: 4px;
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(125, 249, 255, 0.46);
+    }
+    .avatar .horn {
+      top: calc(var(--headwear-top) + 6px);
+      width: 18px;
+      height: 26px;
+      background: linear-gradient(180deg, #fff2c4, #c68a48);
+      clip-path: polygon(50% 0, 100% 100%, 0 100%);
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.16));
+    }
+    .avatar .horn.left { left: var(--headwear-side); transform: rotate(-18deg); }
+    .avatar .horn.right { right: var(--headwear-side); transform: rotate(18deg); }
+    .avatar .sprout {
+      top: calc(var(--headwear-top) + 2px);
+      left: 50%;
+      width: 4px;
+      height: 20px;
+      transform: translateX(-50%);
+      border-radius: 999px;
+      background: rgba(182, 255, 160, 0.92);
+    }
+    .avatar .leaf {
+      top: calc(var(--headwear-top) - 1px);
+      width: 14px;
+      height: 10px;
+      background: linear-gradient(180deg, #9cf27c, #3f9d4f);
+      border-radius: 100% 0 100% 0;
+    }
+    .avatar .leaf.left { left: 50%; transform: translateX(-14px) rotate(-26deg); }
+    .avatar .leaf.right { left: 50%; transform: translateX(0px) rotate(26deg) scaleX(-1); }
+    .avatar-hands-layer .hands {
+      position: absolute;
+      inset: 0;
+    }
+    .avatar-hands-layer .arm {
+      top: 112px;
+      width: 42px;
+      height: 24px;
+      background: transparent;
+      transform-origin: center center;
+    }
+    .avatar-hands-layer .palm,
+    .avatar-hands-layer .wing {
+      position: absolute;
+      pointer-events: none;
+    }
+    .avatar-hands-layer .arm.left {
+      left: 44px;
+      border-left: 5px solid rgba(255,255,255,0.92);
+      border-bottom: 5px solid rgba(255,255,255,0.92);
+      border-radius: 0 0 0 24px;
+      transform: rotate(20deg);
+    }
+    .avatar-hands-layer .arm.right {
+      right: 44px;
+      border-right: 5px solid rgba(255,255,255,0.92);
+      border-bottom: 5px solid rgba(255,255,255,0.92);
+      border-radius: 0 0 24px 0;
+      transform: rotate(-20deg);
+    }
+    .avatar-hands-layer .palm {
+      bottom: -7px;
+      width: 14px;
+      height: 12px;
+      background: rgba(255,255,255,0.96);
+      box-shadow: 0 2px 0 rgba(0,0,0,0.05);
+    }
+    .avatar-hands-layer .arm.left .palm {
+      left: -7px;
+      border-radius: 9px 9px 9px 5px;
+      transform: rotate(-20deg);
+    }
+    .avatar-hands-layer .arm.right .palm {
+      right: -7px;
+      border-radius: 9px 9px 5px 9px;
+      transform: rotate(20deg);
+    }
+    .avatar-hands-layer .wing {
+      top: 108px;
+      width: 30px;
+      height: 44px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.72));
+      box-shadow: 0 8px 18px rgba(255,255,255,0.08);
+    }
+    .avatar-hands-layer .wing.left {
+      left: 28px;
+      border-radius: 24px 10px 24px 12px;
+      clip-path: polygon(100% 0, 30% 10%, 0 36%, 18% 58%, 0 100%, 62% 82%, 100% 100%);
+      transform: rotate(-18deg);
+    }
+    .avatar-hands-layer .wing.right {
+      right: 28px;
+      border-radius: 10px 24px 12px 24px;
+      clip-path: polygon(0 0, 70% 10%, 100% 36%, 82% 58%, 100% 100%, 38% 82%, 0 100%);
+      transform: rotate(18deg);
+    }
+    .avatar-hands-layer[data-hands="base"] .arm.left {
+      top: 110px;
+      width: 40px;
+      height: 22px;
+      left: 48px;
+      border-radius: 0 0 0 20px;
+      transform: rotate(18deg);
+      animation: hands-sway 5.4s ease-in-out infinite;
+    }
+    .avatar-hands-layer[data-hands="base"] .arm.right {
+      top: 110px;
+      width: 40px;
+      height: 22px;
+      right: 48px;
+      border-radius: 0 0 20px 0;
+      transform: rotate(-18deg);
+      animation: hands-sway-right 5.4s ease-in-out infinite;
+    }
+    .avatar-hands-layer[data-hands="wave"] .arm.left {
+      top: 104px;
+      width: 44px;
+      height: 24px;
+      left: 42px;
+      border-radius: 0 0 0 22px;
+      transform: rotate(8deg);
+      animation: hand-wave-left 3.8s ease-in-out infinite;
+    }
+    .avatar-hands-layer[data-hands="wave"] .arm.right {
+      top: 112px;
+      width: 38px;
+      height: 20px;
+      right: 50px;
+      border-radius: 0 0 18px 0;
+      transform: rotate(-26deg);
+      animation: hand-wave-right 3.8s ease-in-out infinite;
+    }
+    .avatar-hands-layer[data-hands="down"] .arm.left {
+      top: 118px;
+      width: 28px;
+      height: 34px;
+      left: 58px;
+      border-left: 5px solid rgba(255,255,255,0.92);
+      border-bottom: 0;
+      border-radius: 0 0 0 18px;
+      transform: rotate(42deg);
+      animation: hands-down-left 6.4s ease-in-out infinite;
+    }
+    .avatar-hands-layer[data-hands="down"] .arm.right {
+      top: 118px;
+      width: 28px;
+      height: 34px;
+      right: 58px;
+      border-right: 5px solid rgba(255,255,255,0.92);
+      border-bottom: 0;
+      border-radius: 0 0 18px 0;
+      transform: rotate(-42deg);
+      animation: hands-down-right 6.4s ease-in-out infinite;
+    }
+    .avatar-hands-layer[data-hands="toy"] .arm.left {
+      animation: hands-sway 4.8s ease-in-out infinite;
+    }
+    .avatar-hands-layer[data-hands="toy"] .arm.right {
+      animation: hands-sway-right 4.8s ease-in-out infinite;
+    }
+    .avatar-hands-layer[data-hands="controller"] .arm.left {
+      transform: rotate(30deg);
+      animation: hands-controller-left 6s ease-in-out infinite;
+    }
+    .avatar-hands-layer[data-hands="controller"] .arm.right {
+      transform: rotate(-30deg);
+      animation: hands-controller-right 6s ease-in-out infinite;
+    }
+    .avatar-hands-layer[data-hands="wing"] .arm {
+      display: none;
+    }
+    .avatar-hands-layer[data-hands="wing"] .wing.left {
+      animation: wing-flutter-left 3.2s ease-in-out infinite;
+    }
+    .avatar-hands-layer[data-hands="wing"] .wing.right {
+      animation: wing-flutter-right 3.2s ease-in-out infinite;
+    }
+    .avatar.robot-guard .face {
+      width: 82px;
+      border-radius: 18px;
+      border-width: 5px;
+    }
+    .avatar.robot-guard {
+      background: radial-gradient(circle at 35% 30%, #ff8668, #7d101f 78%);
+      border-radius: 34px;
+    }
+    .avatar.robot-guard .antenna {
+      height: 20px;
+      top: calc(var(--headwear-top) + 2px);
+    }
+    .avatar.robot-guard .mouth {
+      --mouth-width: 18px;
+      --mouth-height: 3px;
+      --mouth-bg: rgba(255,255,255,0.92);
+    }
+    .avatar.robot-soft {
+      background: radial-gradient(circle at 35% 30%, #ffb59f, #d45456 72%);
+      border-color: rgba(255,255,255,0.58);
+      box-shadow: 0 14px 32px rgba(212,84,86,0.28);
+    }
+    .avatar.robot-soft .face {
+      width: 72px;
+      height: 48px;
+      border-radius: 30px;
+      border-width: 5px;
+    }
+    .avatar.robot-soft .eye {
+      width: 8px;
+      height: 12px;
+    }
+    .avatar.robot-soft .mouth {
+      --mouth-width: 14px;
+      --mouth-height: 5px;
+      --mouth-radius: 999px 999px 10px 10px;
+      --mouth-bg: rgba(255,255,255,0.88);
+    }
+    .avatar.robot-square {
+      border-radius: 30px;
+      background: linear-gradient(160deg, #ff8469, #8c1a28 78%);
+    }
+    .avatar.robot-square .face {
+      width: 76px;
+      height: 48px;
+      border-radius: 14px;
+    }
+    .avatar.robot-square .mouth {
+      --mouth-width: 16px;
+      --mouth-height: 3px;
+      --mouth-bg: rgba(255,255,255,0.85);
+    }
+    .avatar.robot-scout .face {
+      width: 70px;
+      height: 46px;
+      border-width: 5px;
+      border-radius: 24px;
+    }
+    .avatar.robot-scout .eye {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    .avatar.robot-scout .mouth {
+      --mouth-width: 14px;
+      --mouth-height: 3px;
+      --mouth-bg: rgba(255,255,255,0.82);
+    }
+    .avatar.robot-scout {
+      background: radial-gradient(circle at 35% 30%, #ffa861, #6a1220 76%);
+      clip-path: polygon(12% 0, 88% 0, 100% 18%, 100% 82%, 88% 100%, 12% 100%, 0 82%, 0 18%);
+    }
+    .avatar.robot-scout .antenna {
+      left: calc(var(--headwear-side) + 2px);
+      top: calc(var(--headwear-top) + 1px);
+      height: 18px;
+      transform: rotate(-20deg);
+    }
+    .avatar.robot-neon {
+      background: radial-gradient(circle at 35% 30%, #ff7cb6, #5f186f 74%);
+      border-color: rgba(231, 198, 255, 0.8);
+      box-shadow: 0 0 0 1px rgba(125,249,255,0.2), 0 18px 34px rgba(86,24,111,0.45);
+    }
+    .avatar.robot-neon .face {
+      width: 80px;
+      height: 50px;
+      border-color: #fff3fd;
+      box-shadow: 0 0 16px rgba(255,255,255,0.16);
+    }
+    .avatar.robot-neon .eye {
+      background: #7df9ff;
+      box-shadow: 0 0 14px rgba(125,249,255,0.95);
+    }
+    .avatar.robot-neon .mouth {
+      --mouth-width: 18px;
+      --mouth-height: 3px;
+      --mouth-bg: #7df9ff;
+      --mouth-shadow: 0 0 12px rgba(125,249,255,0.65);
+    }
+    .avatar.robot-pearl {
+      background: radial-gradient(circle at 35% 30%, #fff0f2, #d46870 75%);
+      box-shadow: 0 16px 34px rgba(212,104,112,0.24);
+    }
+    .avatar.robot-pearl .face {
+      border-color: #fff5f7;
+      width: 74px;
+      height: 48px;
+    }
+    .avatar.robot-pearl .eye {
+      background: #ffb7d2;
+      box-shadow: 0 0 10px rgba(255,183,210,0.7);
+    }
+    .avatar.robot-pearl .mouth {
+      --mouth-width: 15px;
+      --mouth-height: 3px;
+      --mouth-bg: rgba(255,255,255,0.85);
+    }
+    .avatar.robot-mono {
+      background: radial-gradient(circle at 35% 30%, #d6d6d6, #525252 75%);
+      border-color: rgba(255,255,255,0.3);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.42);
+    }
+    .avatar.robot-mono .face {
+      border-color: #f5f5f5;
+      width: 76px;
+      height: 46px;
+    }
+    .avatar.robot-mono .eye {
+      background: #ffffff;
+      box-shadow: 0 0 8px rgba(255,255,255,0.45);
+    }
+    .avatar.robot-mono .mouth {
+      --mouth-width: 18px;
+      --mouth-height: 3px;
+      --mouth-bg: rgba(255,255,255,0.8);
+    }
+    .avatar.robot-sprite {
+      border-radius: 18px;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px),
+        linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+        linear-gradient(160deg, #ff8762, #8e1525 78%);
+      background-size: 8px 8px, 8px 8px, cover;
+      image-rendering: pixelated;
+    }
+    .avatar.robot-sprite .face {
+      width: 70px;
+      height: 42px;
+      border-radius: 10px;
+      border-width: 4px;
+    }
+    .avatar.robot-sprite .eye {
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      box-shadow: none;
+    }
+    .avatar.robot-sprite .mouth {
+      --mouth-width: 14px;
+      --mouth-height: 3px;
+      --mouth-radius: 2px;
+      --mouth-bg: rgba(255,255,255,0.9);
+    }
+    .avatar.robot-boss {
+      background: radial-gradient(circle at 35% 30%, #ff916d, #71111f 78%);
+      border-radius: 24px;
+      box-shadow: 0 18px 40px rgba(113,17,31,0.35);
+    }
+    .avatar.robot-boss .face {
+      width: 82px;
+      height: 50px;
+      border-radius: 20px;
+      border-width: 5px;
+    }
+    .avatar.robot-boss .eye {
+      width: 12px;
+      height: 16px;
+    }
+    .avatar.robot-boss .mouth {
+      --mouth-width: 18px;
+      --mouth-height: 4px;
+      --mouth-bg: rgba(255,255,255,0.9);
+      --mouth-teeth-opacity: 0.9;
+    }
+    .avatar.robot-classic .mouth {
+      --mouth-width: 16px;
+      --mouth-height: 3px;
+      --mouth-bg: rgba(255,255,255,0.88);
+    }
+    @keyframes mouth-idle {
+      0%, 12%, 100% { transform: translateX(-50%) scale(var(--mouth-scale-x), var(--mouth-scale-y)); }
+      16% { transform: translateX(-50%) scale(calc(var(--mouth-scale-x) * 0.96), calc(var(--mouth-scale-y) * 0.84)); }
+      22% { transform: translateX(-50%) scale(calc(var(--mouth-scale-x) * 1.02), calc(var(--mouth-scale-y) * 1.16)); }
+      28% { transform: translateX(-50%) scale(calc(var(--mouth-scale-x) * 0.98), calc(var(--mouth-scale-y) * 0.92)); }
+      54% { transform: translateX(-50%) scale(calc(var(--mouth-scale-x) * 1.04), calc(var(--mouth-scale-y) * 1.08)); }
+      58% { transform: translateX(-50%) scale(var(--mouth-scale-x), var(--mouth-scale-y)); }
+    }
+    @keyframes mouth-teeth {
+      0%, 73%, 100% { opacity: 0; }
+      76%, 79% { opacity: var(--mouth-teeth-opacity); }
+    }
+    .control-group {
+      display: grid;
+      gap: 8px;
+    }
+    .control-group label {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    select, input, button {
+      appearance: none;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(0,0,0,0.18);
+      color: var(--text);
+      padding: 10px 12px;
+      font: inherit;
+    }
+    button {
+      cursor: pointer;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 82%, white), var(--accent));
+      color: #1b1112;
+      font-weight: 700;
+      box-shadow: 0 10px 18px rgba(0,0,0,0.2);
+    }
+    button[disabled] { opacity: 0.6; cursor: wait; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+      grid-auto-flow: dense;
+    }
+    .widget {
+      padding: 18px;
+      position: relative;
+      transition: grid-column 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .widget.dragging {
+      z-index: 3;
+      box-shadow: 0 24px 44px rgba(0,0,0,0.26);
+      transform: translateY(-4px);
+    }
+    .widget-drop-target {
+      outline: 1px dashed color-mix(in srgb, var(--accent) 72%, white);
+      outline-offset: -8px;
+    }
+    .widget-drag-handle,
+    .widget-resize-handle {
+      position: absolute;
+      z-index: 2;
+      border: 0;
+      box-shadow: none;
+      padding: 0;
+      background: transparent;
+      color: var(--muted);
+      cursor: grab;
+      user-select: none;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.16s ease, transform 0.16s ease, background 0.16s ease;
+    }
+    .widget-drag-handle {
+      top: 8px;
+      left: 8px;
+      width: 20px;
+      height: 20px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      transform: translateY(-2px);
+    }
+    .widget-drag-handle::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      border: 1px solid rgba(255,255,255,0.34);
+      box-shadow:
+        0 0 0 3px rgba(255,255,255,0.03),
+        inset 0 0 0 1px rgba(255,255,255,0.08);
+      background:
+        radial-gradient(circle at 25% 25%, rgba(255,255,255,0.45) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 75% 25%, rgba(255,255,255,0.45) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 25% 75%, rgba(255,255,255,0.45) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 75% 75%, rgba(255,255,255,0.45) 0 1px, transparent 1.5px);
+    }
+    .widget-resize-handle {
+      right: 8px;
+      bottom: 8px;
+      width: 18px;
+      height: 18px;
+      border-radius: 8px;
+      cursor: nwse-resize;
+      transform: translateY(2px);
+    }
+    .widget-resize-handle::before {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-right: 1px solid rgba(255,255,255,0.36);
+      border-bottom: 1px solid rgba(255,255,255,0.36);
+    }
+    .widget-resize-handle::after {
+      content: "";
+      position: absolute;
+      right: 4px;
+      bottom: 4px;
+      width: 5px;
+      height: 5px;
+      border-right: 1px solid rgba(255,255,255,0.54);
+      border-bottom: 1px solid rgba(255,255,255,0.54);
+    }
+    .widget:hover .widget-drag-handle,
+    .widget:hover .widget-resize-handle,
+    .widget:focus-within .widget-drag-handle,
+    .widget:focus-within .widget-resize-handle,
+    .widget.dragging .widget-drag-handle,
+    .widget.dragging .widget-resize-handle {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+    .widget:hover .widget-drag-handle,
+    .widget:hover .widget-resize-handle {
+      background: rgba(255,255,255,0.04);
+    }
+    .span-4 { grid-column: span 4; }
+    .span-6 { grid-column: span 6; }
+    .span-8 { grid-column: span 8; }
+    .span-12 { grid-column: span 12; }
+    .kv-list {
+      display: grid;
+      gap: 10px;
+    }
+    .kv {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 10px 12px;
+      border: 1px dashed var(--line);
+      border-radius: 12px;
+      background: rgba(0,0,0,0.08);
+      font-size: 14px;
+    }
+    .kv .key { color: var(--muted); }
+    .meters {
+      display: grid;
+      gap: 12px;
+    }
+    .meter-head {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .meter-bar {
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      overflow: hidden;
+    }
+    .meter-bar i {
+      display: block;
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent-2), var(--accent));
+      transition: width 0.25s ease;
+    }
+    .activity-list {
+      display: grid;
+      gap: 8px;
+      max-height: 320px;
+      overflow: auto;
+    }
+    .activity-item {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+      background: rgba(0,0,0,0.12);
+      line-height: 1.45;
+    }
+    .activity-item strong {
+      display: inline-block;
+      margin-right: 8px;
+      color: var(--accent-2);
+      font-size: 12px;
+    }
+    .chat-shell {
+      display: grid;
+      gap: 14px;
+    }
+    .chat-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .chat-head-copy {
+      display: grid;
+      gap: 6px;
+      min-width: 0;
+    }
+    .chat-session-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .chat-session-pill::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-2);
+      box-shadow: 0 0 12px rgba(250,204,21,0.45);
+      flex: 0 0 auto;
+    }
+    .chat-stage {
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 22px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.08)),
+        rgba(12, 10, 16, 0.28);
+      overflow: hidden;
+    }
+    .chat-topbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(0,0,0,0.12);
+    }
+    .chat-viewport {
+      padding: 18px 16px 10px;
+      max-height: 460px;
+      overflow: auto;
+      overscroll-behavior: contain;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(255,255,255,0.05), transparent 32%),
+        linear-gradient(180deg, rgba(255,255,255,0.015), transparent 26%);
+    }
+    .chat-list {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+    .chat-msg {
+      display: grid;
+      gap: 6px;
+      max-width: min(88%, 720px);
+    }
+    .chat-msg.user {
+      margin-left: auto;
+      justify-items: end;
+    }
+    .chat-msg.assistant {
+      margin-right: auto;
+      justify-items: start;
+    }
+    .chat-msg.system {
+      margin-inline: auto;
+      justify-items: center;
+      max-width: min(100%, 720px);
+    }
+    .chat-meta-line {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      font-size: 11px;
+      color: var(--muted);
+      padding-inline: 4px;
+    }
+    .chat-role {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+    }
+    .chat-role::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: 0.8;
+    }
+    .chat-msg.user .chat-role {
+      color: #ffd58e;
+      background: rgba(255, 213, 142, 0.08);
+    }
+    .chat-msg.assistant .chat-role {
+      color: #9ce7ff;
+      background: rgba(156, 231, 255, 0.08);
+    }
+    .chat-msg.system .chat-role {
+      color: #f7c3c7;
+      background: rgba(247, 195, 199, 0.08);
+    }
+    .chat-bubble {
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 14px 16px;
+      line-height: 1.62;
+      white-space: pre-wrap;
+      word-break: break-word;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+    .chat-msg.user .chat-bubble {
+      background: linear-gradient(180deg, rgba(255, 176, 112, 0.18), rgba(255, 128, 89, 0.1));
+      border-color: rgba(255, 186, 135, 0.26);
+      border-top-right-radius: 8px;
+    }
+    .chat-msg.assistant .chat-bubble {
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(0,0,0,0.16));
+      border-color: rgba(255,255,255,0.1);
+      border-top-left-radius: 8px;
+    }
+    .chat-msg.system .chat-bubble {
+      background: rgba(255,255,255,0.05);
+      border-style: dashed;
+      text-align: center;
+      max-width: 100%;
+    }
+    .chat-compose {
+      display: grid;
+      gap: 12px;
+      padding: 14px 16px 16px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      background: rgba(0,0,0,0.14);
+    }
+    .chat-compose textarea {
+      min-height: 110px;
+      resize: vertical;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 18px;
+      background: rgba(11, 10, 16, 0.42);
+      color: var(--text);
+      padding: 14px 16px;
+      font: inherit;
+      line-height: 1.55;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+    }
+    .chat-compose textarea::placeholder {
+      color: rgba(255,255,255,0.4);
+    }
+    .chat-actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .chat-status-line {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .chat-status-line::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.35);
+      flex: 0 0 auto;
+    }
+    .chat-load {
+      min-width: 132px;
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      box-shadow: none;
+    }
+    .chat-send {
+      min-width: 124px;
+    }
+    .chat-loading {
+      opacity: 0.78;
+    }
+    .chart-panel {
+      display: grid;
+      gap: 14px;
+    }
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .chart-meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: stretch;
+    }
+    .trend-series-toggles {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: stretch;
+    }
+    .chart-meta .chip,
+    .trend-toggle,
+    #trendRangeSelect {
+      min-height: 54px;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 27px;
+      padding: 0 18px;
+      font-size: 15px;
+      line-height: 1;
+    }
+    #trendRangeSelect {
+      min-width: 86px;
+      justify-content: center;
+      background: rgba(0,0,0,0.12);
+      border-color: var(--line);
+    }
+    .trend-toggle {
+      gap: 8px;
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,0.12);
+      color: var(--text);
+      cursor: pointer;
+    }
+    .trend-toggle input[type="checkbox"] {
+      appearance: auto;
+      -webkit-appearance: checkbox;
+      margin: 0;
+      width: 14px;
+      height: 14px;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      accent-color: var(--accent);
+      flex: 0 0 auto;
+    }
+    .trend-swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      flex: 0 0 auto;
+    }
+    .trend-swatch.trend-series-score { background: var(--accent); }
+    .trend-swatch.trend-series-tokens { background: var(--accent-2); }
+    .trend-canvas {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(0,0,0,0.12);
+      padding: 14px 14px 10px;
+      display: grid;
+      gap: 10px;
+      position: relative;
+    }
+    .trend-svg {
+      width: 100%;
+      height: 260px;
+      display: block;
+      overflow: visible;
+    }
+    .trend-grid-line {
+      stroke: rgba(255,255,255,0.12);
+      stroke-width: 1;
+      stroke-dasharray: 3 5;
+      vector-effect: non-scaling-stroke;
+    }
+    .trend-line-score,
+    .trend-line-tokens {
+      fill: none;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      vector-effect: non-scaling-stroke;
+    }
+    .trend-line-score { stroke: var(--accent); }
+    .trend-line-tokens { stroke: var(--accent-2); }
+    .trend-point {
+      stroke-width: 2;
+      fill: var(--bg2);
+      vector-effect: non-scaling-stroke;
+    }
+    .trend-hit {
+      fill: transparent;
+      cursor: crosshair;
+    }
+    .trend-hover-line {
+      stroke: rgba(255,255,255,0.18);
+      stroke-width: 1;
+      stroke-dasharray: 4 6;
+      vector-effect: non-scaling-stroke;
+      opacity: 0;
+      transition: opacity 0.14s ease;
+    }
+    .trend-canvas.is-hovering .trend-hover-line {
+      opacity: 1;
+    }
+    .trend-tooltip {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      min-width: 150px;
+      max-width: 190px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(6px);
+      box-shadow: none;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.14s ease, transform 0.14s ease;
+      z-index: 2;
+    }
+    .trend-canvas.is-hovering .trend-tooltip {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .trend-tooltip-label {
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.72);
+      margin-bottom: 6px;
+    }
+    .trend-tooltip-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 12px;
+      color: #fff;
+      line-height: 1.2;
+    }
+    .trend-tooltip-row + .trend-tooltip-row {
+      margin-top: 4px;
+    }
+    .trend-tooltip-key {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.84);
+      font-size: 12px;
+    }
+    .trend-tooltip-key::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      flex: 0 0 auto;
+    }
+    .trend-tooltip-row.trend-row-score .trend-tooltip-key {
+      color: var(--accent);
+    }
+    .trend-tooltip-row.trend-row-tokens .trend-tooltip-key {
+      color: var(--accent-2);
+    }
+    .trend-tooltip-value {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0;
+      line-height: 1.2;
+    }
+    .trend-point.trend-series-score { stroke: var(--accent); }
+    .trend-point.trend-series-tokens { stroke: var(--accent-2); }
+    .trend-x-labels {
+      display: grid;
+      gap: 8px;
+      align-items: start;
+    }
+    .trend-x-labels span {
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+      white-space: nowrap;
+    }
+    .widget-toggle-list {
+      display: grid;
+      gap: 8px;
+    }
+    .widget-toggle-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 108px;
+      gap: 8px;
+      align-items: center;
+    }
+    .widget-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text);
+      border: 1px solid transparent;
+      border-radius: 12px;
+      padding: 8px 10px;
+      background: rgba(0,0,0,0.08);
+      cursor: pointer;
+      transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease;
+    }
+    .widget-toggle:hover {
+      border-color: var(--line);
+      background: rgba(255,255,255,0.06);
+    }
+    .widget-toggle:has(input:checked) {
+      border-color: color-mix(in srgb, var(--accent) 70%, white);
+      background: rgba(255,255,255,0.12);
+    }
+    .widget-toggle input[type="checkbox"] {
+      appearance: auto;
+      -webkit-appearance: checkbox;
+      width: 16px;
+      height: 16px;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      accent-color: var(--accent);
+      flex: 0 0 auto;
+      cursor: pointer;
+    }
+    .widget-size-select {
+      padding: 8px 10px;
+      min-width: 0;
+      background: rgba(0,0,0,0.14);
+    }
+    .hidden { display: none; }
+    .settings-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(8, 13, 22, 0.72);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      z-index: 40;
+    }
+    .settings-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .settings-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 100vh;
+      width: min(420px, calc(100vw - 20px));
+      padding: 18px;
+      background:
+        linear-gradient(180deg, rgba(16, 25, 38, 0.98), rgba(9, 16, 27, 0.995)),
+        #0b1320;
+      border-left: 1px solid var(--line);
+      box-shadow: -24px 0 48px rgba(0,0,0,0.28);
+      transform: translateX(100%);
+      transition: transform 0.22s ease;
+      z-index: 50;
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 14px;
+    }
+    .settings-drawer.open {
+      transform: translateX(0);
+    }
+    .settings-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .settings-body {
+      overflow: auto;
+      display: grid;
+      gap: 16px;
+      padding-right: 4px;
+    }
+    .settings-group {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.05);
+      padding: 14px;
+      display: grid;
+      gap: 12px;
+    }
+    .settings-group h3 {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+    .avatar-tip {
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 8px;
+    }
+    .footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      padding-bottom: 10px;
+    }
+    @keyframes pulse {
+      0% { transform: scale(0.82); opacity: 0.65; }
+      75% { transform: scale(1.16); opacity: 0; }
+      100% { opacity: 0; }
+    }
+    @keyframes eye-alive {
+      0%, 22%, 48%, 72%, 100% { transform: translate(var(--eye-look-x, 0px), var(--eye-look-y, 0px)) scaleY(1); }
+      14% { transform: translate(calc(var(--eye-look-x, 0px) + 0.5px), var(--eye-look-y, 0px)) scaleY(1); }
+      30% { transform: translate(calc(var(--eye-look-x, 0px) + 1px), var(--eye-look-y, 0px)) scaleY(1); }
+      54% { transform: translate(calc(var(--eye-look-x, 0px) + 0.5px), var(--eye-look-y, 0px)) scaleY(0.26); }
+      57% { transform: translate(calc(var(--eye-look-x, 0px) + 0.5px), var(--eye-look-y, 0px)) scaleY(0.12); }
+      61% { transform: translate(calc(var(--eye-look-x, 0px) + 0.5px), var(--eye-look-y, 0px)) scaleY(0.3); }
+      82% { transform: translate(calc(var(--eye-look-x, 0px) - 0.5px), var(--eye-look-y, 0px)) scaleY(1); }
+    }
+    @keyframes eye-think {
+      0%, 24%, 56%, 100% { transform: translate(var(--eye-look-x, 0px), var(--eye-look-y, 0px)) scaleY(0.82); }
+      34% { transform: translate(calc(var(--eye-look-x, 0px) + 0.5px), var(--eye-look-y, 0px)) scaleY(0.74); }
+      62% { transform: translate(calc(var(--eye-look-x, 0px) + 0.5px), var(--eye-look-y, 0px)) scaleY(0.28); }
+      66% { transform: translate(calc(var(--eye-look-x, 0px) + 0.5px), var(--eye-look-y, 0px)) scaleY(0.14); }
+      72% { transform: translate(calc(var(--eye-look-x, 0px) + 0.5px), var(--eye-look-y, 0px)) scaleY(0.38); }
+      86% { transform: translate(calc(var(--eye-look-x, 0px) - 0.5px), var(--eye-look-y, 0px)) scaleY(0.82); }
+    }
+    @keyframes eye-idle {
+      0%, 28%, 58%, 100% { transform: translate(var(--eye-look-x, 0px), var(--eye-look-y, 0px)) scaleY(1); }
+      36% { transform: translate(calc(var(--eye-look-x, 0px) + 0.5px), var(--eye-look-y, 0px)) scaleY(1); }
+      68% { transform: translate(var(--eye-look-x, 0px), var(--eye-look-y, 0px)) scaleY(0.24); }
+      71% { transform: translate(var(--eye-look-x, 0px), var(--eye-look-y, 0px)) scaleY(0.1); }
+      76% { transform: translate(var(--eye-look-x, 0px), var(--eye-look-y, 0px)) scaleY(0.3); }
+      88% { transform: translate(calc(var(--eye-look-x, 0px) - 0.5px), var(--eye-look-y, 0px)) scaleY(1); }
+    }
+    @keyframes eye-alert {
+      0%, 24%, 50%, 100% { transform: translate(var(--eye-look-x, 0px), var(--eye-look-y, 0px)) scaleY(1); }
+      14% { transform: translate(calc(var(--eye-look-x, 0px) + 1px), var(--eye-look-y, 0px)) scaleY(1); }
+      34% { transform: translate(calc(var(--eye-look-x, 0px) - 0.5px), var(--eye-look-y, 0px)) scaleY(0.28); }
+      38% { transform: translate(calc(var(--eye-look-x, 0px) - 0.5px), var(--eye-look-y, 0px)) scaleY(0.12); }
+      44% { transform: translate(calc(var(--eye-look-x, 0px) - 0.5px), var(--eye-look-y, 0px)) scaleY(0.3); }
+      68% { transform: translate(calc(var(--eye-look-x, 0px) + 1px), var(--eye-look-y, 0px)) scaleY(1); }
+    }
+    @keyframes eye-sleepy {
+      0%, 100% { transform: translate(var(--eye-look-x, 0px), var(--eye-look-y, 0px)) scaleY(0.62); }
+      50% { transform: translate(var(--eye-look-x, 0px), var(--eye-look-y, 0px)) scaleY(0.16); }
+    }
+    @keyframes thought-drift {
+      0% { opacity: 0; transform: translate3d(0, 6px, 0) scale(0.7); }
+      15%, 75% { opacity: 0.78; }
+      100% { opacity: 0; transform: translate3d(0, -14px, 0) scale(1.08); }
+    }
+    @keyframes sweat-drop {
+      0% { opacity: 0; transform: translate3d(0, -4px, 0) rotate(-12deg) scale(0.8); }
+      18%, 82% { opacity: 0.72; }
+      100% { opacity: 0; transform: translate3d(-10px, 16px, 0) rotate(12deg) scale(1.05); }
+    }
+    @keyframes speed-dash {
+      0% { opacity: 0; transform: translate3d(-6px, 0, 0) scaleX(0.65); }
+      20%, 70% { opacity: 0.58; }
+      100% { opacity: 0; transform: translate3d(10px, -8px, 0) scaleX(1.05); }
+    }
+    @keyframes nudge-boost {
+      0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+      18% { transform: translate3d(8px, -5px, 0) rotate(3deg) scale(1.02); }
+      42% { transform: translate3d(5px, -2px, 0) rotate(1deg) scale(1.01); }
+      68% { transform: translate3d(9px, -4px, 0) rotate(2deg) scale(1.03); }
+      100% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+    }
+    @keyframes sleep-drift {
+      0% { opacity: 0; transform: translate3d(0, 10px, 0) scale(0.75); }
+      15%, 78% { opacity: 0.72; }
+      100% { opacity: 0; transform: translate3d(12px, -18px, 0) scale(1.08); }
+    }
+    @keyframes hands-sway {
+      0%, 100% { transform: rotate(10deg); }
+      50% { transform: rotate(4deg); }
+    }
+    @keyframes hands-sway-right {
+      0%, 100% { transform: rotate(-10deg); }
+      50% { transform: rotate(-4deg); }
+    }
+    @keyframes hand-wave-left {
+      0%, 100% { transform: rotate(10deg); }
+      35% { transform: rotate(36deg); }
+      65% { transform: rotate(16deg); }
+    }
+    @keyframes hand-wave-right {
+      0%, 100% { transform: rotate(-10deg); }
+      35% { transform: rotate(-32deg); }
+      65% { transform: rotate(-14deg); }
+    }
+    @keyframes hands-down-left {
+      0%, 100% { transform: rotate(42deg); }
+      50% { transform: rotate(36deg); }
+    }
+    @keyframes hands-down-right {
+      0%, 100% { transform: rotate(-42deg); }
+      50% { transform: rotate(-36deg); }
+    }
+    @keyframes hands-controller-left {
+      0%, 100% { transform: rotate(30deg); }
+      50% { transform: rotate(24deg); }
+    }
+    @keyframes hands-controller-right {
+      0%, 100% { transform: rotate(-30deg); }
+      50% { transform: rotate(-24deg); }
+    }
+    @keyframes wing-flutter-left {
+      0%, 100% { transform: rotate(-18deg) scaleY(1); }
+      50% { transform: rotate(-30deg) scaleY(0.94); }
+    }
+    @keyframes wing-flutter-right {
+      0%, 100% { transform: rotate(18deg) scaleY(1); }
+      50% { transform: rotate(30deg) scaleY(0.94); }
+    }
+    @keyframes toy-bob {
+      0%, 100% { transform: translateX(-50%) translateY(0) rotate(0deg); }
+      50% { transform: translateX(-50%) translateY(-4px) rotate(8deg); }
+    }
+    @keyframes head-tap-bounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      30% { transform: translateY(-6px) scale(1.03); }
+      60% { transform: translateY(1px) scale(0.99); }
+    }
+    @keyframes idle-orbit {
+      0% { opacity: 0; transform: translate3d(0, 0, 0) scale(0.8); }
+      20%, 76% { opacity: 0.58; }
+      100% { opacity: 0; transform: translate3d(8px, -12px, 0) scale(1.05); }
+    }
+    @keyframes bounce-work {
+      0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+      30% { transform: translateY(-3px) rotate(-0.8deg) scale(1.01); }
+      62% { transform: translateY(-1px) rotate(0.8deg) scale(1.005); }
+    }
+    @keyframes sway-think {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      35% { transform: translateY(-2px) rotate(-1.2deg); }
+      70% { transform: translateY(-1px) rotate(1.1deg); }
+    }
+    @keyframes float-idle {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-2px) scale(1.004); }
+    }
+    @keyframes alert-shake {
+      0%, 100% { transform: translateY(0) scale(1); }
+      30% { transform: translateY(-2px) scale(1.01); }
+      60% { transform: translateY(0) scale(1.006); }
+    }
+    @keyframes stalled-hop {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      40% { transform: translateY(1px) rotate(-0.6deg); }
+      70% { transform: translateY(-1px) rotate(0.4deg); }
+    }
+    body[data-state="working"] .avatar { animation: bounce-work 3.4s ease-in-out infinite; }
+    body[data-state="working"] .pulse { animation-duration: 1.4s; border-color: rgba(46,213,115,0.45); }
+    body[data-state="working"] .avatar .eye { animation: eye-alive 4.8s ease-in-out infinite; }
+    body[data-state="thinking"] .avatar { animation: sway-think 4.6s ease-in-out infinite; }
+    body[data-state="thinking"] .avatar .eye { animation: eye-think 5.6s ease-in-out infinite; }
+    body[data-state="thinking"] .avatar { --mouth-scale-x: 0.9; --mouth-scale-y: 0.92; }
+    body[data-state="idle"] .avatar { animation: float-idle 5.8s ease-in-out infinite; filter: saturate(0.9); }
+    body[data-state="idle"] .avatar .eye { animation: eye-idle 6.4s ease-in-out infinite; }
+    body[data-state="idle"] .pulse { animation-duration: 3.2s; opacity: 0.7; }
+    body[data-state="overdue"] .avatar { animation: alert-shake 2.4s ease-in-out infinite; filter: saturate(1.15); }
+    body[data-state="overdue"] .avatar { --mouth-scale-x: 1.02; --mouth-scale-y: 1.06; }
+    body[data-state="overdue"] .avatar .eye { animation: eye-alert 4s ease-in-out infinite; }
+    body[data-state="overdue"] .pulse { animation-duration: 0.9s; border-color: rgba(255,123,114,0.52); }
+    body[data-state="stalled"] .avatar { animation: stalled-hop 4.8s ease-in-out infinite; filter: saturate(1.15); }
+    body[data-state="stalled"] .avatar .eye { opacity: 0.72; animation: eye-sleepy 7.2s ease-in-out infinite; }
+    body[data-state="down"] .avatar { animation: none; filter: grayscale(0.95) brightness(0.8); }
+    body[data-state="down"] .pulse { animation: none; opacity: 0.3; }
+    body[data-state="down"] .avatar { --mouth-scale-x: 0.86; --mouth-scale-y: 0.92; }
+    body[data-state="down"] .avatar .mouth { opacity: 0.5; }
+    body[data-state="down"] .avatar .eye { opacity: 0.58; animation: eye-sleepy 8s ease-in-out infinite; }
+    body[data-score-band="elite"] .avatar-fx .fx-1,
+    body[data-score-band="elite"] .avatar-fx .fx-2,
+    body[data-score-band="good"] .avatar-fx .fx-1,
+    body[data-score-band="good"] .avatar-fx .fx-2 {
+      background: rgba(255,255,255,0.22);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 50%;
+      animation: thought-drift 3.8s ease-in-out infinite;
+    }
+    body[data-score-band="elite"] .avatar-fx .fx-1,
+    body[data-score-band="good"] .avatar-fx .fx-1 { width: 8px; height: 8px; left: 118px; top: 8px; }
+    body[data-score-band="elite"] .avatar-fx .fx-2,
+    body[data-score-band="good"] .avatar-fx .fx-2 { width: 13px; height: 13px; left: 132px; top: -4px; animation-delay: 0.9s; }
+    body[data-score-band="elite"] .avatar-fx .fx-3,
+    body[data-score-band="elite"] .avatar-fx .fx-4 {
+      left: 8px;
+      width: 18px;
+      height: 3px;
+      background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.52), rgba(255,255,255,0));
+      border-radius: 999px;
+      animation: speed-dash 1.5s ease-out infinite;
+    }
+    body[data-score-band="elite"] .avatar-fx .fx-3 { top: 54px; }
+    body[data-score-band="elite"] .avatar-fx .fx-4 { top: 68px; width: 12px; animation-delay: 0.5s; }
+    body[data-score-band="fair"] .avatar-fx .fx {
+      background: rgba(255,255,255,0.13);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 50%;
+      animation: idle-orbit 4.6s ease-in-out infinite;
+    }
+    body[data-score-band="fair"] .avatar-fx .fx-1 { width: 7px; height: 7px; left: 116px; top: 8px; }
+    body[data-score-band="fair"] .avatar-fx .fx-2 { width: 10px; height: 10px; left: 132px; top: -4px; animation-delay: 0.8s; }
+    body[data-score-band="fair"] .avatar-fx .fx-3 { width: 5px; height: 5px; left: 104px; top: 22px; animation-delay: 1.4s; }
+    body[data-score-band="fair"] .avatar-fx .fx-4 { width: 8px; height: 8px; left: 22px; top: 20px; animation-delay: 2.1s; }
+    body[data-score-band="low"][data-state="stalled"] .avatar-fx .fx,
+    body[data-score-band="low"][data-state="down"] .avatar-fx .fx,
+    body[data-score-band="low"][data-state="idle"] .avatar-fx .fx {
+      animation: sleep-drift 4.2s ease-in-out infinite;
+    }
+    body[data-score-band="low"][data-state="stalled"] .avatar-fx .fx-1,
+    body[data-score-band="low"][data-state="down"] .avatar-fx .fx-1,
+    body[data-score-band="low"][data-state="idle"] .avatar-fx .fx-1 {
+      width: 16px;
+      height: 16px;
+      right: 18px;
+      top: 6px;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 50%;
+    }
+    body[data-score-band="low"][data-state="stalled"] .avatar-fx .fx-2,
+    body[data-score-band="low"][data-state="down"] .avatar-fx .fx-2,
+    body[data-score-band="low"][data-state="idle"] .avatar-fx .fx-2 {
+      right: 2px;
+      top: -10px;
+      color: rgba(255,255,255,0.54);
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    body[data-score-band="low"][data-state="stalled"] .avatar-fx .fx-2::before,
+    body[data-score-band="low"][data-state="down"] .avatar-fx .fx-2::before,
+    body[data-score-band="low"][data-state="idle"] .avatar-fx .fx-2::before { content: "z"; }
+    body[data-score-band="low"][data-state="stalled"] .avatar-fx .fx-3,
+    body[data-score-band="low"][data-state="down"] .avatar-fx .fx-3,
+    body[data-score-band="low"][data-state="idle"] .avatar-fx .fx-3 {
+      right: -12px;
+      top: -26px;
+      color: rgba(255,255,255,0.38);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    body[data-score-band="low"][data-state="stalled"] .avatar-fx .fx-3::before,
+    body[data-score-band="low"][data-state="down"] .avatar-fx .fx-3::before,
+    body[data-score-band="low"][data-state="idle"] .avatar-fx .fx-3::before { content: "z"; }
+    body[data-score-band="low"] .avatar-fx .fx-4 { display: none; }
+    body[data-nudge-boost="active"] .avatar {
+      animation: nudge-boost 0.9s ease-out 3;
+      filter: saturate(1.16);
+    }
+    body[data-nudge-boost="active"] .pulse {
+      animation-duration: 0.8s;
+      border-color: rgba(255, 176, 112, 0.58);
+    }
+    body[data-nudge-boost="active"] .avatar-fx .fx {
+      opacity: 0.92;
+    }
+    body[data-nudge-boost="active"] .avatar-fx .fx-1,
+    body[data-nudge-boost="active"] .avatar-fx .fx-2 {
+      left: auto;
+      right: 126px;
+      width: 20px;
+      height: 4px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255, 193, 118, 0.92));
+      animation: speed-dash 0.55s ease-out infinite;
+    }
+    body[data-nudge-boost="active"] .avatar-fx .fx-1 {
+      top: 58px;
+    }
+    body[data-nudge-boost="active"] .avatar-fx .fx-2 {
+      top: 78px;
+      width: 16px;
+      animation-delay: 0.14s;
+    }
+    body[data-nudge-boost="active"] .avatar-fx .fx-3,
+    body[data-nudge-boost="active"] .avatar-fx .fx-4 {
+      width: 10px;
+      height: 14px;
+      border-radius: 60% 60% 70% 70%;
+      background: linear-gradient(180deg, rgba(180, 239, 255, 0.96), rgba(90, 187, 255, 0.54));
+      animation: sweat-drop 1.2s ease-out infinite;
+    }
+    body[data-nudge-boost="active"] .avatar-fx .fx-3 {
+      left: 128px;
+      top: 34px;
+      transform: rotate(14deg);
+    }
+    body[data-nudge-boost="active"] .avatar-fx .fx-4 {
+      left: 144px;
+      top: 48px;
+      width: 8px;
+      height: 10px;
+      animation-delay: 0.24s;
+    }
+    @media (max-width: 980px) {
+      .dashboard-layout { grid-template-columns: 1fr; }
+      .avatar-rail {
+        position: static;
+        min-height: 0;
+      }
+      .avatar-rail .avatar-box {
+        width: 190px;
+        height: 190px;
+      }
+      .avatar-rail .avatar,
+      .avatar-rail .avatar:hover {
+        transform: scale(1.02);
+      }
+      .hero-main { grid-template-columns: 1fr; }
+      .score {
+        padding: 18px 18px 16px;
+      }
+      .hero-actions {
+        justify-content: stretch;
+      }
+      .span-4, .span-6, .span-8, .span-12 { grid-column: span 12; }
+      .widget-drag-handle,
+      .widget-resize-handle {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body data-theme="crimson">
+  <div class="background-fx" id="backgroundFx" data-effect="glow"></div>
+  <div class="shell">
+    <div class="dashboard-layout">
+      <aside class="card avatar-rail">
+        <div class="avatar-rail-stage">
+          <div class="avatar-box">
+            <div class="pulse"></div>
+            <div class="pulse"></div>
+            <div class="pulse"></div>
+            <div class="avatar-fx" aria-hidden="true">
+              <span class="fx fx-1"></span>
+              <span class="fx fx-2"></span>
+              <span class="fx fx-3"></span>
+              <span class="fx fx-4"></span>
+            </div>
+            <div class="avatar-hands-layer" id="avatarHandsLayer" aria-hidden="true"></div>
+            <button class="avatar robot" id="avatarButton" type="button" title="Nudge agent">
+              <div class="face">
+                <span class="eye"></span>
+                <span class="eye"></span>
+                <span class="mouth"></span>
+              </div>
+            </button>
+          </div>
+        </div>
+        <div class="avatar-rail-meta">
+          <div class="avatar-caption">Agent Surface</div>
+          <div class="avatar-nameplate" id="avatarNameplate">OpenClaw Main</div>
+          <div class="avatar-rail-info">
+            <div class="avatar-rail-status" id="avatarRailStatus">Connecting</div>
+            <div class="avatar-rail-grid">
+              <div class="avatar-rail-metric">
+                <div class="avatar-rail-metric-label" id="avatarRailScoreLabel">Efficiency score</div>
+                <div class="avatar-rail-metric-value" id="avatarRailScoreValue">--</div>
+              </div>
+              <div class="avatar-rail-metric">
+                <div class="avatar-rail-metric-label" id="avatarRailSessionLabel">Session age</div>
+                <div class="avatar-rail-metric-value" id="avatarRailSessionValue">--</div>
+              </div>
+              <div class="avatar-rail-metric">
+                <div class="avatar-rail-metric-label" id="avatarRailActionLabel">Last action</div>
+                <div class="avatar-rail-metric-value" id="avatarRailActionValue">--</div>
+              </div>
+            </div>
+            <div class="avatar-rail-note" id="avatarRailNote">Waiting for status...</div>
+          </div>
+        </div>
+      </aside>
+
+      <div class="content-stage">
+        <section class="card hero">
+          <div class="hero-main">
+            <div class="hero-copy">
+              <div class="hero-kicker">
+                <span class="chip" id="deploymentChip">LOCAL</span>
+                <span class="chip" id="agentChip">OpenClaw</span>
+                <span class="status-pill" id="statusPill">Connecting</span>
+              </div>
+              <h1 class="title" id="dashboardTitle">Agent Monitor</h1>
+              <p class="sub" id="dashboardSubtitle">Loading dashboard...</p>
+              <p class="sub" id="statusText">Loading status...</p>
+              <div class="sub hero-feedback" id="nudgeFeedback">-</div>
+            </div>
+            <div class="hero-side">
+              <div class="hero-actions">
+                <button id="settingsButton" type="button">Settings</button>
+                <button id="nudgeButton" type="button">Send Nudge</button>
+              </div>
+              <div class="score">
+                <strong id="scoreValue">--</strong>
+                <span id="scoreLabel">Efficiency score</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="grid">
+      <article class="card widget span-4" data-widget="agent_status">
+        <h2 id="agentStatusTitle">Agent status</h2>
+        <div class="kv-list" style="margin-top:12px">
+          <div class="kv"><span class="key" id="gatewayKey">Gateway</span><span id="gatewayValue">--</span></div>
+          <div class="kv"><span class="key" id="appKey">Desktop app</span><span id="appValue">--</span></div>
+          <div class="kv"><span class="key" id="sessionKey">Session age</span><span id="sessionValue">--</span></div>
+          <div class="kv"><span class="key" id="caseKey">Case age</span><span id="caseValue">--</span></div>
+        </div>
+      </article>
+
+      <article class="card widget span-4" data-widget="metrics">
+        <h2 id="metricsTitle">Metrics</h2>
+        <div class="meters" id="metricsList" style="margin-top:14px"></div>
+      </article>
+
+      <article class="card widget span-4" data-widget="autoheal">
+        <div class="chart-header">
+          <h2 id="autohealTitle">Autoheal</h2>
+          <button id="healButton" type="button">Heal now</button>
+        </div>
+        <div class="kv-list" style="margin-top:12px">
+          <div class="kv"><span class="key" id="autohealStateKey">Service</span><span id="autohealStateValue">--</span></div>
+          <div class="kv"><span class="key" id="autohealActionKey">Last action</span><span id="autohealActionValue">--</span></div>
+          <div class="kv"><span class="key" id="forceModeKey">Force work mode</span><span id="forceModeValue">--</span></div>
+          <div class="kv"><span class="key" id="workSignalKey">Should work</span><span id="workSignalValue">--</span></div>
+        </div>
+      </article>
+
+      <article class="card widget span-6" data-widget="agent_details">
+        <h2 id="detailsTitle">Details</h2>
+        <div class="kv-list" style="margin-top:12px">
+          <div class="kv"><span class="key" id="reasonKey">Work signal reason</span><span id="reasonValue">--</span></div>
+          <div class="kv"><span class="key" id="updatedKey">Session updated</span><span id="updatedValue">--</span></div>
+          <div class="kv"><span class="key" id="caseFileKey">Latest case file</span><span id="caseFileValue">--</span></div>
+          <div class="kv"><span class="key" id="taskFileKey">Latest task file</span><span id="taskFileValue">--</span></div>
+        </div>
+      </article>
+
+      <article class="card widget span-6" data-widget="activity_feed">
+        <h2 id="activityTitle">Activity feed</h2>
+        <div class="activity-list" id="activityList" style="margin-top:12px"></div>
+      </article>
+
+      <article class="card widget span-6" data-widget="chat">
+        <div class="chat-shell">
+          <div class="chat-card-head">
+            <div class="chat-head-copy">
+              <h2 id="chatTitle">Chat</h2>
+              <p class="sub" id="chatSubtitle">Talk to the current OpenClaw session directly here.</p>
+            </div>
+            <span class="chat-session-pill" id="chatSessionChip">--</span>
+          </div>
+          <div class="chat-stage">
+            <div class="chat-topbar">
+              <button class="chat-load" id="chatLoadOlderButton" type="button">Load older</button>
+              <div class="sub" id="chatContextHint">Latest context window</div>
+            </div>
+            <div class="chat-viewport">
+              <div class="chat-list" id="chatList"></div>
+            </div>
+            <div class="chat-compose">
+              <textarea id="chatInput" placeholder="Type a message to the current session..."></textarea>
+              <div class="chat-actions">
+                <div class="chat-status-line" id="chatStatus">--</div>
+                <button class="chat-send" id="chatSendButton" type="button">Send</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card widget span-12" data-widget="efficiency_trend">
+        <div class="chart-panel">
+          <div class="chart-header">
+            <div>
+              <h2 id="trendTitle">Efficiency trend</h2>
+              <p class="sub" id="trendSubtitle">Track score and token usage over time.</p>
+            </div>
+            <div class="chart-meta">
+              <span class="chip" id="trendGrade">--</span>
+              <span class="chip" id="trendAvgScore">--</span>
+              <span class="chip" id="trendAvgTokens">--</span>
+              <div class="trend-series-toggles" id="trendSeriesToggles"></div>
+              <select id="trendRangeSelect">
+                <option value="day">Day</option>
+                <option value="week">Week</option>
+                <option value="month">Month</option>
+                <option value="year">Year</option>
+              </select>
+            </div>
+          </div>
+          <div class="chart-bars" id="trendChart"></div>
+        </div>
+      </article>
+        </section>
+
+        <div class="footer" id="footerText">Local-first agent monitor with OpenClaw adapter.</div>
+      </div>
+    </div>
+  </div>
+  <div class="settings-overlay" id="settingsOverlay"></div>
+  <aside class="settings-drawer" id="settingsDrawer" aria-hidden="true">
+    <div class="settings-head">
+      <div>
+        <h2 id="settingsTitle">Settings</h2>
+        <p class="sub" id="settingsSubtitle">Adjust appearance, controls, and visible modules.</p>
+      </div>
+      <button id="settingsCloseButton" type="button">Close</button>
+    </div>
+    <div class="chip-row">
+      <span class="chip" id="settingsCompactHint">Focus on core modules first.</span>
+    </div>
+    <div class="settings-body">
+      <section class="settings-group">
+        <h3 id="settingsAppearanceTitle">Appearance</h3>
+        <div class="control-group">
+          <label for="localeSelect" id="localeLabel">Language</label>
+          <select id="localeSelect"></select>
+        </div>
+        <div class="control-group">
+          <label for="themeSelect" id="themeLabel">Theme</label>
+          <select id="themeSelect"></select>
+        </div>
+        <div class="control-group">
+          <label for="backgroundEffectSelect" id="backgroundEffectLabel">Background effect</label>
+          <select id="backgroundEffectSelect"></select>
+        </div>
+        <div class="control-group">
+          <label for="avatarSelect" id="avatarLabel">Avatar</label>
+          <select id="avatarSelect"></select>
+        </div>
+        <div class="control-group">
+          <label for="avatarColorInput" id="avatarColorLabel">Avatar color</label>
+          <input id="avatarColorInput" type="color" />
+        </div>
+        <div class="control-group">
+          <label for="avatarShapeSelect" id="avatarShapeLabel">Avatar shape</label>
+          <select id="avatarShapeSelect">
+            <option value="base">Default</option>
+            <option value="round">Round</option>
+            <option value="soft">Soft</option>
+            <option value="squircle">Squircle</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="avatarMouthSelect" id="avatarMouthLabel">Avatar mouth</label>
+          <select id="avatarMouthSelect">
+            <option value="base">Default</option>
+            <option value="none">No mouth</option>
+            <option value="flat">Flat</option>
+            <option value="small_smile">Small smile</option>
+            <option value="crescent">Crescent</option>
+            <option value="soft">Soft smile</option>
+            <option value="grin">Grin</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="avatarHeadwearSelect" id="avatarHeadwearLabel">Avatar headwear</label>
+          <select id="avatarHeadwearSelect">
+            <option value="base">Default</option>
+            <option value="none">Off</option>
+            <option value="antenna">Antenna</option>
+            <option value="helmet">Helmet</option>
+            <option value="visor">Visor</option>
+            <option value="crown">Crown</option>
+            <option value="horns">Horns</option>
+            <option value="sprout">Sprout</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="avatarHandsSelect" id="avatarHandsLabel">Avatar hands</label>
+          <select id="avatarHandsSelect">
+            <option value="none">Off</option>
+            <option value="base">Classic hands</option>
+            <option value="wave">Wave hands</option>
+            <option value="down">Relaxed hands</option>
+            <option value="toy">Toy hands</option>
+            <option value="controller">Gamepad hands</option>
+            <option value="wing">Little wings</option>
+          </select>
+        </div>
+        <button id="avatarResetButton" type="button">Reset avatar</button>
+      </section>
+      <section class="settings-group">
+        <h3 id="settingsRobotTitle">Robot</h3>
+        <div class="control-group">
+          <label for="robotNameInput" id="robotNameLabel">Robot name</label>
+          <input id="robotNameInput" type="text" maxlength="40" />
+        </div>
+        <div class="control-group">
+          <label for="subtitleInput" id="subtitleLabel">Subtitle</label>
+          <input id="subtitleInput" type="text" maxlength="120" />
+        </div>
+        <label class="widget-toggle">
+          <input id="subtitleHiddenInput" type="checkbox" />
+          <span id="subtitleHiddenLabel">Hide subtitle</span>
+        </label>
+        <div class="control-group">
+          <label for="heroMetricSelect" id="heroMetricLabel">Hero metric</label>
+          <select id="heroMetricSelect"></select>
+        </div>
+        <div class="control-group">
+          <label for="tapActionSelect" id="tapActionLabel">Tap action</label>
+          <select id="tapActionSelect"></select>
+        </div>
+        <div class="control-group">
+          <label id="metricWidgetLabel">Runtime widget indicators</label>
+          <div class="widget-toggle-list">
+            <select id="metricSlot1Select"></select>
+            <select id="metricSlot2Select"></select>
+            <select id="metricSlot3Select"></select>
+          </div>
+        </div>
+      </section>
+      <section class="settings-group">
+        <h3 id="settingsLayoutTitle">Layout</h3>
+        <div class="control-group">
+          <label id="widgetLabel">Widgets</label>
+          <div class="widget-toggle-list" id="widgetToggles"></div>
+        </div>
+      </section>
+    </div>
+  </aside>
+
+  <script>
+    const storageKey = 'agent-monitor-v2-ui';
+    const state = {
+      payload: null,
+      chat: null,
+      trend: null,
+      history: [],
+      settingsOpen: false,
+      trendView: {
+        score: true,
+        tokens: true
+      },
+      chatView: {
+        isLoadingOlder: false,
+        pendingText: '',
+        lastFetchAt: null
+      },
+      ui: {
+        locale: '',
+        theme: 'crimson',
+        backgroundEffect: 'glow',
+        heroMetric: 'score',
+        metricSlots: ['focus', 'throughput', 'freshness'],
+        robotName: '',
+        subtitleText: '',
+        subtitleHidden: false,
+        avatar: 'robot_classic',
+        avatarColors: {},
+        avatarShapes: {},
+        avatarMouths: {},
+        avatarHeadwears: {},
+        avatarHands: {},
+        tapAction: 'nudge',
+        widgets: [],
+        widgetSizes: {},
+        widgetOrder: []
+      }
+    };
+
+    const widgets = ['agent_status', 'metrics', 'autoheal', 'agent_details', 'activity_feed', 'chat', 'efficiency_trend'];
+    const coreWidgets = [...widgets];
+    const metricOptions = ['focus', 'throughput', 'freshness', 'score', 'session_freshness', 'case_freshness', 'log_freshness', 'gateway_health', 'app_health', 'total_tokens', 'output_tokens'];
+    const legacyFullWidgets = widgets.join('|');
+    const eyeFollow = {
+      activeUntil: 0,
+      x: 0,
+      y: 0
+    };
+    const eyeMoodState = {
+      mood: 'base',
+      expiresAt: 0
+    };
+    let headActionTimer = null;
+    let nudgeBoostTimer = null;
+
+    const localeNames = {
+      'zh-CN': '简体中文',
+      'en-US': 'English',
+      'zh-TW': '繁體中文',
+      'ja-JP': '日本語',
+      'ko-KR': '한국어',
+      'es-ES': 'Español'
+    };
+
+    const i18n = {
+      'zh-CN': {
+        language: '语言',
+        theme: '主题',
+        backgroundEffect: '背景特效',
+        heroMetric: '顶部主数值',
+        metricWidget: '运行指标项目',
+        robotName: '机器人名字',
+        subtitle: '副标题 / 版权声明',
+        hideSubtitle: '隐藏这句话',
+        avatar: '形象',
+        avatarColor: '形象主题色',
+        avatarShape: '外轮廓形状',
+        avatarMouth: '嘴型',
+        avatarHeadwear: '头饰',
+        avatarHands: '手部',
+        avatarReset: '重置当前形象',
+        avatar_shape_base: '默认',
+        avatar_shape_round: '圆形',
+        avatar_shape_soft: '钝角',
+        avatar_shape_squircle: '圆角方形',
+        avatar_mouth_base: '默认',
+        avatar_mouth_none: '无嘴',
+        avatar_mouth_flat: '横线',
+        avatar_mouth_small_smile: '短微笑',
+        avatar_mouth_crescent: '月牙笑',
+        avatar_mouth_soft: '软笑',
+        avatar_mouth_grin: '露齿笑',
+        avatar_headwear_base: '默认',
+        avatar_headwear_none: '关闭',
+        avatar_headwear_antenna: '天线',
+        avatar_headwear_helmet: '头盔',
+        avatar_headwear_visor: '护目镜',
+        avatar_headwear_crown: '皇冠',
+        avatar_headwear_horns: '牛角',
+        avatar_headwear_sprout: '小芽',
+        avatar_hands_none: '关闭',
+        avatar_hands_base: '经典双手',
+        avatar_hands_wave: '挥手',
+        avatar_hands_down: '下垂手',
+        avatar_hands_toy: '玩具手',
+        avatar_hands_controller: '手柄手',
+        avatar_hands_wing: '小翅膀',
+        tapAction: '拍头动作',
+        widgets: '模块',
+        settings: '设置',
+        settingsTitle: '控制中心',
+        settingsSubtitle: '把外观、机器人配置和运营控制收在一个地方。',
+        settingsCompactHint: '默认只保留核心模块，其他内容按需打开。',
+        settingsAppearance: '外观',
+        settingsRobot: '机器人',
+        settingsLayout: '布局',
+        close: '关闭',
+        widgetWidth: '宽度',
+        width_compact: '1/3',
+        width_medium: '1/2',
+        width_full: '全宽',
+        sendNudge: '催一下',
+        sendNudgeTooltip: '向当前机器人发送一次催工提醒，要求它立即回应并开始推进当前任务。',
+        healNow: '一键修复',
+        healNowTooltip: '尝试立即检查并恢复当前连接状态。通常会刷新状态、触发修复动作，必要时重试连接或恢复 gateway。',
+        healing: '正在修复...',
+        score: '效率分',
+        hero_score: '效率分',
+        hero_grade: '等级',
+        hero_focus: '专注度',
+        hero_freshness: '新鲜度',
+        hero_throughput: '吞吐',
+        hero_total_tokens: '总 Tokens',
+        hero_input_tokens: '输入 Tokens',
+        hero_output_tokens: '输出 Tokens',
+        hero_context_tokens: '上下文 Tokens',
+        hero_session_age: '静默时长',
+        hero_case_age: 'Case 时长',
+        hero_log_age: '日志静默时长',
+        hero_log_delta: '日志增长',
+        hero_gateway_running: '网关状态',
+        hero_app_running: '桌面 App',
+        hero_autoheal_running: '自动修复',
+        local: '本地',
+        cloud: '云端',
+        status_working: '正在推进',
+        status_thinking: '在线思考',
+        status_idle: '在线待命',
+        status_overdue: '应工作但静默',
+        status_stalled: '疑似卡住',
+        status_down: '网关离线',
+        agentStatus: '代理状态',
+        metrics: '运行指标',
+        autoheal: '自动修复',
+        details: '详细信息',
+        activityFeed: '活动记录',
+        chatTitle: '聊天窗口',
+        chatSubtitle: '直接和当前 OpenClaw 会话对话。',
+        chatPlaceholder: '输入要发送给当前会话的消息...',
+        chatSend: '发送',
+        chatSending: '发送中...',
+        chatEmpty: '当前还没有可显示的聊天消息。',
+        chatSession: '会话',
+        chatLoadOlder: '查看更多上下文',
+        chatLoadingOlder: '正在加载更早消息...',
+        chatLoadedOlder: '已加载更早消息',
+        chatContextHint: '支持上滑查看上下文',
+        role_user: '你',
+        role_assistant: '机器人',
+        role_system: '系统',
+        trendTitle: '效率趋势',
+        trendSubtitle: '按时间维度查看效率分、token 用量和等级。',
+        trendSeriesScore: '效率分',
+        trendSeriesTokens: 'Tokens',
+        trendNoSeries: '至少勾选一条曲线。',
+        avgScore: '平均分',
+        avgTokens: '平均 Tokens',
+        grade: '等级',
+        range_day: '日',
+        range_week: '周',
+        range_month: '月',
+        range_year: '年',
+        grade_excellent: '优秀',
+        grade_good: '良好',
+        grade_fair: '中等',
+        grade_poor: '较差',
+        gateway: '网关',
+        desktopApp: '桌面 App',
+        sessionAge: '会话静默时长',
+        caseAge: 'Case 变更时长',
+        focus: '专注度',
+        throughput: '吞吐',
+        freshness: '新鲜度',
+        metric_focus: '专注度',
+        metric_throughput: '吞吐',
+        metric_freshness: '新鲜度',
+        metric_score: '效率分',
+        metric_session_freshness: '会话新鲜度',
+        metric_case_freshness: 'Case 新鲜度',
+        metric_log_freshness: '日志活跃度',
+        metric_gateway_health: '网关健康',
+        metric_app_health: '桌面 App',
+        metric_total_tokens: '总 Tokens',
+        metric_output_tokens: '输出 Tokens',
+        service: '服务',
+        lastAction: '最近动作',
+        forceWorkMode: '强推模式',
+        shouldWork: '应继续工作',
+        workSignalReason: '判断原因',
+        sessionUpdated: '会话更新时间',
+        latestCaseFile: '最近 Case 文件',
+        latestTaskFile: '最近 TASK 文件',
+        footer: 'VISEA 是一个面向 OpenClaw 的 agent operations console，当前从本地单代理版本开始。',
+        subtitleFallback: '统一监控 agent 的状态、效率、节奏与干预动作，朝团队级运营控制台演进。',
+        loading: '正在加载...',
+        yes: '是',
+        no: '否',
+        running: '运行中',
+        stopped: '未运行',
+        unavailable: '不可用',
+        nudgeReady: '点击头像或按钮可催工。',
+        nudgeSending: '正在发送催工...',
+        reason_should_work: '当前任务应继续推进',
+        reason_waiting_external: '下一步显示等待外部回复',
+        reason_task_done: '任务已完成',
+        reason_task_missing: '未找到 TASK.md',
+        reason_task_unreadable: 'TASK.md 无法读取',
+        avatar_robot_classic: '经典',
+        avatar_robot_guard: '守卫型',
+        avatar_robot_soft: '软萌型',
+        avatar_robot_square: '方头型',
+        avatar_robot_scout: '侦察型',
+        avatar_robot_neon: '霓虹型',
+        avatar_robot_pearl: '珍珠型',
+        avatar_robot_mono: '单色型',
+        avatar_robot_sprite: '像素型',
+        avatar_robot_boss: '老板型',
+        tap_nudge: '催工',
+        tap_refresh: '刷新',
+        tap_cycle_theme: '切换主题',
+        tap_cycle_avatar: '切换形象',
+        theme_crimson: '绯红',
+        theme_ocean: '海蓝',
+        theme_terminal: '终端',
+        theme_paper: '纸白',
+        theme_sunset: '日落',
+        theme_forest: '森林',
+        theme_midnight: '午夜蓝',
+        background_glow: '动感光晕',
+        background_particles: '粒子漂浮',
+        background_snow: '雪花',
+        background_glyphs: '漂浮符号',
+        background_none: '关闭',
+        widget_agent_status: '代理状态',
+        widget_metrics: '运行指标',
+        widget_autoheal: '自动修复',
+        widget_agent_details: '详细信息',
+        widget_activity_feed: '活动记录',
+        widget_chat: '聊天窗口',
+        widget_efficiency_trend: '效率趋势',
+        justNow: '刚刚',
+        never: '暂无',
+        waiting: '等待中',
+        connected: '已连接',
+        reason_gateway_down: '网关未运行',
+        reason_recent_activity: '检测到最近活动',
+        reason_should_work_but_idle: '应工作但已静默',
+        reason_forced_idle_timeout: '强推模式下静默超时',
+        reason_recent_session_without_output: '会话仍新，可能在思考',
+        reason_long_idle: '长时间没有新动作',
+        reason_standby: '当前处于待命状态'
+      },
+      'en-US': {
+        language: 'Language',
+        theme: 'Theme',
+        backgroundEffect: 'Background effect',
+        heroMetric: 'Hero metric',
+        metricWidget: 'Runtime widget indicators',
+        robotName: 'Robot name',
+        subtitle: 'Subtitle / copyright',
+        hideSubtitle: 'Hide this line',
+        avatar: 'Avatar',
+        avatarColor: 'Avatar color',
+        avatarShape: 'Avatar shape',
+        avatarMouth: 'Avatar mouth',
+        avatarHeadwear: 'Avatar headwear',
+        avatarHands: 'Avatar hands',
+        avatarReset: 'Reset avatar',
+        avatar_shape_base: 'Default',
+        avatar_shape_round: 'Round',
+        avatar_shape_soft: 'Soft',
+        avatar_shape_squircle: 'Squircle',
+        avatar_mouth_base: 'Default',
+        avatar_mouth_none: 'No mouth',
+        avatar_mouth_flat: 'Flat',
+        avatar_mouth_small_smile: 'Small smile',
+        avatar_mouth_crescent: 'Crescent',
+        avatar_mouth_soft: 'Soft smile',
+        avatar_mouth_grin: 'Grin',
+        avatar_headwear_base: 'Default',
+        avatar_headwear_none: 'Off',
+        avatar_headwear_antenna: 'Antenna',
+        avatar_headwear_helmet: 'Helmet',
+        avatar_headwear_visor: 'Visor',
+        avatar_headwear_crown: 'Crown',
+        avatar_headwear_horns: 'Horns',
+        avatar_headwear_sprout: 'Sprout',
+        avatar_hands_none: 'Off',
+        avatar_hands_base: 'Classic hands',
+        avatar_hands_wave: 'Wave hands',
+        avatar_hands_down: 'Relaxed hands',
+        avatar_hands_toy: 'Toy hands',
+        avatar_hands_controller: 'Gamepad hands',
+        avatar_hands_wing: 'Little wings',
+        tapAction: 'Tap action',
+        widgets: 'Widgets',
+        settings: 'Settings',
+        settingsTitle: 'Control Center',
+        settingsSubtitle: 'Keep appearance, agent settings, and operations controls in one place.',
+        settingsCompactHint: 'Start with core modules and open the rest only when needed.',
+        settingsAppearance: 'Appearance',
+        settingsRobot: 'Robot',
+        settingsLayout: 'Layout',
+        close: 'Close',
+        widgetWidth: 'Width',
+        width_compact: '1/3',
+        width_medium: '1/2',
+        width_full: 'Full',
+        sendNudge: 'Send Nudge',
+        sendNudgeTooltip: 'Send an immediate nudge to the current agent and ask it to respond and resume the current task.',
+        healNow: 'Heal now',
+        healNowTooltip: 'Try to immediately check and recover the current connection state. This usually refreshes status, triggers a repair action, and retries the gateway path when needed.',
+        healing: 'Healing...',
+        score: 'Efficiency score',
+        hero_score: 'Efficiency score',
+        hero_grade: 'Grade',
+        hero_focus: 'Focus',
+        hero_freshness: 'Freshness',
+        hero_throughput: 'Throughput',
+        hero_total_tokens: 'Total tokens',
+        hero_input_tokens: 'Input tokens',
+        hero_output_tokens: 'Output tokens',
+        hero_context_tokens: 'Context tokens',
+        hero_session_age: 'Session age',
+        hero_case_age: 'Case age',
+        hero_log_age: 'Log age',
+        hero_log_delta: 'Log delta',
+        hero_gateway_running: 'Gateway',
+        hero_app_running: 'Desktop app',
+        hero_autoheal_running: 'Autoheal',
+        local: 'Local',
+        cloud: 'Cloud',
+        status_working: 'Working',
+        status_thinking: 'Thinking',
+        status_idle: 'Idle',
+        status_overdue: 'Overdue',
+        status_stalled: 'Stalled',
+        status_down: 'Down',
+        agentStatus: 'Agent status',
+        metrics: 'Metrics',
+        autoheal: 'Autoheal',
+        details: 'Details',
+        activityFeed: 'Activity feed',
+        chatTitle: 'Chat',
+        chatSubtitle: 'Talk to the current OpenClaw session directly here.',
+        chatPlaceholder: 'Type a message to the current session...',
+        chatSend: 'Send',
+        chatSending: 'Sending...',
+        chatEmpty: 'No chat messages available yet.',
+        chatSession: 'Session',
+        chatLoadOlder: 'Load older context',
+        chatLoadingOlder: 'Loading older messages...',
+        chatLoadedOlder: 'Older messages loaded',
+        chatContextHint: 'Scroll upward for more context',
+        role_user: 'You',
+        role_assistant: 'Assistant',
+        role_system: 'System',
+        trendTitle: 'Efficiency trend',
+        trendSubtitle: 'View score, token usage, and grade over time.',
+        trendSeriesScore: 'Score',
+        trendSeriesTokens: 'Tokens',
+        trendNoSeries: 'Select at least one series.',
+        avgScore: 'Avg score',
+        avgTokens: 'Avg tokens',
+        grade: 'Grade',
+        range_day: 'Day',
+        range_week: 'Week',
+        range_month: 'Month',
+        range_year: 'Year',
+        grade_excellent: 'Excellent',
+        grade_good: 'Good',
+        grade_fair: 'Fair',
+        grade_poor: 'Poor',
+        gateway: 'Gateway',
+        desktopApp: 'Desktop app',
+        sessionAge: 'Session age',
+        caseAge: 'Case age',
+        focus: 'Focus',
+        throughput: 'Throughput',
+        freshness: 'Freshness',
+        metric_focus: 'Focus',
+        metric_throughput: 'Throughput',
+        metric_freshness: 'Freshness',
+        metric_score: 'Efficiency score',
+        metric_session_freshness: 'Session freshness',
+        metric_case_freshness: 'Case freshness',
+        metric_log_freshness: 'Log freshness',
+        metric_gateway_health: 'Gateway health',
+        metric_app_health: 'Desktop app',
+        metric_total_tokens: 'Total tokens',
+        metric_output_tokens: 'Output tokens',
+        service: 'Service',
+        lastAction: 'Last action',
+        forceWorkMode: 'Force work mode',
+        shouldWork: 'Should work',
+        workSignalReason: 'Work signal reason',
+        sessionUpdated: 'Session updated',
+        latestCaseFile: 'Latest case file',
+        latestTaskFile: 'Latest task file',
+        footer: 'VISEA is an agent operations console for OpenClaw, starting from a local single-agent control surface.',
+        subtitleFallback: 'Track agent status, efficiency, activity, and interventions in one place, with a path to team-scale operations.',
+        loading: 'Loading...',
+        yes: 'Yes',
+        no: 'No',
+        running: 'Running',
+        stopped: 'Stopped',
+        unavailable: 'Unavailable',
+        nudgeReady: 'Use the button or avatar to nudge the agent.',
+        nudgeSending: 'Sending nudge...',
+        reason_should_work: 'Current task should be progressing',
+        reason_waiting_external: 'Next action says it is waiting for an external reply',
+        reason_task_done: 'Task is already complete',
+        reason_task_missing: 'TASK.md not found',
+        reason_task_unreadable: 'TASK.md cannot be read',
+        avatar_robot_classic: 'Classic',
+        avatar_robot_guard: 'Guard',
+        avatar_robot_soft: 'Soft',
+        avatar_robot_square: 'Square',
+        avatar_robot_scout: 'Scout',
+        avatar_robot_neon: 'Neon',
+        avatar_robot_pearl: 'Pearl',
+        avatar_robot_mono: 'Mono',
+        avatar_robot_sprite: 'Sprite',
+        avatar_robot_boss: 'Boss',
+        tap_nudge: 'Nudge',
+        tap_refresh: 'Refresh',
+        tap_cycle_theme: 'Cycle theme',
+        tap_cycle_avatar: 'Cycle avatar',
+        theme_crimson: 'Crimson',
+        theme_ocean: 'Ocean',
+        theme_terminal: 'Terminal',
+        theme_paper: 'Paper',
+        theme_sunset: 'Sunset',
+        theme_forest: 'Forest',
+        theme_midnight: 'Midnight',
+        background_glow: 'Motion glow',
+        background_particles: 'Particles',
+        background_snow: 'Snow',
+        background_glyphs: 'Floating glyphs',
+        background_none: 'Off',
+        widget_agent_status: 'Agent status',
+        widget_metrics: 'Metrics',
+        widget_autoheal: 'Autoheal',
+        widget_agent_details: 'Details',
+        widget_activity_feed: 'Activity feed',
+        widget_chat: 'Chat',
+        widget_efficiency_trend: 'Efficiency trend',
+        justNow: 'Just now',
+        never: 'None',
+        waiting: 'Waiting',
+        connected: 'Connected',
+        reason_gateway_down: 'Gateway is not running',
+        reason_recent_activity: 'Recent activity detected',
+        reason_should_work_but_idle: 'Should be working but went quiet',
+        reason_forced_idle_timeout: 'Force-work mode idle timeout hit',
+        reason_recent_session_without_output: 'Session is recent and likely thinking',
+        reason_long_idle: 'No recent output detected',
+        reason_standby: 'Agent is in standby'
+      }
+    };
+
+    i18n['zh-TW'] = {
+      ...i18n['zh-CN'],
+      language: '語言',
+      theme: '主題',
+      heroMetric: '頂部主數值',
+      robotName: '機器人名字',
+      avatar: '形象',
+      tapAction: '拍頭動作',
+      widgets: '模組',
+      sendNudge: '催一下',
+      healNow: '一鍵修復',
+      healing: '正在修復...',
+      chatTitle: '聊天視窗',
+      chatSubtitle: '直接和目前 OpenClaw 會話對話。',
+      chatPlaceholder: '輸入要發送給目前會話的訊息...',
+      chatEmpty: '目前還沒有可顯示的聊天訊息。',
+      chatLoadOlder: '查看更多上下文',
+      chatLoadingOlder: '正在載入更早訊息...',
+      chatLoadedOlder: '已載入更早訊息',
+      chatContextHint: '支援上滑查看上下文',
+      trendTitle: '效率趨勢',
+      trendSubtitle: '按時間維度查看效率分、token 用量和等級。',
+      avgScore: '平均分',
+      grade: '等級',
+      range_day: '日',
+      range_week: '週',
+      range_month: '月',
+      range_year: '年',
+      grade_good: '良好',
+      grade_fair: '中等',
+      desktopApp: '桌面 App',
+      sessionAge: '會話靜默時長',
+      caseAge: 'Case 變更時長',
+      lastAction: '最近動作',
+      forceWorkMode: '強推模式',
+      shouldWork: '應繼續工作',
+      workSignalReason: '判斷原因',
+      sessionUpdated: '會話更新時間',
+      latestCaseFile: '最近 Case 檔案',
+      latestTaskFile: '最近 TASK 檔案',
+      footer: '本地優先代理監控台，當前已接入 OpenClaw，後續可擴展更多 agent。',
+      subtitleFallback: '統一監控本地 agent 的狀態、健康度與活動節奏。',
+      yes: '是',
+      no: '否',
+      running: '執行中',
+      stopped: '未執行',
+      unavailable: '不可用',
+      nudgeReady: '點擊頭像或按鈕可催工。',
+      nudgeSending: '正在發送催工...',
+      reason_waiting_external: '下一步顯示等待外部回覆',
+      reason_task_done: '任務已完成',
+      reason_task_missing: '未找到 TASK.md',
+      reason_task_unreadable: 'TASK.md 無法讀取',
+      theme_paper: '紙白',
+      theme_sunset: '日落',
+      theme_forest: '森林',
+      theme_midnight: '午夜藍',
+      justNow: '剛剛',
+      never: '暫無',
+      waiting: '等待中',
+      connected: '已連接',
+      reason_gateway_down: '網關未執行',
+      reason_recent_activity: '檢測到最近活動',
+      reason_should_work_but_idle: '應工作但已靜默',
+      reason_forced_idle_timeout: '強推模式下靜默超時',
+      reason_recent_session_without_output: '會話仍新，可能在思考',
+      reason_long_idle: '長時間沒有新動作',
+      reason_standby: '目前處於待命狀態'
+    };
+
+    i18n['ja-JP'] = {
+      ...i18n['en-US'],
+      language: '言語',
+      theme: 'テーマ',
+      heroMetric: 'トップ指標',
+      robotName: 'ロボット名',
+      avatar: 'アバター',
+      tapAction: 'タップ動作',
+      widgets: 'モジュール',
+      sendNudge: '促す',
+      healNow: '今すぐ修復',
+      healing: '修復中...',
+      chatTitle: 'チャット',
+      chatSubtitle: '現在の OpenClaw セッションとここで直接やり取りします。',
+      chatPlaceholder: '現在のセッションに送るメッセージを入力...',
+      chatSend: '送信',
+      chatSending: '送信中...',
+      chatEmpty: '表示できるチャットメッセージはまだありません。',
+      chatSession: 'セッション',
+      chatLoadOlder: '前の文脈を読む',
+      chatLoadingOlder: '古いメッセージを読み込み中...',
+      chatLoadedOlder: '古いメッセージを読み込みました',
+      chatContextHint: '上にスクロールして文脈を確認',
+      role_user: 'あなた',
+      role_assistant: 'ロボット',
+      role_system: 'システム',
+      trendTitle: '効率トレンド',
+      trendSubtitle: '時間ごとのスコア、token 使用量、評価を確認します。',
+      avgScore: '平均スコア',
+      avgTokens: '平均 Tokens',
+      grade: '評価',
+      range_day: '日',
+      range_week: '週',
+      range_month: '月',
+      range_year: '年',
+      grade_excellent: '優秀',
+      grade_good: '良好',
+      grade_fair: '普通',
+      grade_poor: '低い',
+      local: 'ローカル',
+      cloud: 'クラウド',
+      agentStatus: 'エージェント状態',
+      metrics: '指標',
+      autoheal: '自動修復',
+      details: '詳細',
+      activityFeed: 'アクティビティ',
+      footer: 'ローカル優先のエージェント監視パネル。OpenClaw 以外にも拡張可能です。',
+      loading: '読み込み中...',
+      yes: 'はい',
+      no: 'いいえ',
+      running: '稼働中',
+      stopped: '停止中',
+      unavailable: '利用不可',
+      justNow: 'たった今',
+      never: 'なし',
+      waiting: '待機中',
+      connected: '接続済み'
+    };
+
+    i18n['ko-KR'] = {
+      ...i18n['en-US'],
+      language: '언어',
+      theme: '테마',
+      heroMetric: '상단 지표',
+      robotName: '로봇 이름',
+      avatar: '아바타',
+      tapAction: '머리 터치 동작',
+      widgets: '모듈',
+      sendNudge: '재촉하기',
+      healNow: '즉시 복구',
+      healing: '복구 중...',
+      chatTitle: '채팅',
+      chatSubtitle: '현재 OpenClaw 세션과 여기서 바로 대화합니다.',
+      chatPlaceholder: '현재 세션에 보낼 메시지를 입력하세요...',
+      chatSend: '보내기',
+      chatSending: '전송 중...',
+      chatEmpty: '표시할 채팅 메시지가 아직 없습니다.',
+      chatSession: '세션',
+      chatLoadOlder: '이전 문맥 보기',
+      chatLoadingOlder: '이전 메시지 불러오는 중...',
+      chatLoadedOlder: '이전 메시지를 불러왔습니다',
+      chatContextHint: '위로 스크롤해 문맥 보기',
+      role_user: '나',
+      role_assistant: '로봇',
+      role_system: '시스템',
+      trendTitle: '효율 추이',
+      trendSubtitle: '시간대별 점수, token 사용량, 등급을 확인합니다.',
+      avgScore: '평균 점수',
+      avgTokens: '평균 Tokens',
+      grade: '등급',
+      range_day: '일',
+      range_week: '주',
+      range_month: '월',
+      range_year: '년',
+      grade_excellent: '매우 좋음',
+      grade_good: '좋음',
+      grade_fair: '보통',
+      grade_poor: '낮음',
+      local: '로컬',
+      cloud: '클라우드',
+      agentStatus: '에이전트 상태',
+      metrics: '지표',
+      autoheal: '자동 복구',
+      details: '상세',
+      activityFeed: '활동 기록',
+      footer: '로컬 우선 에이전트 모니터. OpenClaw 외의 에이전트로도 확장 가능합니다.',
+      loading: '불러오는 중...',
+      yes: '예',
+      no: '아니오',
+      running: '실행 중',
+      stopped: '중지됨',
+      unavailable: '사용 불가',
+      justNow: '방금',
+      never: '없음',
+      waiting: '대기 중',
+      connected: '연결됨'
+    };
+
+    i18n['es-ES'] = {
+      ...i18n['en-US'],
+      language: 'Idioma',
+      theme: 'Tema',
+      heroMetric: 'Metrica principal',
+      robotName: 'Nombre del robot',
+      avatar: 'Avatar',
+      tapAction: 'Accion al tocar',
+      widgets: 'Modulos',
+      sendNudge: 'Recordar',
+      healNow: 'Reparar ahora',
+      healing: 'Reparando...',
+      chatTitle: 'Chat',
+      chatSubtitle: 'Habla directamente con la sesion actual de OpenClaw.',
+      chatPlaceholder: 'Escribe un mensaje para la sesion actual...',
+      chatSend: 'Enviar',
+      chatSending: 'Enviando...',
+      chatEmpty: 'Todavia no hay mensajes para mostrar.',
+      chatSession: 'Sesion',
+      chatLoadOlder: 'Cargar contexto anterior',
+      chatLoadingOlder: 'Cargando mensajes anteriores...',
+      chatLoadedOlder: 'Mensajes anteriores cargados',
+      chatContextHint: 'Desplaza hacia arriba para ver el contexto',
+      role_user: 'Tu',
+      role_assistant: 'Robot',
+      role_system: 'Sistema',
+      trendTitle: 'Tendencia de eficiencia',
+      trendSubtitle: 'Consulta puntuacion, uso de tokens y nivel en el tiempo.',
+      avgScore: 'Puntuacion media',
+      avgTokens: 'Tokens medios',
+      grade: 'Nivel',
+      range_day: 'Dia',
+      range_week: 'Semana',
+      range_month: 'Mes',
+      range_year: 'Ano',
+      grade_excellent: 'Excelente',
+      grade_good: 'Bueno',
+      grade_fair: 'Regular',
+      grade_poor: 'Bajo',
+      local: 'Local',
+      cloud: 'Nube',
+      agentStatus: 'Estado del agente',
+      metrics: 'Metricas',
+      autoheal: 'Autorreparacion',
+      details: 'Detalles',
+      activityFeed: 'Actividad',
+      footer: 'Monitor local para agentes con OpenClaw y espacio para ampliar a mas agentes.',
+      loading: 'Cargando...',
+      yes: 'Si',
+      no: 'No',
+      running: 'En ejecucion',
+      stopped: 'Detenido',
+      unavailable: 'No disponible',
+      justNow: 'Ahora mismo',
+      never: 'Ninguno',
+      waiting: 'En espera',
+      connected: 'Conectado'
+    };
+
+    const el = {
+      body: document.body,
+      dashboardTitle: document.getElementById('dashboardTitle'),
+      dashboardSubtitle: document.getElementById('dashboardSubtitle'),
+      avatarNameplate: document.getElementById('avatarNameplate'),
+      avatarRailStatus: document.getElementById('avatarRailStatus'),
+      avatarRailScoreLabel: document.getElementById('avatarRailScoreLabel'),
+      avatarRailScoreValue: document.getElementById('avatarRailScoreValue'),
+      avatarRailSessionLabel: document.getElementById('avatarRailSessionLabel'),
+      avatarRailSessionValue: document.getElementById('avatarRailSessionValue'),
+      avatarRailActionLabel: document.getElementById('avatarRailActionLabel'),
+      avatarRailActionValue: document.getElementById('avatarRailActionValue'),
+      avatarRailNote: document.getElementById('avatarRailNote'),
+      deploymentChip: document.getElementById('deploymentChip'),
+      agentChip: document.getElementById('agentChip'),
+      statusPill: document.getElementById('statusPill'),
+      statusText: document.getElementById('statusText'),
+      scoreValue: document.getElementById('scoreValue'),
+      scoreLabel: document.getElementById('scoreLabel'),
+      settingsButton: document.getElementById('settingsButton'),
+      settingsOverlay: document.getElementById('settingsOverlay'),
+      settingsDrawer: document.getElementById('settingsDrawer'),
+      settingsCloseButton: document.getElementById('settingsCloseButton'),
+      settingsTitle: document.getElementById('settingsTitle'),
+      settingsSubtitle: document.getElementById('settingsSubtitle'),
+      settingsCompactHint: document.getElementById('settingsCompactHint'),
+      settingsAppearanceTitle: document.getElementById('settingsAppearanceTitle'),
+      settingsRobotTitle: document.getElementById('settingsRobotTitle'),
+      settingsLayoutTitle: document.getElementById('settingsLayoutTitle'),
+      localeSelect: document.getElementById('localeSelect'),
+      themeSelect: document.getElementById('themeSelect'),
+      backgroundFx: document.getElementById('backgroundFx'),
+      backgroundEffectSelect: document.getElementById('backgroundEffectSelect'),
+      heroMetricSelect: document.getElementById('heroMetricSelect'),
+      metricSlot1Select: document.getElementById('metricSlot1Select'),
+      metricSlot2Select: document.getElementById('metricSlot2Select'),
+      metricSlot3Select: document.getElementById('metricSlot3Select'),
+      robotNameInput: document.getElementById('robotNameInput'),
+      subtitleInput: document.getElementById('subtitleInput'),
+      subtitleHiddenInput: document.getElementById('subtitleHiddenInput'),
+      avatarSelect: document.getElementById('avatarSelect'),
+      avatarColorInput: document.getElementById('avatarColorInput'),
+      avatarShapeSelect: document.getElementById('avatarShapeSelect'),
+      avatarMouthSelect: document.getElementById('avatarMouthSelect'),
+      avatarHeadwearSelect: document.getElementById('avatarHeadwearSelect'),
+      avatarHandsSelect: document.getElementById('avatarHandsSelect'),
+      avatarResetButton: document.getElementById('avatarResetButton'),
+      tapActionSelect: document.getElementById('tapActionSelect'),
+      widgetToggles: document.getElementById('widgetToggles'),
+      localeLabel: document.getElementById('localeLabel'),
+      themeLabel: document.getElementById('themeLabel'),
+      backgroundEffectLabel: document.getElementById('backgroundEffectLabel'),
+      heroMetricLabel: document.getElementById('heroMetricLabel'),
+      robotNameLabel: document.getElementById('robotNameLabel'),
+      subtitleLabel: document.getElementById('subtitleLabel'),
+      subtitleHiddenLabel: document.getElementById('subtitleHiddenLabel'),
+      avatarLabel: document.getElementById('avatarLabel'),
+      avatarColorLabel: document.getElementById('avatarColorLabel'),
+      avatarShapeLabel: document.getElementById('avatarShapeLabel'),
+      avatarMouthLabel: document.getElementById('avatarMouthLabel'),
+      avatarHeadwearLabel: document.getElementById('avatarHeadwearLabel'),
+      avatarHandsLabel: document.getElementById('avatarHandsLabel'),
+      tapActionLabel: document.getElementById('tapActionLabel'),
+      metricWidgetLabel: document.getElementById('metricWidgetLabel'),
+      widgetLabel: document.getElementById('widgetLabel'),
+      nudgeButton: document.getElementById('nudgeButton'),
+      healButton: document.getElementById('healButton'),
+      nudgeFeedback: document.getElementById('nudgeFeedback'),
+      avatarButton: document.getElementById('avatarButton'),
+      avatarHandsLayer: document.getElementById('avatarHandsLayer'),
+      gatewayValue: document.getElementById('gatewayValue'),
+      appValue: document.getElementById('appValue'),
+      sessionValue: document.getElementById('sessionValue'),
+      caseValue: document.getElementById('caseValue'),
+      focusValue: document.getElementById('focusValue'),
+      throughputValue: document.getElementById('throughputValue'),
+      freshnessValue: document.getElementById('freshnessValue'),
+      focusBar: document.getElementById('focusBar'),
+      throughputBar: document.getElementById('throughputBar'),
+      freshnessBar: document.getElementById('freshnessBar'),
+      metricsList: document.getElementById('metricsList'),
+      autohealStateValue: document.getElementById('autohealStateValue'),
+      autohealActionValue: document.getElementById('autohealActionValue'),
+      forceModeValue: document.getElementById('forceModeValue'),
+      workSignalValue: document.getElementById('workSignalValue'),
+      reasonValue: document.getElementById('reasonValue'),
+      updatedValue: document.getElementById('updatedValue'),
+      caseFileValue: document.getElementById('caseFileValue'),
+      taskFileValue: document.getElementById('taskFileValue'),
+      activityList: document.getElementById('activityList'),
+      footerText: document.getElementById('footerText'),
+      chatTitle: document.getElementById('chatTitle'),
+      chatSubtitle: document.getElementById('chatSubtitle'),
+      chatSessionChip: document.getElementById('chatSessionChip'),
+      chatLoadOlderButton: document.getElementById('chatLoadOlderButton'),
+      chatContextHint: document.getElementById('chatContextHint'),
+      chatList: document.getElementById('chatList'),
+      chatInput: document.getElementById('chatInput'),
+      chatStatus: document.getElementById('chatStatus'),
+      chatSendButton: document.getElementById('chatSendButton'),
+      trendTitle: document.getElementById('trendTitle'),
+      trendSubtitle: document.getElementById('trendSubtitle'),
+      trendGrade: document.getElementById('trendGrade'),
+      trendAvgScore: document.getElementById('trendAvgScore'),
+      trendAvgTokens: document.getElementById('trendAvgTokens'),
+      trendSeriesToggles: document.getElementById('trendSeriesToggles'),
+      trendRangeSelect: document.getElementById('trendRangeSelect'),
+      trendChart: document.getElementById('trendChart'),
+      grid: document.querySelector('.grid')
+    };
+
+    function t(key) {
+      const locale = state.ui.locale in i18n ? state.ui.locale : 'en-US';
+      return i18n[locale][key] || i18n['en-US']?.[key] || key;
+    }
+
+    function preferredLocale(supportedLocales, fallback = 'en-US') {
+      const supported = Array.isArray(supportedLocales) && supportedLocales.length
+        ? supportedLocales
+        : ['en-US'];
+      const browserLocales = Array.isArray(navigator.languages) && navigator.languages.length
+        ? navigator.languages
+        : [navigator.language || fallback];
+
+      for (const rawLocale of browserLocales) {
+        if (!rawLocale) continue;
+        if (supported.includes(rawLocale)) return rawLocale;
+        const base = String(rawLocale).split('-')[0]?.toLowerCase();
+        const match = supported.find(locale => locale.toLowerCase().split('-')[0] === base);
+        if (match) return match;
+      }
+
+      return supported.includes(fallback) ? fallback : supported[0];
+    }
+
+    function loadUi() {
+      try {
+        const rawSaved = localStorage.getItem(storageKey);
+        const firstVisit = !rawSaved;
+        const saved = JSON.parse(rawSaved || '{}');
+        if (saved && typeof saved === 'object') Object.assign(state.ui, saved);
+        if (state.ui.avatar === 'robot') state.ui.avatar = 'robot_classic';
+        if (!Array.isArray(state.ui.widgets) || !state.ui.widgets.length) {
+          state.ui.widgets = [...coreWidgets];
+        } else if (state.ui.widgets.join('|') === legacyFullWidgets) {
+          state.ui.widgets = [...coreWidgets];
+        }
+        if (!state.ui.widgetSizes || typeof state.ui.widgetSizes !== 'object') {
+          state.ui.widgetSizes = {};
+        }
+        if (state.ui.widgetSizes.chat !== 12) {
+          state.ui.widgetSizes.chat = 12;
+        }
+        if (!Array.isArray(state.ui.widgetOrder)) {
+          state.ui.widgetOrder = [];
+        }
+        if (!state.ui.avatarColors || typeof state.ui.avatarColors !== 'object') {
+          state.ui.avatarColors = {};
+        }
+        if (!state.ui.avatarShapes || typeof state.ui.avatarShapes !== 'object') {
+          state.ui.avatarShapes = {};
+        }
+        if (!state.ui.avatarMouths || typeof state.ui.avatarMouths !== 'object') {
+          state.ui.avatarMouths = {};
+        }
+        if (!state.ui.avatarHeadwears || typeof state.ui.avatarHeadwears !== 'object') {
+          state.ui.avatarHeadwears = {};
+        }
+        if (!state.ui.avatarHands || typeof state.ui.avatarHands !== 'object') {
+          state.ui.avatarHands = {};
+        }
+        if (!Array.isArray(state.ui.metricSlots) || state.ui.metricSlots.length !== 3) {
+          state.ui.metricSlots = ['focus', 'throughput', 'freshness'];
+        }
+        if (!state.ui.backgroundEffect) {
+          state.ui.backgroundEffect = 'glow';
+        }
+        if (firstVisit) {
+          state.ui.avatar = 'robot_classic';
+          state.ui.avatarHands = { robot_classic: 'none' };
+        }
+        Object.keys(state.ui.avatarMouths).forEach(key => {
+          const legacy = state.ui.avatarMouths[key];
+          if (legacy === 'short') state.ui.avatarMouths[key] = 'small_smile';
+          if (legacy === 'smile') state.ui.avatarMouths[key] = 'crescent';
+          if (legacy === 'pixel') state.ui.avatarMouths[key] = 'grin';
+        });
+        normalizeWidgetSizes();
+        normalizeWidgetOrder();
+      } catch (_) {}
+    }
+
+    function saveUi() {
+      localStorage.setItem(storageKey, JSON.stringify(state.ui));
+    }
+
+    function backgroundFxMarkup(effect) {
+      if (effect === 'particles') {
+        return `
+          <div class="background-fx-layer particles">
+            <div class="background-fx-particles">
+              ${Array.from({ length: 22 }, (_, index) => `
+                <span
+                  class="background-fx-particle"
+                  style="--x:${4 + (index * 4.2) % 92}%; --y:${8 + (index * 13) % 84}%; --size:${6 + (index % 4) * 4}px; --duration:${9 + (index % 5) * 2}s; --delay:${(index % 6) * -1.1}s"
+                ></span>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+      if (effect === 'snow') {
+        return `
+          <div class="background-fx-layer snow">
+            <div class="background-fx-snow">
+              ${Array.from({ length: 24 }, (_, index) => `
+                <span
+                  class="background-fx-flake"
+                  style="--x:${3 + (index * 4.05) % 94}%; --y:${-18 - (index % 8) * 8}%; --size:${5 + (index % 5) * 3}px; --duration:${10 + (index % 6) * 2.2}s; --delay:${index * -0.8}s"
+                ></span>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+      if (effect === 'glyphs') {
+        const glyphs = ['+', '<>', '*', 'AI', '//', '{}', ':)', '::'];
+        return `
+          <div class="background-fx-layer glyphs">
+            <div class="background-fx-glyphs">
+              ${Array.from({ length: 16 }, (_, index) => `
+                <span
+                  class="background-fx-glyph"
+                  style="--x:${6 + (index * 6) % 88}%; --y:${10 + (index * 9.5) % 76}%; --size:${15 + (index % 4) * 6}px; --duration:${11 + (index % 5) * 2.1}s; --delay:${index * -0.9}s"
+                >${glyphs[index % glyphs.length]}</span>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+      if (effect === 'none') {
+        return '';
+      }
+      return `
+        <div class="background-fx-layer glow">
+          <span class="background-fx-orb orb-a"></span>
+          <span class="background-fx-orb orb-b"></span>
+          <span class="background-fx-orb orb-c"></span>
+        </div>
+      `;
+    }
+
+    function applyBackgroundEffect() {
+      const effect = state.ui.backgroundEffect || 'glow';
+      el.body.dataset.backgroundEffect = effect;
+      if (!el.backgroundFx) return;
+      el.backgroundFx.dataset.effect = effect;
+      el.backgroundFx.innerHTML = backgroundFxMarkup(effect);
+    }
+
+    function setSettingsOpen(open) {
+      state.settingsOpen = open;
+      el.settingsOverlay.classList.toggle('open', open);
+      el.settingsDrawer.classList.toggle('open', open);
+      el.settingsDrawer.setAttribute('aria-hidden', open ? 'false' : 'true');
+    }
+
+    function defaultWidgetSize(widget) {
+      const defaults = {
+        agent_status: 4,
+        metrics: 4,
+        autoheal: 4,
+        agent_details: 6,
+        activity_feed: 6,
+        chat: 12,
+        efficiency_trend: 12
+      };
+      return defaults[widget] || 6;
+    }
+
+    function normalizeWidgetOrder() {
+      const known = widgets.filter(widget => state.ui.widgets.includes(widget));
+      const saved = Array.isArray(state.ui.widgetOrder) ? state.ui.widgetOrder.filter(widget => known.includes(widget)) : [];
+      const missing = known.filter(widget => !saved.includes(widget));
+      state.ui.widgetOrder = [...saved, ...missing];
+    }
+
+    function normalizeWidgetSizes() {
+      Object.keys(state.ui.widgetSizes || {}).forEach(widget => {
+        const value = state.ui.widgetSizes[widget];
+        if (value === 'compact') state.ui.widgetSizes[widget] = 4;
+        else if (value === 'medium') state.ui.widgetSizes[widget] = 6;
+        else if (value === 'full') state.ui.widgetSizes[widget] = 12;
+        else if (typeof value === 'string' && /^\d+$/.test(value)) state.ui.widgetSizes[widget] = Number(value);
+      });
+    }
+
+    function widgetSpanFor(widget) {
+      const raw = state.ui.widgetSizes[widget];
+      const numeric = Number(raw);
+      if (Number.isFinite(numeric) && numeric >= 1) return Math.max(3, Math.min(12, Math.round(numeric)));
+      return defaultWidgetSize(widget);
+    }
+
+    function setWidgetSpan(widget, span) {
+      state.ui.widgetSizes[widget] = Math.max(3, Math.min(12, Math.round(span)));
+    }
+
+    function defaultAvatarColor(style) {
+      const defaults = {
+        robot_classic: '#ff6b4a',
+        robot_guard: '#f35c43',
+        robot_soft: '#f58b8f',
+        robot_square: '#ef6a5c',
+        robot_scout: '#ff9d4d',
+        robot_neon: '#ff54b7',
+        robot_pearl: '#f2a5b8',
+        robot_mono: '#bdbdbd',
+        robot_sprite: '#ff7a59',
+        robot_boss: '#ff814f'
+      };
+      return defaults[style] || '#ff6b4a';
+    }
+
+    function avatarShapeFor(style) {
+      return state.ui.avatarShapes[style] || 'base';
+    }
+
+    function avatarMouthFor(style) {
+      return state.ui.avatarMouths[style] || (style === 'robot_classic' ? 'none' : 'base');
+    }
+
+    function avatarHeadwearFor(style) {
+      return state.ui.avatarHeadwears[style] || 'base';
+    }
+
+    function avatarHandsFor(style) {
+      return state.ui.avatarHands[style] || 'none';
+    }
+
+    function defaultHeadwearMarkup(style) {
+      if (style === 'robot_guard' || style === 'robot_scout') return '<span class="antenna"></span>';
+      if (style === 'robot_neon' || style === 'robot_mono') return '<span class="visor"></span>';
+      if (style === 'robot_boss') return '<span class="crown"></span>';
+      return '';
+    }
+
+    function headwearMarkup(choice) {
+      if (choice === 'antenna') return '<span class="antenna"></span>';
+      if (choice === 'helmet') return '<span class="helmet"></span>';
+      if (choice === 'visor') return '<span class="visor"></span>';
+      if (choice === 'crown') return '<span class="crown"></span>';
+      if (choice === 'horns') return '<span class="horn left"></span><span class="horn right"></span>';
+      if (choice === 'sprout') return '<span class="sprout"></span><span class="leaf left"></span><span class="leaf right"></span>';
+      return '';
+    }
+
+    function handsMarkup(choice) {
+      if (choice === 'none') return '';
+      if (choice === 'wing') {
+        return `
+          <div class="hands">
+            <span class="wing left"></span>
+            <span class="wing right"></span>
+          </div>
+        `;
+      }
+      return `
+        <div class="hands">
+          <span class="arm left"><span class="palm left"></span></span>
+          <span class="arm right"><span class="palm right"></span></span>
+        </div>
+      `;
+    }
+
+    function triggerHeadAction() {
+      if (!el.avatarButton) return;
+      el.avatarButton.dataset.headAction = 'tap';
+      if (headActionTimer) clearTimeout(headActionTimer);
+      headActionTimer = setTimeout(() => {
+        if (el.avatarButton) delete el.avatarButton.dataset.headAction;
+      }, 650);
+    }
+
+    function triggerNudgeBoost() {
+      document.body.dataset.nudgeBoost = 'active';
+      if (nudgeBoostTimer) clearTimeout(nudgeBoostTimer);
+      nudgeBoostTimer = setTimeout(() => {
+        delete document.body.dataset.nudgeBoost;
+      }, 3200);
+    }
+
+    function updateEyeLook() {
+      const active = Date.now() < eyeFollow.activeUntil;
+      const x = active ? eyeFollow.x : 0;
+      const y = active ? eyeFollow.y : 0;
+      el.avatarButton?.style.setProperty('--eye-look-x', `${x}px`);
+      el.avatarButton?.style.setProperty('--eye-look-y', `${y}px`);
+    }
+
+    function resolveEyeMood(payload) {
+      const now = Date.now();
+      if (now < eyeMoodState.expiresAt) return eyeMoodState.mood;
+
+      const score = Number(payload?.metrics?.score || 0);
+      const totalTokens = Number(payload?.metrics?.total_tokens || payload?.compat?.session?.total_tokens || 0);
+      const sessionAge = Number(payload?.metrics?.session_age_sec || 0);
+      const status = payload?.status?.code || 'idle';
+
+      let mood = 'base';
+      let duration = 9000 + Math.floor(Math.random() * 5000);
+      const roll = Math.random();
+
+      if (score >= 90 && totalTokens >= 8000 && status === 'working' && roll < 0.18) {
+        mood = 'star';
+        duration = 7000;
+      } else if ((status === 'thinking' || sessionAge > 90) && score >= 55 && roll < 0.28) {
+        mood = 'line';
+        duration = 8000;
+      } else if ((status === 'overdue' || status === 'down') && roll < 0.24) {
+        mood = 'angry';
+        duration = 6000;
+      } else if (score >= 68 && score < 90 && status !== 'down' && roll < 0.16) {
+        mood = 'wink';
+        duration = 5200;
+      }
+
+      eyeMoodState.mood = mood;
+      eyeMoodState.expiresAt = now + duration;
+      return mood;
+    }
+
+    function updateEyeMood(payload) {
+      if (!el.avatarButton) return;
+      el.avatarButton.dataset.eyeMood = resolveEyeMood(payload);
+    }
+
+    function maybeTrackPointer(event) {
+      if (!el.avatarButton) return;
+      const now = Date.now();
+      if (now >= eyeFollow.activeUntil) {
+        if (Math.random() > 0.08) {
+          eyeFollow.x = 0;
+          eyeFollow.y = 0;
+          updateEyeLook();
+          return;
+        }
+        eyeFollow.activeUntil = now + 4000;
+      }
+      const rect = el.avatarButton.getBoundingClientRect();
+      const centerX = rect.left + (rect.width / 2);
+      const centerY = rect.top + (rect.height / 2);
+      const dx = Math.max(-1.4, Math.min(1.4, (event.clientX - centerX) / 30));
+      const dy = Math.max(-1.1, Math.min(1.1, (event.clientY - centerY) / 36));
+      eyeFollow.x = Number(dx.toFixed(2));
+      eyeFollow.y = Number(dy.toFixed(2));
+      updateEyeLook();
+    }
+
+    function resetEyeLook() {
+      eyeFollow.activeUntil = 0;
+      eyeFollow.x = 0;
+      eyeFollow.y = 0;
+      updateEyeLook();
+    }
+
+    function humanDuration(sec) {
+      if (sec === null || sec === undefined) return '--';
+      if (sec < 8) return t('justNow');
+      if (sec < 60) return `${Math.round(sec)}s`;
+      if (sec < 3600) return `${(sec / 60).toFixed(1)}m`;
+      return `${(sec / 3600).toFixed(1)}h`;
+    }
+
+    function boolText(value) {
+      return value ? t('yes') : t('no');
+    }
+
+    function gradeText(value) {
+      return t(`grade_${value || 'poor'}`);
+    }
+
+    function compactNumber(value) {
+      if (value === null || value === undefined || value === '--') return '--';
+      const num = Number(value);
+      if (!Number.isFinite(num)) return String(value);
+      if (Math.abs(num) >= 1000000) return `${(num / 1000000).toFixed(1)}M`;
+      if (Math.abs(num) >= 1000) return `${(num / 1000).toFixed(1)}k`;
+      return String(Math.round(num));
+    }
+
+    function scoreBand(score) {
+      const n = Number(score);
+      if (!Number.isFinite(n)) return 'fair';
+      if (n >= 85) return 'elite';
+      if (n >= 65) return 'good';
+      if (n >= 40) return 'fair';
+      return 'low';
+    }
+
+    function clampChannel(value) {
+      return Math.max(0, Math.min(255, Math.round(value)));
+    }
+
+    function hexToRgb(hex) {
+      const raw = String(hex || '').trim().replace('#', '');
+      if (!/^[0-9a-fA-F]{6}$/.test(raw)) return { r: 255, g: 107, b: 74 };
+      return {
+        r: parseInt(raw.slice(0, 2), 16),
+        g: parseInt(raw.slice(2, 4), 16),
+        b: parseInt(raw.slice(4, 6), 16)
+      };
+    }
+
+    function rgbToHex({ r, g, b }) {
+      return `#${[r, g, b].map(channel => clampChannel(channel).toString(16).padStart(2, '0')).join('')}`;
+    }
+
+    function mixRgb(base, target, amount) {
+      return {
+        r: clampChannel(base.r + ((target.r - base.r) * amount)),
+        g: clampChannel(base.g + ((target.g - base.g) * amount)),
+        b: clampChannel(base.b + ((target.b - base.b) * amount))
+      };
+    }
+
+    function avatarPalette(hex) {
+      const rgb = hexToRgb(hex);
+      const light = rgbToHex(mixRgb(rgb, { r: 255, g: 255, b: 255 }, 0.18));
+      const dark = rgbToHex(mixRgb(rgb, { r: 20, g: 16, b: 22 }, 0.42));
+      const glow = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.34)`;
+      return {
+        gradient: `radial-gradient(circle at 35% 30%, ${light}, ${dark} 74%)`,
+        glow
+      };
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+
+    function isNearChatBottom() {
+      const list = el.chatList;
+      const distance = list.scrollHeight - list.scrollTop - list.clientHeight;
+      return distance < 36;
+    }
+
+    function mergeChatMessages(existing, incoming, prepend = false) {
+      const seen = new Set();
+      const combined = prepend ? [...incoming, ...existing] : [...incoming];
+      return combined.filter(message => {
+        const key = message.id || `${message.seq}:${message.timestamp}:${message.role}`;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+    }
+
+    function heroMetricValue(payload, key) {
+      const metrics = payload.metrics || {};
+      const tokens = metrics.tokens || {};
+      const runtime = payload.runtime || {};
+      switch (key) {
+        case 'grade':
+          return { value: gradeText(metrics.grade), label: t('hero_grade') };
+        case 'focus':
+          return { value: metrics.meters?.focus ?? '--', label: t('hero_focus') };
+        case 'freshness':
+          return { value: metrics.meters?.freshness ?? '--', label: t('hero_freshness') };
+        case 'throughput':
+          return { value: metrics.meters?.throughput ?? '--', label: t('hero_throughput') };
+        case 'total_tokens':
+          return { value: compactNumber(tokens.total_tokens), label: t('hero_total_tokens') };
+        case 'input_tokens':
+          return { value: compactNumber(tokens.input_tokens), label: t('hero_input_tokens') };
+        case 'output_tokens':
+          return { value: compactNumber(tokens.output_tokens), label: t('hero_output_tokens') };
+        case 'context_tokens':
+          return { value: compactNumber(tokens.context_tokens), label: t('hero_context_tokens') };
+        case 'session_age':
+          return { value: humanDuration(metrics.session_age_sec), label: t('hero_session_age') };
+        case 'case_age':
+          return { value: humanDuration(metrics.case_age_sec), label: t('hero_case_age') };
+        case 'log_age':
+          return { value: humanDuration(metrics.log_age_sec), label: t('hero_log_age') };
+        case 'log_delta':
+          return { value: compactNumber(metrics.log_delta_bytes), label: t('hero_log_delta') };
+        case 'gateway_running':
+          return { value: runtime.gateway_running ? t('running') : t('stopped'), label: t('hero_gateway_running') };
+        case 'app_running':
+          return { value: runtime.app_running ? t('running') : t('stopped'), label: t('hero_app_running') };
+        case 'autoheal_running':
+          return { value: runtime.autoheal?.running ? t('running') : t('stopped'), label: t('hero_autoheal_running') };
+        case 'score':
+        default:
+          return { value: metrics.score ?? '--', label: t('hero_score') };
+      }
+    }
+
+    function setMeter(idBar, idValue, value) {
+      el[idBar].style.width = `${value}%`;
+      el[idValue].textContent = `${value}`;
+    }
+
+    function metricTokenProgress(value) {
+      const amount = Number(value);
+      if (!Number.isFinite(amount) || amount <= 0) return 0;
+      return Math.max(0, Math.min(100, Math.round((Math.log10(amount + 1) / 5) * 100)));
+    }
+
+    function metricWidgetItem(payload, key) {
+      const metrics = payload.metrics || {};
+      const meters = metrics.meters || {};
+      const runtime = payload.runtime || {};
+      const tokens = metrics.tokens || {};
+      const sessionAge = Number(metrics.session_age_sec);
+      const caseAge = Number(metrics.case_age_sec);
+      const logAge = Number(metrics.log_age_sec);
+      const logDelta = Number(metrics.log_delta_bytes);
+
+      switch (key) {
+        case 'throughput':
+          return { label: t('metric_throughput'), value: `${meters.throughput ?? 0}`, progress: meters.throughput ?? 0 };
+        case 'freshness':
+          return { label: t('metric_freshness'), value: `${meters.freshness ?? 0}`, progress: meters.freshness ?? 0 };
+        case 'score':
+          return { label: t('metric_score'), value: `${metrics.score ?? 0}`, progress: metrics.score ?? 0 };
+        case 'session_freshness': {
+          const progress = Number.isFinite(sessionAge) ? Math.max(0, Math.min(100, Math.round(100 - (sessionAge / 6)))) : 0;
+          return { label: t('metric_session_freshness'), value: humanDuration(sessionAge), progress };
+        }
+        case 'case_freshness': {
+          const progress = Number.isFinite(caseAge) ? Math.max(0, Math.min(100, Math.round(100 - (caseAge / 30)))) : 0;
+          return { label: t('metric_case_freshness'), value: humanDuration(caseAge), progress };
+        }
+        case 'log_freshness': {
+          const progress = Number.isFinite(logAge) ? Math.max(0, Math.min(100, Math.round(100 - (logAge / 6)))) : 0;
+          return { label: t('metric_log_freshness'), value: Number.isFinite(logDelta) ? compactNumber(logDelta) : '--', progress };
+        }
+        case 'gateway_health':
+          return { label: t('metric_gateway_health'), value: runtime.gateway_running ? t('running') : t('stopped'), progress: runtime.gateway_running ? 100 : 0 };
+        case 'app_health':
+          return { label: t('metric_app_health'), value: runtime.app_running ? t('running') : t('stopped'), progress: runtime.app_running ? 100 : 0 };
+        case 'total_tokens':
+          return { label: t('metric_total_tokens'), value: compactNumber(tokens.total_tokens), progress: metricTokenProgress(tokens.total_tokens) };
+        case 'output_tokens':
+          return { label: t('metric_output_tokens'), value: compactNumber(tokens.output_tokens), progress: metricTokenProgress(tokens.output_tokens) };
+        case 'focus':
+        default:
+          return { label: t('metric_focus'), value: `${meters.focus ?? 0}`, progress: meters.focus ?? 0 };
+      }
+    }
+
+    function renderMetricWidget() {
+      if (!el.metricsList || !state.payload) return;
+      const slots = Array.isArray(state.ui.metricSlots) && state.ui.metricSlots.length === 3
+        ? state.ui.metricSlots
+        : ['focus', 'throughput', 'freshness'];
+      el.metricsList.innerHTML = slots.map(key => {
+        const item = metricWidgetItem(state.payload, key);
+        return `
+          <div>
+            <div class="meter-head"><span>${escapeHtml(item.label)}</span><span>${escapeHtml(item.value)}</span></div>
+            <div class="meter-bar"><i style="width:${Math.max(0, Math.min(100, Number(item.progress) || 0))}%"></i></div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function addHistory(type, message) {
+      const now = new Date();
+      state.history.unshift({
+        time: now.toLocaleTimeString(),
+        type,
+        message
+      });
+      state.history = state.history.slice(0, 30);
+      renderHistory();
+    }
+
+    function renderHistory() {
+      el.activityList.innerHTML = state.history.map(item => `
+        <div class="activity-item">
+          <strong>${item.time}</strong>
+          <span>[${item.type}] ${item.message}</span>
+        </div>
+      `).join('') || `<div class="activity-item">${t('loading')}</div>`;
+    }
+
+    function renderTrend() {
+      const trend = state.trend;
+      el.trendTitle.textContent = t('trendTitle');
+      el.trendSubtitle.textContent = t('trendSubtitle');
+      el.trendSeriesToggles.innerHTML = `
+        <label class="trend-toggle">
+          <input type="checkbox" data-trend-series="score" ${state.trendView.score ? 'checked' : ''} />
+          <span class="trend-swatch trend-series-score"></span>
+          <span>${t('trendSeriesScore')}</span>
+        </label>
+        <label class="trend-toggle">
+          <input type="checkbox" data-trend-series="tokens" ${state.trendView.tokens ? 'checked' : ''} />
+          <span class="trend-swatch trend-series-tokens"></span>
+          <span>${t('trendSeriesTokens')}</span>
+        </label>
+      `;
+      el.trendSeriesToggles.querySelectorAll('[data-trend-series]').forEach(input => {
+        input.addEventListener('change', () => {
+          state.trendView[input.dataset.trendSeries] = input.checked;
+          renderTrend();
+        });
+      });
+      if (!trend || !Array.isArray(trend.points) || !trend.points.length) {
+        el.trendGrade.textContent = `${t('grade')}: --`;
+        el.trendAvgScore.textContent = `${t('avgScore')}: --`;
+        el.trendAvgTokens.textContent = `${t('avgTokens')}: --`;
+        el.trendChart.innerHTML = `<div class="activity-item">${t('loading')}</div>`;
+        return;
+      }
+
+      el.trendGrade.textContent = `${t('grade')}: ${gradeText(trend.summary.grade)}`;
+      el.trendAvgScore.textContent = `${t('avgScore')}: ${trend.summary.avg_score}`;
+      el.trendAvgTokens.textContent = `${t('avgTokens')}: ${compactNumber(trend.summary.avg_total_tokens)}`;
+
+      if (!state.trendView.score && !state.trendView.tokens) {
+        el.trendChart.innerHTML = `<div class="activity-item">${t('trendNoSeries')}</div>`;
+        return;
+      }
+
+      const width = 960;
+      const height = 260;
+      const padX = 34;
+      const padY = 22;
+      const innerWidth = width - (padX * 2);
+      const innerHeight = height - (padY * 2);
+      const maxScore = Math.max(...trend.points.map(point => point.avg_score), 1);
+      const maxTokens = Math.max(...trend.points.map(point => point.avg_total_tokens), 1);
+      const pointX = index => padX + ((trend.points.length === 1 ? innerWidth / 2 : (innerWidth / (trend.points.length - 1)) * index));
+      const pointY = (value, maxValue) => padY + innerHeight - ((value / maxValue) * innerHeight);
+      const buildLine = (key, maxValue) => trend.points.map((point, index) => `${pointX(index)},${pointY(point[key], maxValue)}`).join(' ');
+
+      const scorePoints = buildLine('avg_score', maxScore);
+      const tokenPoints = buildLine('avg_total_tokens', maxTokens);
+      const labels = trend.points.map(point => `<span title="${point.label}">${point.label}</span>`).join('');
+      const scoreDots = trend.points.map((point, index) => `
+        <circle class="trend-point trend-series-score" cx="${pointX(index)}" cy="${pointY(point.avg_score, maxScore)}" r="4">
+          <title>${point.label} · ${t('trendSeriesScore')}: ${point.avg_score}</title>
+        </circle>
+      `).join('');
+      const tokenDots = trend.points.map((point, index) => `
+        <circle class="trend-point trend-series-tokens" cx="${pointX(index)}" cy="${pointY(point.avg_total_tokens, maxTokens)}" r="4">
+          <title>${point.label} · ${t('trendSeriesTokens')}: ${point.avg_total_tokens}</title>
+        </circle>
+      `).join('');
+      const hitWidth = trend.points.length === 1 ? innerWidth : Math.max(24, innerWidth / trend.points.length);
+      const hitAreas = trend.points.map((point, index) => `
+        <rect
+          class="trend-hit"
+          data-trend-hit="${index}"
+          x="${Math.max(0, pointX(index) - hitWidth / 2)}"
+          y="${padY}"
+          width="${Math.min(width, hitWidth)}"
+          height="${innerHeight}"
+        ></rect>
+      `).join('');
+
+      el.trendChart.innerHTML = `
+        <div class="trend-canvas" id="trendCanvas">
+          <div class="trend-tooltip" id="trendTooltip">
+            <div class="trend-tooltip-label">--</div>
+            <div class="trend-tooltip-row trend-row-score">
+              <span class="trend-tooltip-key">${t('trendSeriesScore')}</span>
+              <span class="trend-tooltip-value">--</span>
+            </div>
+            <div class="trend-tooltip-row trend-row-tokens">
+              <span class="trend-tooltip-key">${t('trendSeriesTokens')}</span>
+              <span class="trend-tooltip-value">--</span>
+            </div>
+          </div>
+          <svg class="trend-svg" viewBox="0 0 ${width} ${height}" aria-label="${t('trendTitle')}">
+            <line class="trend-grid-line" x1="${padX}" y1="${padY}" x2="${width - padX}" y2="${padY}"></line>
+            <line class="trend-grid-line" x1="${padX}" y1="${padY + innerHeight / 2}" x2="${width - padX}" y2="${padY + innerHeight / 2}"></line>
+            <line class="trend-grid-line" x1="${padX}" y1="${height - padY}" x2="${width - padX}" y2="${height - padY}"></line>
+            <line class="trend-hover-line" id="trendHoverLine" x1="${padX}" y1="${padY}" x2="${padX}" y2="${height - padY}"></line>
+            ${state.trendView.score ? `<polyline class="trend-line-score" points="${scorePoints}"></polyline>${scoreDots}` : ''}
+            ${state.trendView.tokens ? `<polyline class="trend-line-tokens" points="${tokenPoints}"></polyline>${tokenDots}` : ''}
+            ${hitAreas}
+          </svg>
+          <div class="trend-x-labels" style="grid-template-columns: repeat(${trend.points.length}, minmax(0, 1fr));">
+            ${labels}
+          </div>
+        </div>
+      `;
+
+      const tooltip = document.getElementById('trendTooltip');
+      const hoverLine = document.getElementById('trendHoverLine');
+      const canvas = document.getElementById('trendCanvas');
+      const labelEl = tooltip?.querySelector('.trend-tooltip-label');
+      const scoreEl = tooltip?.querySelector('.trend-tooltip-row.trend-row-score .trend-tooltip-value');
+      const tokensEl = tooltip?.querySelector('.trend-tooltip-row.trend-row-tokens .trend-tooltip-value');
+      const hitNodes = canvas?.querySelectorAll('[data-trend-hit]') || [];
+
+      const showTrendTooltip = index => {
+        const point = trend.points[index];
+        if (!point || !tooltip || !hoverLine || !canvas || !labelEl || !scoreEl || !tokensEl) return;
+        const x = pointX(index);
+        labelEl.textContent = point.label || '--';
+        scoreEl.textContent = `${point.avg_score} pt`;
+        tokensEl.textContent = `${compactNumber(point.avg_total_tokens)} tokens`;
+        hoverLine.setAttribute('x1', String(x));
+        hoverLine.setAttribute('x2', String(x));
+        canvas.classList.add('is-hovering');
+
+        const ratio = x / width;
+        const tooltipX = Math.min(Math.max(14, ratio * canvas.clientWidth - 82), Math.max(14, canvas.clientWidth - 190));
+        tooltip.style.left = `${tooltipX}px`;
+      };
+
+      const hideTrendTooltip = () => {
+        canvas?.classList.remove('is-hovering');
+      };
+
+      hitNodes.forEach(node => {
+        const index = Number(node.getAttribute('data-trend-hit'));
+        node.addEventListener('mouseenter', () => showTrendTooltip(index));
+        node.addEventListener('mousemove', () => showTrendTooltip(index));
+        node.addEventListener('mouseleave', hideTrendTooltip);
+      });
+      canvas?.addEventListener('mouseleave', hideTrendTooltip);
+    }
+
+    function renderChat() {
+      const chat = state.chat;
+      el.chatTitle.textContent = t('chatTitle');
+      el.chatSubtitle.textContent = t('chatSubtitle');
+      el.chatInput.placeholder = t('chatPlaceholder');
+      el.chatSendButton.textContent = t('chatSend');
+      el.chatLoadOlderButton.textContent = state.chatView.isLoadingOlder ? t('chatLoadingOlder') : t('chatLoadOlder');
+      el.chatLoadOlderButton.disabled = state.chatView.isLoadingOlder || !chat?.has_more;
+      el.chatContextHint.textContent = t('chatContextHint');
+      if (!chat || !Array.isArray(chat.messages) || !chat.messages.length) {
+        el.chatSessionChip.textContent = `${t('chatSession')}: --`;
+        el.chatList.innerHTML = `
+          <div class="chat-msg system">
+            <div class="chat-meta-line">
+              <span class="chat-role">${t('role_system')}</span>
+            </div>
+            <div class="chat-bubble">${t('chatEmpty')}</div>
+          </div>
+        `;
+        el.chatLoadOlderButton.disabled = true;
+        return;
+      }
+      el.chatSessionChip.textContent = `${t('chatSession')}: ${(chat.session_id || '--').slice(0, 8)}`;
+      const pendingHtml = state.chatView.pendingText ? `
+        <div class="chat-msg user chat-loading">
+          <div class="chat-meta-line">
+            <span class="chat-role">${t('role_user')}</span>
+            <span>${t('chatSending')}</span>
+          </div>
+          <div class="chat-bubble">${escapeHtml(state.chatView.pendingText)}</div>
+        </div>
+      ` : '';
+      el.chatList.innerHTML = `${chat.messages.map(msg => `
+        <div class="chat-msg ${escapeHtml(msg.role || 'assistant')}">
+          <div class="chat-meta-line">
+            <span class="chat-role">${t(`role_${msg.role || 'assistant'}`)}</span>
+            <span>${msg.timestamp ? new Date(msg.timestamp).toLocaleString() : '--'}</span>
+          </div>
+          <div class="chat-bubble">${escapeHtml(msg.text)}</div>
+        </div>
+      `).join('')}${pendingHtml}`;
+    }
+
+    function buildSelect(select, values, labelFn, current) {
+      select.innerHTML = values.map(value => `<option value="${value}">${labelFn(value)}</option>`).join('');
+      select.value = current;
+    }
+
+    function renderWidgetToggles() {
+      el.widgetToggles.innerHTML = widgets.map(widget => `
+        <div class="widget-toggle-row">
+          <label class="widget-toggle">
+            <input type="checkbox" value="${widget}" ${state.ui.widgets.includes(widget) ? 'checked' : ''} />
+            <span>${t(`widget_${widget}`)}</span>
+          </label>
+          <select class="widget-size-select" data-widget-size="${widget}">
+            <option value="4">${t('width_compact')}</option>
+            <option value="6">${t('width_medium')}</option>
+            <option value="12">${t('width_full')}</option>
+          </select>
+        </div>
+      `).join('');
+      el.widgetToggles.querySelectorAll('input').forEach(input => {
+        input.addEventListener('change', () => {
+          const selected = [...el.widgetToggles.querySelectorAll('input:checked')].map(node => node.value);
+          state.ui.widgets = selected.length ? selected : ['agent_status'];
+          normalizeWidgetOrder();
+          saveUi();
+          applyWidgetVisibility();
+          applyWidgetLayout();
+        });
+      });
+      el.widgetToggles.querySelectorAll('[data-widget-size]').forEach(select => {
+        const widget = select.dataset.widgetSize;
+        select.value = String(widgetSpanFor(widget));
+        select.addEventListener('change', () => {
+          setWidgetSpan(widget, Number(select.value));
+          saveUi();
+          applyWidgetLayout();
+        });
+      });
+    }
+
+    function applyWidgetVisibility() {
+      document.querySelectorAll('[data-widget]').forEach(node => {
+        node.classList.toggle('hidden', !state.ui.widgets.includes(node.dataset.widget));
+      });
+    }
+
+    function applyWidgetLayout() {
+      const isNarrow = window.innerWidth <= 980;
+      normalizeWidgetOrder();
+      const grid = el.grid;
+      state.ui.widgetOrder.forEach(widget => {
+        const node = grid?.querySelector(`[data-widget="${widget}"]`);
+        if (node) grid.appendChild(node);
+      });
+      document.querySelectorAll('[data-widget]').forEach(node => {
+        const widget = node.dataset.widget;
+        const span = isNarrow ? 12 : widgetSpanFor(widget);
+        node.style.gridColumn = `span ${span}`;
+      });
+      ensureWidgetHandles();
+      renderWidgetToggles();
+    }
+
+    function nearestVisibleWidget(clientX, clientY, excludeWidget) {
+      const nodes = [...document.querySelectorAll('[data-widget]')].filter(node => !node.classList.contains('hidden'));
+      let best = null;
+      let bestDistance = Infinity;
+      nodes.forEach(node => {
+        if (node.dataset.widget === excludeWidget) return;
+        const rect = node.getBoundingClientRect();
+        const centerX = rect.left + (rect.width / 2);
+        const centerY = rect.top + (rect.height / 2);
+        const distance = Math.hypot(clientX - centerX, clientY - centerY);
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          best = node;
+        }
+      });
+      return best;
+    }
+
+    function reorderWidget(activeWidget, targetWidget, placeAfter) {
+      if (!activeWidget || !targetWidget || activeWidget === targetWidget) return;
+      normalizeWidgetOrder();
+      const order = state.ui.widgetOrder.filter(widget => widget !== activeWidget);
+      const targetIndex = order.indexOf(targetWidget);
+      if (targetIndex === -1) return;
+      order.splice(placeAfter ? targetIndex + 1 : targetIndex, 0, activeWidget);
+      state.ui.widgetOrder = order;
+      applyWidgetLayout();
+    }
+
+    function widgetGridMetrics() {
+      const styles = getComputedStyle(el.grid);
+      const gap = Number.parseFloat(styles.columnGap || styles.gap || '14') || 14;
+      const totalGap = gap * 11;
+      const columnWidth = (el.grid.clientWidth - totalGap) / 12;
+      return { gap, columnWidth };
+    }
+
+    function ensureWidgetHandles() {
+      document.querySelectorAll('[data-widget]').forEach(node => {
+        if (!node.querySelector('.widget-drag-handle')) {
+          const dragHandle = document.createElement('button');
+          dragHandle.type = 'button';
+          dragHandle.className = 'widget-drag-handle';
+          dragHandle.setAttribute('aria-label', 'Drag widget');
+          node.appendChild(dragHandle);
+        }
+        if (!node.querySelector('.widget-resize-handle')) {
+          const resizeHandle = document.createElement('button');
+          resizeHandle.type = 'button';
+          resizeHandle.className = 'widget-resize-handle';
+          resizeHandle.setAttribute('aria-label', 'Resize widget');
+          node.appendChild(resizeHandle);
+        }
+      });
+    }
+
+    function bindWidgetWorkbench() {
+      ensureWidgetHandles();
+      document.querySelectorAll('[data-widget]').forEach(node => {
+        if (node.dataset.workbenchBound === 'true') return;
+        node.dataset.workbenchBound = 'true';
+
+        const widget = node.dataset.widget;
+        const dragHandle = node.querySelector('.widget-drag-handle');
+        const resizeHandle = node.querySelector('.widget-resize-handle');
+
+        dragHandle?.addEventListener('pointerdown', event => {
+          if (window.innerWidth <= 980) return;
+          event.preventDefault();
+          const activeWidget = widget;
+          const pointerId = event.pointerId;
+          node.classList.add('dragging');
+          dragHandle.setPointerCapture(pointerId);
+
+          const move = moveEvent => {
+            const target = nearestVisibleWidget(moveEvent.clientX, moveEvent.clientY, activeWidget);
+            document.querySelectorAll('.widget-drop-target').forEach(item => item.classList.remove('widget-drop-target'));
+            if (!target) return;
+            target.classList.add('widget-drop-target');
+            const rect = target.getBoundingClientRect();
+            const placeAfter = moveEvent.clientY > (rect.top + rect.height / 2) || moveEvent.clientX > (rect.left + rect.width / 2);
+            reorderWidget(activeWidget, target.dataset.widget, placeAfter);
+          };
+
+          const end = () => {
+            node.classList.remove('dragging');
+            document.querySelectorAll('.widget-drop-target').forEach(item => item.classList.remove('widget-drop-target'));
+            saveUi();
+            window.removeEventListener('pointermove', move);
+            window.removeEventListener('pointerup', end);
+            window.removeEventListener('pointercancel', end);
+          };
+
+          window.addEventListener('pointermove', move);
+          window.addEventListener('pointerup', end);
+          window.addEventListener('pointercancel', end);
+        });
+
+        resizeHandle?.addEventListener('pointerdown', event => {
+          if (window.innerWidth <= 980) return;
+          event.preventDefault();
+          const pointerId = event.pointerId;
+          const startWidth = node.getBoundingClientRect().width;
+          resizeHandle.setPointerCapture(pointerId);
+          node.classList.add('dragging');
+
+          const move = moveEvent => {
+            const { gap, columnWidth } = widgetGridMetrics();
+            const desiredWidth = Math.max(columnWidth * 3, startWidth + (moveEvent.clientX - event.clientX));
+            const span = Math.max(3, Math.min(12, Math.round((desiredWidth + gap) / (columnWidth + gap))));
+            setWidgetSpan(widget, span);
+            applyWidgetLayout();
+          };
+
+          const end = () => {
+            node.classList.remove('dragging');
+            saveUi();
+            window.removeEventListener('pointermove', move);
+            window.removeEventListener('pointerup', end);
+            window.removeEventListener('pointercancel', end);
+          };
+
+          window.addEventListener('pointermove', move);
+          window.addEventListener('pointerup', end);
+          window.addEventListener('pointercancel', end);
+        });
+      });
+    }
+
+    function applyAvatarStyle() {
+      const style = (state.ui.avatar === 'robot' ? 'robot_classic' : state.ui.avatar) || 'robot_classic';
+      const cssClass = style.replace(/_/g, '-');
+      const extras = [];
+      if (style === 'robot_soft' || style === 'robot_pearl') extras.push('<span class="cheek left"></span><span class="cheek right"></span>');
+      if (style === 'robot_square' || style === 'robot_sprite') extras.push('<span class="badge-dot"></span>');
+      const headwear = avatarHeadwearFor(style);
+      const hands = avatarHandsFor(style);
+      if (headwear === 'base') {
+        extras.push(defaultHeadwearMarkup(style));
+      } else if (headwear !== 'none') {
+        extras.push(headwearMarkup(headwear));
+      }
+      el.avatarButton.className = `avatar robot ${cssClass}`;
+      el.avatarButton.dataset.hands = hands;
+      if (el.avatarHandsLayer) {
+        el.avatarHandsLayer.dataset.hands = hands;
+        el.avatarHandsLayer.innerHTML = handsMarkup(hands);
+      }
+      el.avatarButton.innerHTML = `
+        ${extras.join('')}
+        <div class="face">
+          <span class="eye left"></span>
+          <span class="eye right"></span>
+          <span class="mouth"></span>
+        </div>
+      `;
+      el.avatarButton.style.background = '';
+      el.avatarButton.style.boxShadow = '';
+      el.avatarButton.style.borderRadius = '';
+      el.avatarButton.style.clipPath = '';
+
+      const customColor = state.ui.avatarColors[style];
+      if (customColor) {
+        const palette = avatarPalette(customColor);
+        el.avatarButton.style.background = palette.gradient;
+        el.avatarButton.style.boxShadow = `0 14px 30px ${palette.glow}`;
+      }
+
+      const shape = avatarShapeFor(style);
+      if (shape === 'round') {
+        el.avatarButton.style.borderRadius = '50%';
+      } else if (shape === 'soft') {
+        el.avatarButton.style.borderRadius = '34px';
+      } else if (shape === 'squircle') {
+        el.avatarButton.style.borderRadius = '22px';
+      }
+      updateEyeMood(state.payload || {});
+      updateEyeLook();
+
+      const mouth = avatarMouthFor(style);
+      el.avatarButton.style.setProperty('--mouth-width', '');
+      el.avatarButton.style.setProperty('--mouth-height', '');
+      el.avatarButton.style.setProperty('--mouth-radius', '');
+      el.avatarButton.style.setProperty('--mouth-bg', '');
+      el.avatarButton.style.setProperty('--mouth-shadow', '');
+      el.avatarButton.style.setProperty('--mouth-teeth-opacity', '');
+      el.avatarButton.style.setProperty('--mouth-bottom', '');
+      const mouthEl = el.avatarButton.querySelector('.mouth');
+      if (mouthEl) mouthEl.style.display = '';
+      if (mouth === 'none') {
+        if (mouthEl) mouthEl.style.display = 'none';
+      } else if (mouth === 'flat') {
+        el.avatarButton.style.setProperty('--mouth-width', '16px');
+        el.avatarButton.style.setProperty('--mouth-height', '3px');
+        el.avatarButton.style.setProperty('--mouth-radius', '999px');
+      } else if (mouth === 'small_smile') {
+        el.avatarButton.style.setProperty('--mouth-width', '12px');
+        el.avatarButton.style.setProperty('--mouth-height', '4px');
+        el.avatarButton.style.setProperty('--mouth-radius', '0 0 999px 999px');
+        el.avatarButton.style.setProperty('--mouth-bottom', '5px');
+      } else if (mouth === 'crescent') {
+        el.avatarButton.style.setProperty('--mouth-width', '14px');
+        el.avatarButton.style.setProperty('--mouth-height', '6px');
+        el.avatarButton.style.setProperty('--mouth-radius', '0 0 999px 999px');
+        el.avatarButton.style.setProperty('--mouth-bottom', '5px');
+      } else if (mouth === 'soft') {
+        el.avatarButton.style.setProperty('--mouth-width', '14px');
+        el.avatarButton.style.setProperty('--mouth-height', '5px');
+        el.avatarButton.style.setProperty('--mouth-radius', '999px 999px 10px 10px');
+      } else if (mouth === 'grin') {
+        el.avatarButton.style.setProperty('--mouth-width', '16px');
+        el.avatarButton.style.setProperty('--mouth-height', '4px');
+        el.avatarButton.style.setProperty('--mouth-radius', '999px');
+        el.avatarButton.style.setProperty('--mouth-teeth-opacity', '0.95');
+      }
+    }
+
+    function applyLocaleText() {
+      document.documentElement.lang = state.ui.locale;
+      el.localeLabel.textContent = t('language');
+      el.themeLabel.textContent = t('theme');
+      el.backgroundEffectLabel.textContent = t('backgroundEffect');
+      el.heroMetricLabel.textContent = t('heroMetric');
+      el.metricWidgetLabel.textContent = t('metricWidget');
+      el.robotNameLabel.textContent = t('robotName');
+      el.subtitleLabel.textContent = t('subtitle');
+      el.subtitleHiddenLabel.textContent = t('hideSubtitle');
+      el.avatarLabel.textContent = t('avatar');
+      el.avatarColorLabel.textContent = t('avatarColor');
+      el.avatarShapeLabel.textContent = t('avatarShape');
+      el.avatarMouthLabel.textContent = t('avatarMouth');
+      el.avatarHeadwearLabel.textContent = t('avatarHeadwear');
+      el.avatarHandsLabel.textContent = t('avatarHands');
+      el.avatarResetButton.textContent = t('avatarReset');
+      [...el.avatarShapeSelect.options].forEach(option => {
+        option.textContent = t(`avatar_shape_${option.value}`);
+      });
+      [...el.avatarMouthSelect.options].forEach(option => {
+        option.textContent = t(`avatar_mouth_${option.value}`);
+      });
+      [...el.avatarHeadwearSelect.options].forEach(option => {
+        option.textContent = t(`avatar_headwear_${option.value}`);
+      });
+      [...el.avatarHandsSelect.options].forEach(option => {
+        option.textContent = t(`avatar_hands_${option.value}`);
+      });
+      [...el.backgroundEffectSelect.options].forEach(option => {
+        option.textContent = t(`background_${option.value}`);
+      });
+      [el.metricSlot1Select, el.metricSlot2Select, el.metricSlot3Select].forEach(select => {
+        [...select.options].forEach(option => {
+          option.textContent = t(`metric_${option.value}`);
+        });
+      });
+      el.tapActionLabel.textContent = t('tapAction');
+      el.widgetLabel.textContent = t('widgets');
+      el.settingsButton.textContent = t('settings');
+      el.settingsTitle.textContent = t('settingsTitle');
+      el.settingsSubtitle.textContent = t('settingsSubtitle');
+      el.settingsCompactHint.textContent = t('settingsCompactHint');
+      el.settingsAppearanceTitle.textContent = t('settingsAppearance');
+      el.settingsRobotTitle.textContent = t('settingsRobot');
+      el.settingsLayoutTitle.textContent = t('settingsLayout');
+      el.settingsCloseButton.textContent = t('close');
+      el.scoreLabel.textContent = state.payload
+        ? heroMetricValue(state.payload, state.ui.heroMetric).label
+        : t('score');
+      if (el.avatarRailScoreLabel) el.avatarRailScoreLabel.textContent = t('score');
+      if (el.avatarRailSessionLabel) el.avatarRailSessionLabel.textContent = t('sessionAge');
+      if (el.avatarRailActionLabel) el.avatarRailActionLabel.textContent = t('lastAction');
+      el.nudgeButton.textContent = t('sendNudge');
+      el.nudgeButton.title = t('sendNudgeTooltip');
+      el.healButton.textContent = t('healNow');
+      el.healButton.title = t('healNowTooltip');
+      document.getElementById('agentStatusTitle').textContent = t('agentStatus');
+      document.getElementById('metricsTitle').textContent = t('metrics');
+      document.getElementById('autohealTitle').textContent = t('autoheal');
+      document.getElementById('detailsTitle').textContent = t('details');
+      document.getElementById('activityTitle').textContent = t('activityFeed');
+      el.chatTitle.textContent = t('chatTitle');
+      el.chatSubtitle.textContent = t('chatSubtitle');
+      el.chatInput.placeholder = t('chatPlaceholder');
+      el.chatSendButton.textContent = t('chatSend');
+      el.trendTitle.textContent = t('trendTitle');
+      el.trendSubtitle.textContent = t('trendSubtitle');
+      document.getElementById('gatewayKey').textContent = t('gateway');
+      document.getElementById('appKey').textContent = t('desktopApp');
+      document.getElementById('sessionKey').textContent = t('sessionAge');
+      document.getElementById('caseKey').textContent = t('caseAge');
+      document.getElementById('autohealStateKey').textContent = t('service');
+      document.getElementById('autohealActionKey').textContent = t('lastAction');
+      document.getElementById('forceModeKey').textContent = t('forceWorkMode');
+      document.getElementById('workSignalKey').textContent = t('shouldWork');
+      document.getElementById('reasonKey').textContent = t('workSignalReason');
+      document.getElementById('updatedKey').textContent = t('sessionUpdated');
+      document.getElementById('caseFileKey').textContent = t('latestCaseFile');
+      document.getElementById('taskFileKey').textContent = t('latestTaskFile');
+      el.footerText.textContent = t('footer');
+      [...el.trendRangeSelect.options].forEach(option => {
+        option.textContent = t(`range_${option.value}`);
+      });
+      [...el.heroMetricSelect.options].forEach(option => {
+        option.textContent = t(`hero_${option.value}`);
+      });
+      renderWidgetToggles();
+      renderHistory();
+      renderChat();
+      renderMetricWidget();
+      renderTrend();
+    }
+
+    function renderPayload() {
+      const payload = state.payload;
+      if (!payload) return;
+
+      const localeDefaults = payload.ui || {};
+      if (!state.ui.widgets.length) state.ui.widgets = localeDefaults.widgets || coreWidgets;
+      normalizeWidgetOrder();
+
+      el.body.dataset.theme = state.ui.theme;
+      el.body.dataset.state = payload.status.code;
+      el.body.dataset.scoreBand = scoreBand(payload.metrics?.score);
+      applyBackgroundEffect();
+      applyAvatarStyle();
+      updateEyeMood(payload);
+      applyWidgetVisibility();
+      applyWidgetLayout();
+
+      const statusCode = payload.status.code;
+      const robotName = (state.ui.robotName || payload.agent.name || 'Agent').trim();
+      const subtitleText = (state.ui.subtitleText || payload.ui.subtitle || t('subtitleFallback')).trim();
+      el.deploymentChip.textContent = payload.deployment.mode === 'cloud' ? t('cloud') : t('local');
+      el.agentChip.textContent = `${payload.agent.type}:${robotName}`;
+      el.statusPill.textContent = t(`status_${statusCode}`);
+      el.statusPill.className = `status-pill status-${statusCode}`;
+      el.dashboardTitle.textContent = robotName;
+      if (el.avatarNameplate) el.avatarNameplate.textContent = robotName;
+      if (el.avatarRailStatus) el.avatarRailStatus.textContent = t(`status_${statusCode}`);
+      el.dashboardSubtitle.textContent = subtitleText || t('subtitleFallback');
+      el.dashboardSubtitle.classList.toggle('hidden', !!state.ui.subtitleHidden);
+      const reasonText = t(`reason_${payload.status.reason_key}`);
+      el.statusText.textContent = `${t(`status_${statusCode}`)} · ${reasonText.startsWith('reason_') ? payload.status.message : reasonText}`;
+      const hero = heroMetricValue(payload, state.ui.heroMetric);
+      el.scoreValue.textContent = hero.value;
+      el.scoreLabel.textContent = hero.label;
+      if (el.avatarRailScoreValue) el.avatarRailScoreValue.textContent = `${payload.metrics.score ?? '--'}`;
+      if (el.avatarRailSessionValue) el.avatarRailSessionValue.textContent = humanDuration(payload.metrics.session_age_sec);
+
+      el.gatewayValue.textContent = payload.runtime.gateway_running ? t('running') : t('stopped');
+      el.appValue.textContent = payload.runtime.app_running ? t('running') : t('stopped');
+      el.sessionValue.textContent = humanDuration(payload.metrics.session_age_sec);
+      el.caseValue.textContent = humanDuration(payload.metrics.case_age_sec);
+
+      const autohealState = payload.runtime.autoheal || {};
+      el.autohealStateValue.textContent = autohealState.running ? t('running') : t('stopped');
+      el.autohealActionValue.textContent = autohealState.state?.last_action || t('never');
+      if (el.avatarRailActionValue) {
+        const actionText = String(autohealState.state?.last_action || t('never'));
+        el.avatarRailActionValue.textContent = actionText.replace(/^soft_heal:/, '').replace(/^hard_heal:/, '');
+      }
+      if (el.avatarRailNote) {
+        const noteText = reasonText.startsWith('reason_') ? payload.status.message : reasonText;
+        el.avatarRailNote.textContent = noteText || t(`status_${statusCode}`);
+      }
+      el.forceModeValue.textContent = boolText(payload.monitoring.force_work_mode);
+      el.workSignalValue.textContent = boolText(payload.monitoring.should_work);
+      el.reasonValue.textContent = t(`reason_${payload.monitoring.should_work_reason_key}`) || payload.monitoring.should_work_reason;
+      if (el.reasonValue.textContent.startsWith('reason_')) el.reasonValue.textContent = payload.monitoring.should_work_reason;
+      el.updatedValue.textContent = payload.runtime.session_updated_at || '--';
+      el.caseFileValue.textContent = payload.runtime.latest_case_file || '--';
+      el.taskFileValue.textContent = payload.runtime.latest_task_file || '--';
+      el.nudgeButton.disabled = !payload.actions.can_nudge;
+      el.healButton.disabled = !payload.actions.can_heal;
+      if (document.activeElement !== el.robotNameInput) el.robotNameInput.value = robotName;
+      if (document.activeElement !== el.subtitleInput) el.subtitleInput.value = subtitleText;
+      el.subtitleHiddenInput.checked = !!state.ui.subtitleHidden;
+      el.avatarColorInput.value = state.ui.avatarColors[state.ui.avatar] || defaultAvatarColor(state.ui.avatar);
+      el.avatarShapeSelect.value = avatarShapeFor(state.ui.avatar);
+      el.avatarMouthSelect.value = avatarMouthFor(state.ui.avatar);
+      el.avatarHeadwearSelect.value = avatarHeadwearFor(state.ui.avatar);
+      el.avatarHandsSelect.value = avatarHandsFor(state.ui.avatar);
+      el.backgroundEffectSelect.value = state.ui.backgroundEffect || 'glow';
+      [el.metricSlot1Select, el.metricSlot2Select, el.metricSlot3Select].forEach((select, index) => {
+        select.value = state.ui.metricSlots[index] || metricOptions[index] || 'focus';
+      });
+      el.heroMetricSelect.value = state.ui.heroMetric;
+      renderMetricWidget();
+    }
+
+    async function fetchStatus() {
+      try {
+        const response = await fetch('/api/status', { cache: 'no-store' });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const payload = await response.json();
+        const firstLoad = !state.payload;
+        state.payload = payload;
+
+        if (firstLoad) {
+          const defaults = payload.ui || {};
+          const supportedLocales = defaults.supported_locales || ['en-US', 'zh-CN', 'zh-TW', 'ja-JP', 'ko-KR', 'es-ES'];
+          state.ui.locale = state.ui.locale || preferredLocale(supportedLocales, defaults.locale || 'en-US');
+          state.ui.theme = state.ui.theme || defaults.theme || 'crimson';
+          state.ui.backgroundEffect = state.ui.backgroundEffect || 'glow';
+          state.ui.heroMetric = state.ui.heroMetric || defaults.hero_metric || 'score';
+          state.ui.robotName = state.ui.robotName || payload.agent.name || '';
+          state.ui.subtitleText = state.ui.subtitleText || defaults.subtitle || '';
+          state.ui.avatar = state.ui.avatar || defaults.avatar_style || 'robot_classic';
+          state.ui.tapAction = state.ui.tapAction || defaults.tap_action || 'nudge';
+          state.ui.widgets = state.ui.widgets.length ? state.ui.widgets : (defaults.widgets || coreWidgets);
+          normalizeWidgetOrder();
+        }
+        const defaults = payload.ui || {};
+        buildSelect(el.localeSelect, defaults.supported_locales || ['zh-CN', 'en-US', 'zh-TW', 'ja-JP', 'ko-KR', 'es-ES'], value => localeNames[value] || value, state.ui.locale);
+        buildSelect(el.themeSelect, defaults.supported_themes || ['crimson', 'ocean', 'terminal', 'paper', 'sunset', 'forest', 'midnight'], value => t(`theme_${value}`), state.ui.theme);
+        buildSelect(el.backgroundEffectSelect, ['glow', 'particles', 'snow', 'glyphs', 'none'], value => t(`background_${value}`), state.ui.backgroundEffect || 'glow');
+        buildSelect(el.metricSlot1Select, metricOptions, value => t(`metric_${value}`), state.ui.metricSlots[0] || 'focus');
+        buildSelect(el.metricSlot2Select, metricOptions, value => t(`metric_${value}`), state.ui.metricSlots[1] || 'throughput');
+        buildSelect(el.metricSlot3Select, metricOptions, value => t(`metric_${value}`), state.ui.metricSlots[2] || 'freshness');
+        buildSelect(el.heroMetricSelect, defaults.supported_hero_metrics || ['score'], value => t(`hero_${value}`), state.ui.heroMetric);
+        buildSelect(
+          el.avatarSelect,
+          defaults.supported_avatar_styles || ['robot_classic'],
+          value => t(`avatar_${value}`),
+          state.ui.avatar
+        );
+        buildSelect(el.tapActionSelect, defaults.supported_tap_actions || ['nudge', 'refresh', 'cycle_theme', 'cycle_avatar'], value => t(`tap_${value}`), state.ui.tapAction);
+
+        renderPayload();
+        applyLocaleText();
+
+        const currentState = payload.status.code;
+        const lastState = state.history[0]?.stateCode;
+        if (!lastState || currentState !== lastState) {
+          addHistory(currentState, `${payload.agent.name} -> ${t(`status_${currentState}`)}`);
+          state.history[0].stateCode = currentState;
+        } else {
+          state.history[0].stateCode = currentState;
+        }
+      } catch (error) {
+        el.statusText.textContent = String(error);
+      }
+    }
+
+    async function fetchTrend() {
+      try {
+        const range = el.trendRangeSelect.value || 'day';
+        const response = await fetch(`/api/history?range=${encodeURIComponent(range)}`, { cache: 'no-store' });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        state.trend = await response.json();
+        renderTrend();
+      } catch (error) {
+        el.trendChart.innerHTML = `<div class="activity-item">${String(error)}</div>`;
+      }
+    }
+
+    async function fetchChat(options = {}) {
+      const { loadOlder = false } = options;
+      const wasNearBottom = isNearChatBottom();
+      const oldScrollHeight = el.chatList.scrollHeight;
+      const oldScrollTop = el.chatList.scrollTop;
+      try {
+        const params = new URLSearchParams({ limit: loadOlder ? '60' : '80' });
+        if (loadOlder && state.chat?.next_before !== null && state.chat?.next_before !== undefined) {
+          params.set('before', String(state.chat.next_before));
+          state.chatView.isLoadingOlder = true;
+          renderChat();
+        }
+        const response = await fetch(`/api/chat/history?${params.toString()}`, { cache: 'no-store' });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const payload = await response.json();
+        if (loadOlder && state.chat) {
+          state.chat = {
+            ...payload,
+            messages: mergeChatMessages(state.chat.messages || [], payload.messages || [], true)
+          };
+        } else {
+          state.chat = payload;
+        }
+        renderChat();
+        if (loadOlder) {
+          const heightDelta = el.chatList.scrollHeight - oldScrollHeight;
+          el.chatList.scrollTop = oldScrollTop + heightDelta;
+          el.chatStatus.textContent = t('chatLoadedOlder');
+        } else if (wasNearBottom || state.chatView.pendingText) {
+          el.chatList.scrollTop = el.chatList.scrollHeight;
+        } else {
+          const previousDistance = oldScrollHeight - oldScrollTop - el.chatList.clientHeight;
+          const nextTop = el.chatList.scrollHeight - el.chatList.clientHeight - previousDistance;
+          el.chatList.scrollTop = Math.max(0, nextTop);
+        }
+        state.chatView.pendingText = '';
+        state.chatView.lastFetchAt = Date.now();
+      } catch (error) {
+        el.chatStatus.textContent = String(error);
+      } finally {
+        if (state.chatView.isLoadingOlder) {
+          state.chatView.isLoadingOlder = false;
+          el.chatLoadOlderButton.textContent = t('chatLoadOlder');
+          el.chatLoadOlderButton.disabled = !state.chat?.has_more;
+        }
+      }
+    }
+
+    async function sendNudge() {
+      el.nudgeButton.disabled = true;
+      el.nudgeFeedback.textContent = t('nudgeSending');
+      try {
+        const response = await fetch('/api/nudge', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ reason: 'dashboard_manual_nudge' })
+        });
+        const payload = await response.json();
+        el.nudgeFeedback.textContent = payload.message;
+        addHistory('nudge', payload.message);
+        if (payload.ok) {
+          triggerNudgeBoost();
+          setTimeout(() => fetchStatus(), 1200);
+        }
+      } catch (error) {
+        el.nudgeFeedback.textContent = String(error);
+      } finally {
+        el.nudgeButton.disabled = false;
+      }
+    }
+
+    async function runHeal() {
+      el.healButton.disabled = true;
+      el.nudgeFeedback.textContent = t('healing');
+      try {
+        const response = await fetch('/api/heal', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ reason: 'dashboard_manual_heal' })
+        });
+        const payload = await response.json();
+        el.nudgeFeedback.textContent = payload.message;
+        addHistory('heal', payload.message);
+        await fetchStatus();
+      } catch (error) {
+        el.nudgeFeedback.textContent = String(error);
+      } finally {
+        el.healButton.disabled = false;
+      }
+    }
+
+    async function sendChatMessage() {
+      const text = el.chatInput.value.trim();
+      if (!text) return;
+      el.chatSendButton.disabled = true;
+      el.chatStatus.textContent = t('chatSending');
+      state.chatView.pendingText = text;
+      renderChat();
+      el.chatList.scrollTop = el.chatList.scrollHeight;
+      try {
+        const response = await fetch('/api/chat/send', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text, reason: 'dashboard_chat_send' })
+        });
+        const payload = await response.json();
+        el.chatStatus.textContent = payload.message;
+        if (payload.ok) {
+          el.chatInput.value = '';
+          setTimeout(() => fetchChat(), 1200);
+          addHistory('chat', payload.message);
+        } else {
+          state.chatView.pendingText = '';
+          renderChat();
+        }
+      } catch (error) {
+        el.chatStatus.textContent = String(error);
+        state.chatView.pendingText = '';
+        renderChat();
+      } finally {
+        el.chatSendButton.disabled = false;
+      }
+    }
+
+    async function handleAvatarTap(event) {
+      if (event) {
+        const rect = el.avatarButton.getBoundingClientRect();
+        const y = event.clientY - rect.top;
+        if (y <= rect.height * 0.46) {
+          triggerHeadAction();
+        }
+      }
+      if (state.ui.tapAction === 'refresh') {
+        el.nudgeFeedback.textContent = t('loading');
+        await fetchStatus();
+        return;
+      }
+      if (state.ui.tapAction === 'cycle_theme') {
+        const themes = state.payload?.ui?.supported_themes || ['crimson', 'ocean', 'terminal', 'paper', 'sunset', 'forest', 'midnight'];
+        const next = themes[(themes.indexOf(state.ui.theme) + 1) % themes.length];
+        state.ui.theme = next;
+        saveUi();
+        renderPayload();
+        applyLocaleText();
+        return;
+      }
+      if (state.ui.tapAction === 'cycle_avatar') {
+        const avatars = state.payload?.ui?.supported_avatar_styles || ['robot_classic'];
+        const next = avatars[(avatars.indexOf(state.ui.avatar) + 1) % avatars.length];
+        state.ui.avatar = next;
+        saveUi();
+        renderPayload();
+        applyLocaleText();
+        return;
+      }
+      await sendNudge();
+    }
+
+    function wireControls() {
+      el.settingsButton.addEventListener('click', () => setSettingsOpen(true));
+      el.settingsCloseButton.addEventListener('click', () => setSettingsOpen(false));
+      el.settingsOverlay.addEventListener('click', () => setSettingsOpen(false));
+      el.localeSelect.addEventListener('change', () => {
+        state.ui.locale = el.localeSelect.value;
+        saveUi();
+        applyLocaleText();
+        renderPayload();
+      });
+      el.themeSelect.addEventListener('change', () => {
+        state.ui.theme = el.themeSelect.value;
+        saveUi();
+        renderPayload();
+      });
+      el.backgroundEffectSelect.addEventListener('change', () => {
+        state.ui.backgroundEffect = el.backgroundEffectSelect.value;
+        saveUi();
+        applyBackgroundEffect();
+      });
+      [el.metricSlot1Select, el.metricSlot2Select, el.metricSlot3Select].forEach((select, index) => {
+        select.addEventListener('change', () => {
+          state.ui.metricSlots[index] = select.value;
+          saveUi();
+          renderMetricWidget();
+        });
+      });
+      el.heroMetricSelect.addEventListener('change', () => {
+        state.ui.heroMetric = el.heroMetricSelect.value;
+        saveUi();
+        renderPayload();
+        applyLocaleText();
+      });
+      el.robotNameInput.addEventListener('input', () => {
+        state.ui.robotName = el.robotNameInput.value.trim();
+        saveUi();
+        renderPayload();
+      });
+      el.subtitleInput.addEventListener('input', () => {
+        state.ui.subtitleText = el.subtitleInput.value.trim();
+        saveUi();
+        renderPayload();
+      });
+      el.subtitleHiddenInput.addEventListener('change', () => {
+        state.ui.subtitleHidden = el.subtitleHiddenInput.checked;
+        saveUi();
+        renderPayload();
+      });
+      el.avatarSelect.addEventListener('change', () => {
+        state.ui.avatar = el.avatarSelect.value;
+        saveUi();
+        renderPayload();
+        applyLocaleText();
+      });
+      el.avatarColorInput.addEventListener('input', () => {
+        state.ui.avatarColors[state.ui.avatar] = el.avatarColorInput.value;
+        saveUi();
+        renderPayload();
+      });
+      el.avatarShapeSelect.addEventListener('change', () => {
+        state.ui.avatarShapes[state.ui.avatar] = el.avatarShapeSelect.value;
+        saveUi();
+        renderPayload();
+      });
+      el.avatarMouthSelect.addEventListener('change', () => {
+        state.ui.avatarMouths[state.ui.avatar] = el.avatarMouthSelect.value;
+        saveUi();
+        renderPayload();
+      });
+      el.avatarHeadwearSelect.addEventListener('change', () => {
+        state.ui.avatarHeadwears[state.ui.avatar] = el.avatarHeadwearSelect.value;
+        saveUi();
+        renderPayload();
+      });
+      el.avatarHandsSelect.addEventListener('change', () => {
+        state.ui.avatarHands[state.ui.avatar] = el.avatarHandsSelect.value;
+        saveUi();
+        renderPayload();
+      });
+      el.avatarResetButton.addEventListener('click', () => {
+        delete state.ui.avatarColors[state.ui.avatar];
+        delete state.ui.avatarShapes[state.ui.avatar];
+        delete state.ui.avatarMouths[state.ui.avatar];
+        delete state.ui.avatarHeadwears[state.ui.avatar];
+        delete state.ui.avatarHands[state.ui.avatar];
+        saveUi();
+        renderPayload();
+      });
+      el.tapActionSelect.addEventListener('change', () => {
+        state.ui.tapAction = el.tapActionSelect.value;
+        saveUi();
+        applyLocaleText();
+      });
+      el.trendRangeSelect.addEventListener('change', fetchTrend);
+      el.nudgeButton.addEventListener('click', sendNudge);
+      el.healButton.addEventListener('click', runHeal);
+      el.avatarButton.addEventListener('click', handleAvatarTap);
+      window.addEventListener('mousemove', maybeTrackPointer);
+      window.addEventListener('mouseleave', resetEyeLook);
+      el.chatSendButton.addEventListener('click', sendChatMessage);
+      el.chatLoadOlderButton.addEventListener('click', () => fetchChat({ loadOlder: true }));
+      el.chatInput.addEventListener('keydown', event => {
+        if ((event.metaKey || event.ctrlKey) && event.key === 'Enter') {
+          sendChatMessage();
+        }
+      });
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && state.settingsOpen) {
+          setSettingsOpen(false);
+        }
+      });
+      window.addEventListener('resize', applyWidgetLayout);
+    }
+
+    loadUi();
+    applyBackgroundEffect();
+    renderHistory();
+    wireControls();
+    bindWidgetWorkbench();
+    el.nudgeFeedback.textContent = t('nudgeReady');
+    fetchStatus();
+    fetchChat();
+    fetchTrend();
+    setInterval(fetchStatus, 5000);
+    setInterval(fetchChat, 5000);
+    setInterval(fetchTrend, 60000);
+  </script>
+</body>
+</html>
