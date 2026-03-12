@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="OpenClaw Dashboard visualization showcase">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#0c1422"/>
+      <stop offset="100%" stop-color="#173d57"/>
+    </linearGradient>
+    <linearGradient id="lineA" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#7eb6ff"/>
+      <stop offset="100%" stop-color="#8ef0ff"/>
+    </linearGradient>
+    <linearGradient id="lineB" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#ffd166"/>
+      <stop offset="100%" stop-color="#ff9f68"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <circle cx="210" cy="150" r="180" fill="#8ef0ff" opacity="0.08"/>
+  <circle cx="1360" cy="120" r="220" fill="#7eb6ff" opacity="0.1"/>
+  <text x="96" y="112" font-size="30" fill="#cfe7ff" font-family="Avenir Next, PingFang SC, sans-serif" letter-spacing="4">PROFESSIONAL VISUALIZATION</text>
+  <text x="96" y="184" font-size="72" font-weight="700" fill="#eef6ff" font-family="Avenir Next, PingFang SC, sans-serif">Readable metrics, not dashboard clutter.</text>
+
+  <g transform="translate(94 262)">
+    <rect width="408" height="154" rx="28" fill="#101a2a" stroke="#cde2ff" stroke-opacity="0.14"/>
+    <text x="34" y="48" font-size="22" fill="#bdd3ee" font-family="Avenir Next, PingFang SC, sans-serif">Agent state</text>
+    <text x="34" y="108" font-size="52" font-weight="700" fill="#eff6ff" font-family="Avenir Next, PingFang SC, sans-serif">Working</text>
+    <circle cx="346" cy="82" r="28" fill="#88e0c2"/>
+  </g>
+
+  <g transform="translate(530 262)">
+    <rect width="286" height="154" rx="28" fill="#101a2a" stroke="#cde2ff" stroke-opacity="0.14"/>
+    <text x="34" y="48" font-size="22" fill="#bdd3ee" font-family="Avenir Next, PingFang SC, sans-serif">Efficiency</text>
+    <text x="34" y="110" font-size="58" font-weight="700" fill="#eff6ff" font-family="Avenir Next, PingFang SC, sans-serif">91</text>
+  </g>
+
+  <g transform="translate(844 262)">
+    <rect width="286" height="154" rx="28" fill="#101a2a" stroke="#cde2ff" stroke-opacity="0.14"/>
+    <text x="34" y="48" font-size="22" fill="#bdd3ee" font-family="Avenir Next, PingFang SC, sans-serif">Freshness</text>
+    <text x="34" y="110" font-size="42" font-weight="700" fill="#eff6ff" font-family="Avenir Next, PingFang SC, sans-serif">12 sec</text>
+  </g>
+
+  <g transform="translate(1158 262)">
+    <rect width="348" height="154" rx="28" fill="#101a2a" stroke="#cde2ff" stroke-opacity="0.14"/>
+    <text x="34" y="48" font-size="22" fill="#bdd3ee" font-family="Avenir Next, PingFang SC, sans-serif">Token signal</text>
+    <text x="34" y="110" font-size="46" font-weight="700" fill="#eff6ff" font-family="Avenir Next, PingFang SC, sans-serif">Stable</text>
+  </g>
+
+  <g transform="translate(94 452)">
+    <rect width="936" height="302" rx="30" fill="#101a2a" stroke="#cde2ff" stroke-opacity="0.14"/>
+    <text x="36" y="50" font-size="24" fill="#d4e5fb" font-family="Avenir Next, PingFang SC, sans-serif">Efficiency and activity trend</text>
+    <path d="M76 228L164 208L252 218L340 176L428 194L516 132L604 150L692 116L780 134L868 92" fill="none" stroke="url(#lineA)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M76 248L164 252L252 236L340 242L428 224L516 232L604 214L692 220L780 198L868 186" fill="none" stroke="url(#lineB)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+    <g fill="#7ea0c5" font-family="Avenir Next, PingFang SC, sans-serif" font-size="16">
+      <text x="72" y="278">08:00</text>
+      <text x="236" y="278">09:00</text>
+      <text x="400" y="278">10:00</text>
+      <text x="564" y="278">11:00</text>
+      <text x="728" y="278">12:00</text>
+      <text x="852" y="278">13:00</text>
+    </g>
+  </g>
+
+  <g transform="translate(1060 452)">
+    <rect width="446" height="302" rx="30" fill="#101a2a" stroke="#cde2ff" stroke-opacity="0.14"/>
+    <text x="34" y="50" font-size="24" fill="#d4e5fb" font-family="Avenir Next, PingFang SC, sans-serif">Action rail</text>
+    <rect x="34" y="86" width="378" height="46" rx="23" fill="#7eb6ff"/>
+    <text x="223" y="116" text-anchor="middle" font-size="20" fill="#0f1e33" font-family="Avenir Next, PingFang SC, sans-serif">Send nudge</text>
+    <rect x="34" y="146" width="378" height="46" rx="23" fill="#8ef0ff"/>
+    <text x="223" y="176" text-anchor="middle" font-size="20" fill="#0f1e33" font-family="Avenir Next, PingFang SC, sans-serif">Open chat</text>
+    <rect x="34" y="206" width="378" height="46" rx="23" fill="#ffd166"/>
+    <text x="223" y="236" text-anchor="middle" font-size="20" fill="#33260f" font-family="Avenir Next, PingFang SC, sans-serif">Soft heal</text>
+  </g>
+</svg>

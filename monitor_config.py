@@ -21,8 +21,8 @@ def _default_config() -> Dict[str, Any]:
             "cloud_enabled": False,
         },
         "dashboard": {
-            "title": "VISEA Agent Monitor",
-            "subtitle": "Local monitor for a single OpenClaw agent.",
+            "title": "OpenClaw Dashboard",
+            "subtitle": "Local visual operations dashboard for one OpenClaw agent.",
             "widgets": [
                 "agent_status",
                 "autoheal",

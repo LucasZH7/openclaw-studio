@@ -8,7 +8,7 @@
 - Add screenshots to the repository
 - Create a tag for the release version
 
-## OpenClaw Market
+## ClawHub
 
 - Prepare cover image and screenshots
 - Prepare short and long listing descriptions

@@ -10,8 +10,8 @@
     "cloud_url": ""
   },
   "dashboard": {
-    "title": "VISEA Agent Monitor",
-    "subtitle": "Local monitor for a single OpenClaw agent.",
+    "title": "OpenClaw Dashboard",
+    "subtitle": "Local visual operations dashboard for one OpenClaw agent.",
     "widgets": [
       "agent_status",
       "autoheal",

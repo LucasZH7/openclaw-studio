@@ -1,4 +1,4 @@
-# VISEA Product Direction
+# OpenClaw Dashboard Product Direction
 
 ## One-Year Product State
 
@@ -17,7 +17,7 @@
 - 编排能力:
   不只是“监控”，还可以做告警、恢复、调度、协同和审计。
 - 市场化:
-  用户可以直接在 GitHub 安装，在 OpenClaw Market 订阅，在产品内启用模板与主题。
+  用户可以直接在 GitHub 安装，在 ClawHub 订阅，在产品内启用模板与主题。
 
 ## Product Pillars
 
@@ -38,7 +38,7 @@
 
 ### 4. Distribution
 - GitHub 上开源核心壳层与基础主题。
-- OpenClaw Market 上架品牌版、团队版、行业模板版。
+- ClawHub 上架品牌版、团队版、行业模板版。
 - 插件化扩展头像、主题、自动化策略与数据源。
 
 ## What This Project Needs To Become That
@@ -51,7 +51,7 @@
 ### Phase B: Publish-Ready
 - 整理 GitHub 仓库结构。
 - 补 README、安装脚本、截图、发布说明。
-- 做一个面向 OpenClaw Market 的 listing bundle。
+- 做一个面向 ClawHub 的 listing bundle。
 
 ### Phase C: Team Features
 - 支持多个 agent 卡片和总览页。
@@ -69,7 +69,7 @@
 
 1. 让默认视觉和交互稳定、可爱、低噪音。
 2. 让 README 和文案开始像一个产品，而不是脚本集合。
-3. 为 GitHub 发布和 OpenClaw Market 上架预留清晰结构。
+3. 为 GitHub 发布和 ClawHub 上架预留清晰结构。
 
 ## Shipping Criteria For The Next Milestone
 

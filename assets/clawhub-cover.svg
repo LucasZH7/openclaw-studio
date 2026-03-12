@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" role="img" aria-label="OpenClaw Dashboard ClawHub cover">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#120812"/>
+      <stop offset="100%" stop-color="#b24f3b"/>
+    </linearGradient>
+  </defs>
+  <rect width="1400" height="900" fill="url(#bg)"/>
+  <circle cx="190" cy="170" r="170" fill="#ffd166" opacity="0.1"/>
+  <circle cx="1180" cy="150" r="220" fill="#ffcf9f" opacity="0.1"/>
+
+  <g transform="translate(92 110)">
+    <text x="0" y="0" font-size="24" fill="#ffd7b8" font-family="Avenir Next, PingFang SC, sans-serif" letter-spacing="4">CLAWHUB COVER</text>
+    <text x="0" y="94" font-size="86" font-weight="700" fill="#fff5ee" font-family="Avenir Next, PingFang SC, sans-serif">OpenClaw Dashboard</text>
+    <text x="0" y="150" font-size="30" fill="#ffe2cf" font-family="Avenir Next, PingFang SC, sans-serif">Cute robot charm with a professional monitoring surface.</text>
+  </g>
+
+  <g transform="translate(86 286)">
+    <rect width="470" height="438" rx="34" fill="#1a0e19" stroke="#ffcf9f" stroke-opacity="0.14"/>
+    <circle cx="235" cy="172" r="126" fill="#ff825f"/>
+    <rect x="154" y="116" width="162" height="116" rx="48" fill="#fff2eb"/>
+    <circle cx="204" cy="168" r="18" fill="#47253b"/>
+    <circle cx="268" cy="168" r="18" fill="#47253b"/>
+    <rect x="198" y="206" width="74" height="14" rx="7" fill="#47253b"/>
+    <path d="M112 172c-36-22-62-10-78 20 40 0 60 16 84 38" fill="none" stroke="#ffcaa6" stroke-width="18" stroke-linecap="round"/>
+    <path d="M360 172c36-22 62-10 78 20-40 0-60 16-84 38" fill="none" stroke="#ffcaa6" stroke-width="18" stroke-linecap="round"/>
+    <text x="235" y="346" text-anchor="middle" font-size="32" fill="#fff3ea" font-family="Avenir Next, PingFang SC, sans-serif">OpenClaw Main</text>
+  </g>
+
+  <g transform="translate(604 314)">
+    <rect width="712" height="380" rx="34" fill="#140b15" stroke="#ffcf9f" stroke-opacity="0.14"/>
+    <text x="44" y="60" font-size="26" fill="#ffd9ba" font-family="Avenir Next, PingFang SC, sans-serif">At a glance</text>
+    <rect x="44" y="92" width="196" height="98" rx="22" fill="#24111f"/>
+    <text x="68" y="126" font-size="18" fill="#f6d8c2" font-family="Avenir Next, PingFang SC, sans-serif">State</text>
+    <text x="68" y="168" font-size="38" font-weight="700" fill="#fff6f0" font-family="Avenir Next, PingFang SC, sans-serif">Working</text>
+    <rect x="258" y="92" width="176" height="98" rx="22" fill="#24111f"/>
+    <text x="282" y="126" font-size="18" fill="#f6d8c2" font-family="Avenir Next, PingFang SC, sans-serif">Score</text>
+    <text x="282" y="168" font-size="42" font-weight="700" fill="#fff6f0" font-family="Avenir Next, PingFang SC, sans-serif">91</text>
+    <rect x="452" y="92" width="216" height="98" rx="22" fill="#24111f"/>
+    <text x="476" y="126" font-size="18" fill="#f6d8c2" font-family="Avenir Next, PingFang SC, sans-serif">Freshness</text>
+    <text x="476" y="168" font-size="34" font-weight="700" fill="#fff6f0" font-family="Avenir Next, PingFang SC, sans-serif">12 sec ago</text>
+    <rect x="44" y="218" width="624" height="112" rx="24" fill="#24111f"/>
+    <path d="M84 298L156 276L230 284L304 244L378 260L452 216L526 232L600 194" fill="none" stroke="#ffd166" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

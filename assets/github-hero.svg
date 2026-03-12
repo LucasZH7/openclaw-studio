@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="OpenClaw Dashboard hero art">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#120812"/>
+      <stop offset="55%" stop-color="#4f1431"/>
+      <stop offset="100%" stop-color="#d4593d"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#22101d" stop-opacity="0.94"/>
+      <stop offset="100%" stop-color="#120a14" stop-opacity="0.9"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#ffb16b"/>
+      <stop offset="100%" stop-color="#ffd8a8"/>
+    </linearGradient>
+    <linearGradient id="chart" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#ff8b6a"/>
+      <stop offset="100%" stop-color="#ffd166"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="14" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <circle cx="196" cy="160" r="180" fill="#ffcf9f" opacity="0.08"/>
+  <circle cx="1410" cy="124" r="240" fill="#ffd166" opacity="0.12"/>
+  <circle cx="1320" cy="780" r="260" fill="#ff8b6a" opacity="0.1"/>
+  <path d="M0 708C180 670 292 750 514 716s334-158 544-130 322 112 542 70V900H0Z" fill="#0d0710" opacity="0.38"/>
+
+  <rect x="82" y="72" width="1436" height="756" rx="36" fill="url(#panel)" stroke="#ffcf9f" stroke-opacity="0.16"/>
+
+  <g transform="translate(118 132)">
+    <text x="0" y="0" font-size="24" fill="#ffd8b2" font-family="Avenir Next, PingFang SC, sans-serif" letter-spacing="4">LOCAL-FIRST OPENCLAW OPERATIONS</text>
+    <text x="0" y="102" font-size="94" font-weight="700" fill="#fff5ee" font-family="Avenir Next, PingFang SC, sans-serif">OpenClaw</text>
+    <text x="0" y="188" font-size="94" font-weight="700" fill="#fff5ee" font-family="Avenir Next, PingFang SC, sans-serif">Dashboard</text>
+    <text x="0" y="248" font-size="30" fill="#ffe2cf" font-family="Avenir Next, PingFang SC, sans-serif">Cute robot identity meets clear status, trend, chat, and recovery control.</text>
+  </g>
+
+  <g transform="translate(120 330)">
+    <rect width="470" height="380" rx="34" fill="#1a0e19" stroke="#ffcf9f" stroke-opacity="0.14"/>
+    <circle cx="236" cy="168" r="124" fill="#2d1424"/>
+    <circle cx="236" cy="168" r="96" fill="#ff825f"/>
+    <rect x="154" y="112" width="164" height="116" rx="50" fill="#fff2eb"/>
+    <circle cx="204" cy="166" r="18" fill="#47253b"/>
+    <circle cx="268" cy="166" r="18" fill="#47253b"/>
+    <rect x="200" y="204" width="72" height="14" rx="7" fill="#47253b"/>
+    <rect x="138" y="74" width="24" height="70" rx="12" fill="#ffd4bf"/>
+    <rect x="310" y="74" width="24" height="70" rx="12" fill="#ffd4bf"/>
+    <circle cx="150" cy="68" r="16" fill="#ffd166"/>
+    <circle cx="322" cy="68" r="16" fill="#ffd166"/>
+    <path d="M112 170c-36-22-62-10-78 20 40 0 60 16 84 38" fill="none" stroke="#ffcaa6" stroke-width="18" stroke-linecap="round"/>
+    <path d="M360 170c36-22 62-10 78 20-40 0-60 16-84 38" fill="none" stroke="#ffcaa6" stroke-width="18" stroke-linecap="round"/>
+    <rect x="126" y="286" width="220" height="48" rx="24" fill="#291427"/>
+    <text x="236" y="318" text-anchor="middle" font-size="22" fill="#ffe0c7" font-family="Avenir Next, PingFang SC, sans-serif">OpenClaw Main</text>
+  </g>
+
+  <g transform="translate(640 312)">
+    <rect width="820" height="418" rx="34" fill="#140b15" stroke="#ffcf9f" stroke-opacity="0.14"/>
+    <text x="46" y="60" font-size="25" fill="#ffd9ba" font-family="Avenir Next, PingFang SC, sans-serif">Dashboard snapshot</text>
+
+    <rect x="46" y="92" width="230" height="110" rx="22" fill="#24111f"/>
+    <text x="72" y="130" font-size="18" fill="#f6d8c2" font-family="Avenir Next, PingFang SC, sans-serif">Current state</text>
+    <text x="72" y="176" font-size="42" font-weight="700" fill="#fff6f0" font-family="Avenir Next, PingFang SC, sans-serif">Working</text>
+
+    <rect x="294" y="92" width="210" height="110" rx="22" fill="#24111f"/>
+    <text x="320" y="130" font-size="18" fill="#f6d8c2" font-family="Avenir Next, PingFang SC, sans-serif">Efficiency</text>
+    <text x="320" y="176" font-size="48" font-weight="700" fill="#fff6f0" font-family="Avenir Next, PingFang SC, sans-serif">91</text>
+
+    <rect x="522" y="92" width="252" height="110" rx="22" fill="#24111f"/>
+    <text x="548" y="130" font-size="18" fill="#f6d8c2" font-family="Avenir Next, PingFang SC, sans-serif">Last reply</text>
+    <text x="548" y="176" font-size="34" font-weight="700" fill="#fff6f0" font-family="Avenir Next, PingFang SC, sans-serif">12 sec ago</text>
+
+    <rect x="46" y="226" width="470" height="150" rx="24" fill="#24111f"/>
+    <text x="72" y="264" font-size="20" fill="#f6d8c2" font-family="Avenir Next, PingFang SC, sans-serif">Efficiency trend</text>
+    <path d="M84 334L144 312L210 320L278 268L346 286L414 228L478 248" fill="none" stroke="url(#chart)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+    <circle cx="478" cy="248" r="9" fill="#ffd166"/>
+
+    <rect x="540" y="226" width="234" height="150" rx="24" fill="#24111f"/>
+    <text x="566" y="264" font-size="20" fill="#f6d8c2" font-family="Avenir Next, PingFang SC, sans-serif">Controls</text>
+    <rect x="566" y="286" width="182" height="36" rx="18" fill="#ff8b6a"/>
+    <text x="657" y="310" text-anchor="middle" font-size="18" fill="#2a1413" font-family="Avenir Next, PingFang SC, sans-serif">Manual nudge</text>
+    <rect x="566" y="332" width="182" height="36" rx="18" fill="#ffd166"/>
+    <text x="657" y="356" text-anchor="middle" font-size="18" fill="#3f2a09" font-family="Avenir Next, PingFang SC, sans-serif">Soft heal</text>
+  </g>
+
+  <text x="120" y="792" font-size="24" fill="#ffd8b2" font-family="Avenir Next, PingFang SC, sans-serif">A release-ready dashboard for GitHub, ClawHub, and everyday monitoring.</text>
+</svg>

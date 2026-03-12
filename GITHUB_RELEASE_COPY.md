@@ -2,53 +2,54 @@
 
 ## Repository Subtitle
 
-Local-first OpenClaw operations console with a lovable avatar surface, live status, efficiency trend, chat, and optional auto-heal.
+Professional local dashboard for OpenClaw with cute robot presentation, live status, trend visualization, chat, and optional auto-heal controls.
 
 ## Short Pitch
 
-VISEA turns one OpenClaw agent into something you can actually supervise at a glance. It combines live state, efficiency scoring, token visibility, trend history, and direct controls in a dashboard that feels polished enough to stay open all day.
+OpenClaw Dashboard turns one OpenClaw agent into something you can supervise, understand, and show off. It pairs a lovable robot surface with clear operational visibility, so the repository lands as a real product instead of a pile of utility scripts.
 
 ## Longer Intro
 
-VISEA is a single-agent operations console for OpenClaw. It was built to answer a simple question:
+OpenClaw Dashboard is a single-agent local operations console for OpenClaw. It was built around one practical goal:
 
-What is my agent doing right now, and do I need to intervene?
+Make the robot feel alive, while keeping the monitoring layer sharp and trustworthy.
 
-Instead of presenting raw logs and bare system widgets, VISEA wraps the agent in a cleaner control surface:
+Instead of raw logs and generic widgets, the product wraps the agent in a presentation layer that is easier to read and easier to remember:
 
-- a vivid avatar with expressive states
-- a high-level status summary
-- a score and trend view
-- direct nudge and heal controls
-- a local-first workflow that does not require a cloud backend
+- a recognizable robot identity
+- a clear status and health summary
+- efficiency and activity trend visibility
+- direct nudge, chat, and heal controls
+- a local-first setup that stays simple to run
 
-It is part operational tooling and part product design experiment: make agent supervision useful, lovable, and legible.
+That combination is what makes it useful both as a working dashboard and as a publishable GitHub / ClawHub project.
 
 ## Feature Highlights
 
 - Local dashboard at `127.0.0.1:18991`
-- Live agent state
-- Efficiency score and token trend
-- Activity feed and chat panel
+- Live OpenClaw agent state
+- Efficiency trend and activity visibility
+- Direct chat and manual nudge controls
 - Optional auto-heal and watchdog helpers
-- Theme, avatar, headwear, hand, wing, and background customization
+- Robot, theme, wing, hand, and atmosphere customization
+- Ready-to-use SVG promo artwork for release pages
 
-## Ideal Screenshots
+## Ideal Visuals For The Repo
 
-- Hero dashboard with avatar and score
-- Trend view with hover tooltip
-- Chat panel with active conversation
-- Customization drawer with avatar controls
-- Auto-heal card and system state cards together
+- Hero dashboard render with robot and KPI cards
+- Robot lineup render showing the cute side of the product
+- Visualization render highlighting charts and stat cards
+- Live screenshot of the running local dashboard
+- Customization drawer screenshot showing robot controls
 
 ## Suggested GitHub Release Notes
 
-`v1.0.0` is the first polished archive build of VISEA for OpenClaw.
+`v1.0.0` is the first polished archive build of OpenClaw Dashboard.
 
-This release focuses on the local single-agent experience:
+This release focuses on the single-agent local experience:
 
-- expressive avatar surface
-- cleaner dashboard hierarchy
-- efficiency trend and token visibility
-- direct nudge and optional auto-heal controls
-- improved release structure for future GitHub and ClawHub publication
+- stronger product naming and presentation
+- cute robot identity with more professional positioning
+- clearer visual storytelling for GitHub and ClawHub
+- live dashboard status, trend, chat, and controls in one page
+- release-ready artwork and supporting copy structure
