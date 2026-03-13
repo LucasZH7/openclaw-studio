@@ -1,12 +1,12 @@
-# OpenClaw Dashboard
+# OpenClaw Studio
 
 ## One-Line Pitch
 
-OpenClaw Dashboard is a polished local operations dashboard for OpenClaw, combining lovable robot identity, live visualization, and optional recovery controls in one clean experience.
+OpenClaw Studio is a polished local operations dashboard for OpenClaw, combining lovable robot identity, live visualization, and optional recovery controls in one clean experience.
 
 ## Short Description
 
-Track one OpenClaw agent in real time from a dashboard that feels both cute and professional. OpenClaw Dashboard combines live agent state, efficiency trend, token visibility, and direct operator controls into a local-first interface that is easy to trust, easy to demo, and strong enough for ClawHub presentation.
+Track one OpenClaw agent in real time from a dashboard that feels both cute and professional. OpenClaw Studio combines live agent state, efficiency trend, token visibility, and direct operator controls into a local-first interface that is easy to trust, easy to demo, and strong enough for ClawHub presentation.
 
 ## Core Value
 

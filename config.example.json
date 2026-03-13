@@ -10,7 +10,7 @@
     "cloud_url": ""
   },
   "dashboard": {
-    "title": "OpenClaw Dashboard",
+    "title": "OpenClaw Studio",
     "subtitle": "Local visual operations dashboard for one OpenClaw agent.",
     "widgets": [
       "agent_status",

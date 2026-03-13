@@ -1,5 +1,5 @@
-name: "OpenClaw Dashboard"
-slug: "openclaw-dashboard-local"
+name: "OpenClaw Studio"
+slug: "openclaw-studio"
 version: "1.0.0"
 summary: "Professional local dashboard for OpenClaw with cute robot presentation, live status, trend visualization, chat, and optional auto-heal controls."
 tags:
@@ -10,5 +10,5 @@ tags:
   - "local-first"
 license: "MIT"
 entry: "SKILL.md"
-homepage: "https://github.com/LucasZH7/openclaw-dashboard"
-repository: "https://github.com/LucasZH7/openclaw-dashboard"
+homepage: "https://github.com/LucasZH7/openclaw-studio"
+repository: "https://github.com/LucasZH7/openclaw-studio"

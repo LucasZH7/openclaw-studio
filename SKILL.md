@@ -1,15 +1,15 @@
 ---
-name: openclaw-dashboard
+name: openclaw-studio
 description: Use when the user wants a local visual operations dashboard for OpenClaw, with a cute robot presentation, live status visibility, chat access, efficiency trend monitoring, and optional recovery helpers. This skill helps install, run, configure, and present the dashboard safely for local single-agent supervision.
 ---
 
-# OpenClaw Dashboard
+# OpenClaw Studio
 
-OpenClaw Dashboard is a local-first monitoring surface for one OpenClaw agent.
+OpenClaw Studio is a local-first monitoring surface for one OpenClaw agent.
 
 ## Use this skill when
 
-- the user wants to run or present the OpenClaw Dashboard locally
+- the user wants to run or present the OpenClaw Studio locally
 - the user wants help changing branding, visuals, or robot presentation
 - the user wants to inspect dashboard status, chat, trend, or recovery controls
 - the user wants GitHub or ClawHub release material for this dashboard

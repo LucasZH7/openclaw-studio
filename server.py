@@ -698,7 +698,7 @@ def collect_status() -> Dict[str, Any]:
                 "autoheal_running",
             ],
             "widgets": dashboard.get("widgets", []),
-            "title": dashboard.get("title", "OpenClaw Dashboard"),
+            "title": dashboard.get("title", "OpenClaw Studio"),
             "subtitle": dashboard.get("subtitle", ""),
         },
         "status": {
@@ -847,7 +847,7 @@ def main() -> None:
     sampler = threading.Thread(target=_history_sampler, args=(stop_event,), daemon=True)
     sampler.start()
     server = HTTPServer((host, port), MonitorHandler)
-    print(f"OpenClaw Dashboard running on http://{host}:{port}")
+    print(f"OpenClaw Studio running on http://{host}:{port}")
     try:
         server.serve_forever()
     finally:

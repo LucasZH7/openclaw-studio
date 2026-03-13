@@ -6,11 +6,11 @@ Professional local dashboard for OpenClaw with cute robot presentation, live sta
 
 ## Short Pitch
 
-OpenClaw Dashboard turns one OpenClaw agent into something you can supervise, understand, and show off. It pairs a lovable robot surface with clear operational visibility, so the repository lands as a real product instead of a pile of utility scripts.
+OpenClaw Studio turns one OpenClaw agent into something you can supervise, understand, and show off. It pairs a lovable robot surface with clear operational visibility, so the repository lands as a real product instead of a pile of utility scripts.
 
 ## Longer Intro
 
-OpenClaw Dashboard is a single-agent local operations console for OpenClaw. It was built around one practical goal:
+OpenClaw Studio is a single-agent local operations console for OpenClaw. It was built around one practical goal:
 
 Make the robot feel alive, while keeping the monitoring layer sharp and trustworthy.
 
@@ -44,7 +44,7 @@ That combination is what makes it useful both as a working dashboard and as a pu
 
 ## Suggested GitHub Release Notes
 
-`v1.0.0` is the first polished archive build of OpenClaw Dashboard.
+`v1.0.0` is the first polished archive build of OpenClaw Studio.
 
 This release focuses on the single-agent local experience:
 

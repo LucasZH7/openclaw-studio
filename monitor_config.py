@@ -21,7 +21,7 @@ def _default_config() -> Dict[str, Any]:
             "cloud_enabled": False,
         },
         "dashboard": {
-            "title": "OpenClaw Dashboard",
+            "title": "OpenClaw Studio",
             "subtitle": "Local visual operations dashboard for one OpenClaw agent.",
             "widgets": [
                 "agent_status",

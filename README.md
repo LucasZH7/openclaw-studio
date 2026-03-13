@@ -1,12 +1,12 @@
 <p align="center">
-  <img src="./assets/github-hero.svg" alt="OpenClaw Dashboard hero banner" width="100%" />
+  <img src="./assets/github-hero.svg" alt="OpenClaw Studio hero banner" width="100%" />
 </p>
 
-# OpenClaw Dashboard
+# OpenClaw Studio
 
 **A polished local operations dashboard for OpenClaw, with lovable robots, clear live visualization, and controls that feel professional instead of improvised.**
 
-OpenClaw Dashboard turns one active OpenClaw worker into something you can actually supervise at a glance. It blends expressive robot identity, real-time status, efficiency tracking, chat access, and optional recovery controls into a single page that looks good enough for GitHub, ClawHub, and your own desktop.
+OpenClaw Studio turns one active OpenClaw worker into something you can actually supervise at a glance. It blends expressive robot identity, real-time status, efficiency tracking, chat access, and optional recovery controls into a single page that looks good enough for GitHub, ClawHub, and your own desktop.
 
 ## Why it feels different
 
@@ -35,7 +35,7 @@ The robot layer is not decorative filler. It gives the dashboard a recognizable 
 ## Visual Dashboard Showcase
 
 <p align="center">
-  <img src="./assets/visualization-showcase.svg" alt="OpenClaw Dashboard metrics and visualization showcase" width="100%" />
+  <img src="./assets/visualization-showcase.svg" alt="OpenClaw Studio metrics and visualization showcase" width="100%" />
 </p>
 
 The visual side is designed to feel clean and readable: a clear hero area, dashboard cards with hierarchy, trend views that make progress legible, and enough atmosphere to feel premium without becoming noisy.

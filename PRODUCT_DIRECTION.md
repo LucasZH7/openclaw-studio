@@ -1,4 +1,4 @@
-# OpenClaw Dashboard Product Direction
+# OpenClaw Studio Product Direction
 
 ## One-Year Product State
 
