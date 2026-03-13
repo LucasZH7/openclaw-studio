@@ -1,6 +1,6 @@
 name: "OpenClaw Studio"
 slug: "openclaw-studio"
-version: "1.0.0"
+version: "1.0.1"
 summary: "Professional local dashboard for OpenClaw with cute robot presentation, live status, trend visualization, chat, and optional auto-heal controls."
 tags:
   - "openclaw"
